@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.superman.supermarket.dao.GoodsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.Goods">
+        <id column="id" property="id" />
+        <result column="goods_name" property="goodsName" />
+        <result column="goods_code" property="goodsCode" />
+        <result column="price" property="price" />
+        <result column="member_price" property="memberPrice" />
+        <result column="whole_price" property="wholePrice" />
+        <result column="cost_price" property="costPrice" />
+        <result column="spec_tmp_id" property="specTmpId" />
+        <result column="unit_id" property="unitId" />
+        <result column="goods_type_id" property="goodsTypeId" />
+        <result column="provider_id" property="providerId" />
+        <result column="goods_address" property="goodsAddress" />
+        <result column="yield_date" property="yieldDate" />
+        <result column="expiration_day" property="expirationDay" />
+        <result column="expiration_date" property="expirationDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, goods_name, goods_code, price, member_price, whole_price, cost_price, spec_tmp_id, unit_id, goods_type_id, provider_id, goods_address, yield_date, expiration_day, expiration_date
+    </sql>
+
+</mapper>

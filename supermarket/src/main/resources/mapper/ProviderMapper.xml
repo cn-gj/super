@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.superman.supermarket.dao.ProviderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.Provider">
+        <id column="id" property="id" />
+        <result column="pro_name" property="proName" />
+        <result column="pro_linkman" property="proLinkman" />
+        <result column="pro_phone" property="proPhone" />
+        <result column="pro_email" property="proEmail" />
+        <result column="bank" property="bank" />
+        <result column="bank_num" property="bankNum" />
+        <result column="pro_address" property="proAddress" />
+        <result column="should_money" property="shouldMoney" />
+        <result column="pro_status" property="proStatus" />
+        <result column="ready_money" property="readyMoney" />
+        <result column="createDate" property="createDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, pro_name, pro_linkman, pro_phone, pro_email, bank, bank_num, pro_address, should_money, pro_status, ready_money, createDate
+    </sql>
+
+</mapper>

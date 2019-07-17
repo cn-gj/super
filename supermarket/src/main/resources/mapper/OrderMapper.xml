@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.superman.supermarket.dao.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.Order">
+        <id column="id" property="id" />
+        <result column="shop_id" property="shopId" />
+        <result column="place_order_date" property="placeOrderDate" />
+        <result column="ready_date" property="readyDate" />
+        <result column="emp_id" property="empId" />
+        <result column="odetail_id" property="odetailId" />
+        <result column="single_state" property="singleState" />
+        <result column="take_state" property="takeState" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, shop_id, place_order_date, ready_date, emp_id, odetail_id, single_state, take_state
+    </sql>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.superman.supermarket.dao.TicketMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.Ticket">
+        <id column="id" property="id" />
+        <result column="cashier_desk_id" property="cashierDeskId" />
+        <result column="place_order_date" property="placeOrderDate" />
+        <result column="member_id" property="memberId" />
+        <result column="original_count_money" property="originalCountMoney" />
+        <result column="practical_money" property="practicalMoney" />
+        <result column="discount_money" property="discountMoney" />
+        <result column="sell_count" property="sellCount" />
+        <result column="single_score" property="singleScore" />
+        <result column="emp_id" property="empId" />
+        <result column="ticket_id" property="ticketId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, cashier_desk_id, place_order_date, member_id, original_count_money, practical_money, discount_money, sell_count, single_score, emp_id, ticket_id
+    </sql>
+
+</mapper>

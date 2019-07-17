@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.superman.supermarket.dao.EmployeeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.Employee">
+        <id column="id" property="id" />
+        <result column="emp_account" property="empAccount" />
+        <result column="emp_pwd" property="empPwd" />
+        <result column="emp_name" property="empName" />
+        <result column="emp_status" property="empStatus" />
+        <result column="emp_phone" property="empPhone" />
+        <result column="createDate" property="createDate" />
+        <result column="shop_id" property="shopId" />
+        <!--
+            配置用户与角色关系
+        -->
+        <association property="roles" javaType="com.superman.supermarket.entity.Roles">
+            <id property="id" column="roles_id"></id>
+            <result property="roleName" column="role_name"></result>
+        </association>
+
+        <!--
+            配置用户与门店的关系
+           -->
+        <association property="shop" javaType="com.superman.supermarket.entity.Shop">
+            <id property="id" column="shop_id"></id>
+            <result column="shop_name" property="shopName" />
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, emp_account, emp_pwd, emp_name, role_id, emp_status, emp_phone, createDate, shop_id
+    </sql>
+
+    <!-- 根据用户id关联查询用户角色 -->
+    <select id="findEmpById" parameterType="int" resultMap="BaseResultMap">
+        SELECT emp.*,r.`id` roles_id,r.`role_name`
+        FROM employee emp,roles r
+        WHERE emp.`role_id` = r.`id`
+        AND emp.`id` = #{id}
+    </select>
+
+    <!-- 根据用户名查询用户 -->
+    <select id="getEmployeeByEmpAccount" parameterType="string" resultMap="BaseResultMap">
+       SELECT * FROM employee e WHERE e.`emp_account`= #{account}
+    </select>
+
+    <!--
+        根据条件查询员工信息
+        根据员工角色,状态,归属门店,账号,用户名称,用户电话
+     -->
+    <select id="findEmpByCondition" resultMap="BaseResultMap" parameterType="employee">
+        SELECT emp.*,r.`id` roles_id,r.`role_name`, s.id shop_id, s.shop_name
+        FROM employee emp,roles r,shop s
+        <where>
+            AND emp.`role_id` = r.`id`
+            AND emp.shop_id = s.id
+            <if test="roles != null and roles.id != null">
+                AND emp.role_id = #{roles.id}
+            </if>
+            <if test="empStatus != null">
+                AND emp.emp_status = #{empStatus}
+            </if>
+            <!--<if test="shop != null and shop.id != null">
+                AND emp.shop_id = #{shop.id}
+            </if>
+            <if test="empAccount != null and empAccount != ''">
+                AND emp.emp_account = #{empAccount}
+            </if>
+            <if test="empName != null and empName != ''">
+                AND emp.emp_name = #{empName}
+            </if>
+            <if test="empPhone != null and empPhone != ''">
+                AND  emp.emp_phone = #{empPhone}
+            </if>-->
+            <if test="condition != null">
+                AND s.shop_name = #{condition}
+                or emp.emp_account = #{condition}
+                or emp.emp_name = #{condition}
+                or emp.emp_phone = #{condition}
+            </if>
+        </where>
+    </select>
+
+    <!-- 添加员工 -->
+    <insert id="addEmp" parameterType="employee">
+        INSERT INTO employee VALUE(NULL,#{empAccount},#{empPwd},#{empName},NULL,0,#{empPhone},NOW(),#{shop.id});
+    </insert>
+
+    <!-- 修改员工状态 -->
+    <update id="modifyEmpById" parameterType="employee">
+        UPDATE employee SET emp_status = #{empStatus},emp_name = #{empName},emp_phone = #{empPhone} WHERE id = #{id}
+    </update>
+
+    <!-- 查询所有员工信息 -->
+    <select id="findAll" resultMap="BaseResultMap">
+        SELECT *,r.id roles_id,s.id shop_id
+        FROM employee emp
+        LEFT JOIN roles r
+        ON emp.role_id = r.id
+        LEFT JOIN shop s
+        ON emp.shop_id = s.id
+    </select>
+</mapper>
