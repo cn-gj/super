@@ -30,23 +30,84 @@
         id, shop_name, shop_account, shop_pwd, shop_linkman, shop_phone, shop_logo, shop_hours, shop_advice, shop_address, shop_type_id, createDate
     </sql>
 
-    <select id="getShopInfoByCondition" resultMap="shopMap">
-        SELECT * FROM shop s
+    <!--多条件查询-->
+    <select id="getShopInfoByCondition" resultMap="shopMap" parameterType="shopVO">
+        SELECT s.*,st.id as stId,st.shop_type_name,st.createDate type_cDate
+        FROM shop s
         INNER JOIN shop_type st
         ON s.`shop_type_id` = st.`id`
-<!--        <where>-->
-<!--            <if test="shopVo.shopName != null and shopVo.shopName != ''">-->
-<!--                AND s.`shop_name` LIKE contat('%',#{shopVo.shopName},'%')-->
-<!--            </if>-->
-<!--            <if test="shopVo.shopAccount != null and shopVo.shopAccount != ''">-->
-<!--                AND s.`shop_account` = #{shopVo.shopAccount}-->
-<!--            </if>-->
-<!--           &lt;!&ndash; <if test="shopVo.createDate != null and shopVo.createDate != ''">-->
-<!--                and s.`createDate` &gt; #{terminationDate}-->
-<!--            </if>&ndash;&gt;-->
-<!--            <if test="shopVo.shopTypeId != null and shopVo.shopTypeId != ''">-->
-<!--                and st.`stId` = #{stid}-->
-<!--            </if>-->
-<!--        </where>-->
+        <where>
+            <if test="shopName != null and shopName != ''">
+                AND s.shop_name LIKE concat('%',#{shopName},'%')
+            </if>
+            <if test="shopAccount != null and shopAccount != ''">
+                AND s.`shop_account` = #{shopAccount}
+            </if>
+            <if test="beginDate != null and beginDate != ''">
+                AND s.`createDate` &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND s.`createDate` &lt;= #{endDate}
+            </if>
+            <if test="shopTypeId != null">
+                and s.`shop_type_id` = #{shopTypeId}
+            </if>
+        </where>
     </select>
+
+    <!--查询所有门店名称-->
+    <select id="findAllShopName" resultType="string">
+        SELECT shop_Name FROM shop
+    </select>
+
+
+    <!--添加门店信息-->
+    <insert id="addShop" parameterType="shop">
+         INSERT INTO shop (shop_account,shop_pwd,shop_name,shop_linkman,shop_phone,shop_type_id)
+         VALUE(#{shopAccount},#{shopPwd},#{shopName},#{shopLinkman},#{shopPhone},#{shopTypeId});
+    </insert>
+
+    <!--根据账号查询门店信息-->
+    <select id="findShopByAccount" resultType="shop" parameterType="string">
+        SELECT  * FROM shop WHERE shop_account = #{account}
+    </select>
+    <!--根据门店名称查询-->
+    <select id="getShopInfoByShopName" resultType="shop" parameterType="string">
+         SELECT  * FROM shop WHERE shop_name = #{shopName}
+    </select>
+    <!--修改单个门店信息-->
+    <update id="updateShopInfo" parameterType="shop">
+        UPDATE shop
+        <set>
+            <if test="shopName != null and shopName != ''">
+                shop_name = #{shopName}
+            </if>
+            <if test="shopLinkman != null and shopLinkman != ''">
+                shop_linkman = #{shopLinkman}
+            </if>
+            <if test="shopPhone != null and shopPhone != ''">
+                shop_phone = #{shopPhone}
+            </if>
+            <if test="shopHours != null and shopHours != ''">
+                shop_hours = #{shopHours}
+            </if>
+            <if test="shopAdvice != null and shopAdvice != ''">
+                shop_advice = #{shopAdvice}
+            </if>
+            <if test="ahopAddress != null and ahopAddress != ''">
+                ahop_address = #{ahopAddress}
+            </if>
+            <if test="shopTypeId != null and shopTypeId != ''">
+                shop_type_id = #{shopTypeId}
+            </if>
+            <if test="shopLogo != null and shopLogo != ''">
+                shop_logo = #{shopLogo}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--删除门店信息-->
+    <delete id="delShopInfo" parameterType="int">
+        delete from shop where id = #{id}
+    </delete>
 </mapper>

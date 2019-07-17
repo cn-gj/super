@@ -35,17 +35,6 @@ private static final long serialVersionUID=1L;
 
     private String empPhone;
 
-    @TableField(exist = false)
-    private String condition;
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
     @TableField("createDate")
     private Date createDate;
 

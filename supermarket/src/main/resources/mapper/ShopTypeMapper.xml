@@ -13,5 +13,31 @@
     <sql id="Base_Column_List">
         id, shop_type_name, createDate
     </sql>
+    <!--查询门店分类信息-->
+    <select id="findAllShopType" resultType="shopType">
+		SELECT * FROM shop_type
+	</select>
 
+    <!--添加门店类别-->
+    <insert id="addShopType">
+        INSERT INTO shop_type(id,shop_type_name,createDate) VALUE(#{id},#{shopTypeName},#{createDate})
+    </insert>
+    <!--修改门店类别信息-->
+    <update id="upShopType" parameterType="shoptype">
+        update shop_type
+        <set>
+            <if test="shopTypeName != null and shopTypeName != ''">
+                shop_type_name = #{shopTypeName},
+            </if>
+            <if test="createDate != null and createDate != ''">
+                createDate = #{createDate},
+            </if>
+        </set>
+        where id =#{id}
+    </update>
+
+    <!--删除门店信息-->
+    <delete id="delShopType" parameterType="int">
+        delete from shop_type where id = #{id}
+    </delete>
 </mapper>

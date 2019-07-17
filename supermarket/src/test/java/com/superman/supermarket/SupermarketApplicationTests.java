@@ -40,18 +40,18 @@ public class SupermarketApplicationTests {
         shop.setId(1);
         employee.setShop(shop);
         employee.setEmpAccount("admin");*/
-        //employee.setEmpName("çˆ±çš„ç±³");
+        //employee.setEmpName("°®µÄÃ×");
         //employee.setEmpPhone("110");
        List<Employee> emps = employeeMapper.findAll();
        System.out.print(emps.size()+"........");
         /*for (Employee emp: emps) {
-            System.out.println("æ‰€å±åº—é“º"+emp.getShop());
-            System.out.println("ç™»å½•è´¦å·"+emp.getEmpAccount());
-            System.out.println("åç§°"+emp.getEmpName());
-            System.out.println("ç±»å‹"+emp.getRoles().getRoleName());
-            System.out.println("çŠ¶æ€"+emp.getEmpStatus());
-            System.out.println("è”ç³»ç”µè¯"+emp.getEmpPhone());
-            System.out.println("åˆ›å»ºæ—¶é—´"+emp.getCreateDate());
+            System.out.println("ËùÊôµêÆÌ"+emp.getShop());
+            System.out.println("µÇÂ¼ÕËºÅ"+emp.getEmpAccount());
+            System.out.println("Ãû³Æ"+emp.getEmpName());
+            System.out.println("ÀàĞÍ"+emp.getRoles().getRoleName());
+            System.out.println("×´Ì¬"+emp.getEmpStatus());
+            System.out.println("ÁªÏµµç»°"+emp.getEmpPhone());
+            System.out.println("´´½¨Ê±¼ä"+emp.getCreateDate());
         }*/
     }
 

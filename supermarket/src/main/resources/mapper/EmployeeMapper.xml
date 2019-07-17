@@ -63,7 +63,7 @@
             <if test="empStatus != null">
                 AND emp.emp_status = #{empStatus}
             </if>
-            <!--<if test="shop != null and shop.id != null">
+            <if test="shop != null and shop.id != null">
                 AND emp.shop_id = #{shop.id}
             </if>
             <if test="empAccount != null and empAccount != ''">
@@ -74,12 +74,6 @@
             </if>
             <if test="empPhone != null and empPhone != ''">
                 AND  emp.emp_phone = #{empPhone}
-            </if>-->
-            <if test="condition != null">
-                AND s.shop_name = #{condition}
-                or emp.emp_account = #{condition}
-                or emp.emp_name = #{condition}
-                or emp.emp_phone = #{condition}
             </if>
         </where>
     </select>

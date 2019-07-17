@@ -9,10 +9,15 @@ import java.util.Date;
 public class ShopVO extends Shop {
 
     @TableField(exist=false)
-    private Date terminationDate;
+    private String beginDate;  //起始日期
+
+    @TableField(exist=false)
+    private String endDate;  //终止日期
 
     @TableField(exist=false)
     private ShopType shopType;
+
+
 
     public ShopType getShopType() {
         return shopType;
@@ -22,11 +27,19 @@ public class ShopVO extends Shop {
         this.shopType = shopType;
     }
 
-    public Date getTerminationDate() {
-        return terminationDate;
+    public String getBeginDate() {
+        return beginDate;
     }
 
-    public void setTerminationDate(Date terminationDate) {
-        this.terminationDate = terminationDate;
+    public void setBeginDate(String beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 }
