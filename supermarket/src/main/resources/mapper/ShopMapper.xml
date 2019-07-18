@@ -57,7 +57,7 @@
 
     <!--查询所有门店名称-->
     <select id="findAllShopName" resultType="string">
-        SELECT shop_Name FROM shop
+        SELECT id,shop_Name FROM shop
     </select>
 
 

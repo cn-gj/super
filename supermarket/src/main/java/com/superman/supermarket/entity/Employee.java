@@ -1,9 +1,12 @@
 package com.superman.supermarket.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -36,7 +39,19 @@ private static final long serialVersionUID=1L;
     private String empPhone;
 
     @TableField("createDate")
+    @JSONField(format = "yyyy-MM-dd")
     private Date createDate;
+
+    @TableField(exist = false)
+    private String condition;
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
 
     private Integer shopId;
 
