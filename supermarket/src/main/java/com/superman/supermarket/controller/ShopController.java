@@ -6,15 +6,20 @@ import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.entity.vo.ShopVO;
 import com.superman.supermarket.service.ShopService;
 import com.superman.supermarket.service.ShopTypeService;
+import com.superman.supermarket.utils.DateUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,5 +177,29 @@ public class ShopController {
         return  JSON.toJSONString(map);
     }
 
+
+
+    /**
+     *  导出门店信息Execl
+     * @return
+     */
+    @GetMapping("/exportShop")
+    public String exportEmp(HttpServletResponse response){
+        String fileName = "门店信息列表_"+ DateUtil.date2Str(new Date()) +".xls";
+        //中文名称进行转码
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" +
+                    new String(fileName.getBytes(),"ISO-8859-1"));
+            // 调用业务层导出excel表格
+            try {
+                shopService.exportShop(response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return  null;
+    }
 }
 

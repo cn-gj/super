@@ -141,7 +141,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
      */
     @Override
     public void exportShop(OutputStream outputStream) {
-       /* //获取门店信息列表
+        //获取门店信息列表
         List<ShopVO> shopVos = shopMapper.getShopInfoByCondition(null);
         // 表名称
         String sheetName = "门店信息列表_"+new Date().toString();
@@ -168,7 +168,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
         headCellStyle.setFont(headFont);
 
         // 头部标题
-        String headTitle[] = {"门店编码","门店类别","门店名称","登录账号","联系人","联系电话","门店地址","创建时间"};
+        String headTitle[] = {"门店编码","门店名称","门店类型","登录账号","联系人","联系电话","门店地址","创建时间"};
         // 创建标题行对象
         HSSFRow titleRow = sheet.createRow(0);
         HSSFCell titleCell = null;
@@ -191,25 +191,32 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
             // 创建行
             contentRow = sheet.createRow(rowIndex);
             // 创建单元格,赋值
-            // 所属店铺
-            contentRow.createCell(0).setCellValue(shop.getShopName());
-            // 登录账号
-            contentRow.createCell(1).setCellValue(emp.getEmpAccount());
-            // 员工名称
-            contentRow.createCell(2).setCellValue(emp.getEmpName());
-            // 判断用户角色是否为空
-            if(emp.getRoles() != null && emp.getRoles().getRoleName() != null){
-                // 员工角色
-                contentRow.createCell(3).setCellValue(emp.getRoles().getRoleName());
+            // 门店编号
+            contentRow.createCell(0).setCellValue(shop.getId());
+            // 门店名称
+            contentRow.createCell(1).setCellValue(shop.getShopName());
+            // 门店类型
+            contentRow.createCell(2).setCellValue(shop.getShopType().getShopTypeName());
+            //门店登录账号
+            contentRow.createCell(3).setCellValue(shop.getShopAccount());
+            // 判断门店联系人是否为空
+            if(shop.getShopLinkman() != null){
+                // 门店联系人
+                contentRow.createCell(4).setCellValue(shop.getShopLinkman());
             }else {
-                contentRow.createCell(3).setCellValue("null");
+                contentRow.createCell(4).setCellValue("null");
             }
-            // 员工状态
-            contentRow.createCell(4).setCellValue(empStauts2String(emp.getEmpStatus()));
-            // 联系电话
-            contentRow.createCell(5).setCellValue(emp.getEmpPhone());
+            // 判断门店联系电话是否为空
+            if(shop.getShopLinkman() != null){
+                // 联系电话
+                contentRow.createCell(5).setCellValue(shop.getShopPhone());
+            }else {
+                contentRow.createCell(5).setCellValue("null");
+            }
+            //门店地址
+            contentRow.createCell(6).setCellValue(shop.getShopAddress());
             // 创建时间
-            contentRow.createCell(6).setCellValue(DateUtil.date2Str(emp.getCreateDate()));
+            contentRow.createCell(7).setCellValue(DateUtil.date2Str(shop.getCreateDate()));
 
             rowIndex++;
         }
@@ -227,6 +234,6 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
                 e.printStackTrace();
             } finally {
             }
-        }*/
+        }
     }
 }
