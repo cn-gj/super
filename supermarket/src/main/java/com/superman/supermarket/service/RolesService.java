@@ -20,5 +20,5 @@ public interface RolesService extends IService<Roles> {
      *  查询所有角色
      * @return
      */
-    List<Roles> findAll();
+    String findAll();
 }

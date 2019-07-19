@@ -70,5 +70,9 @@ public interface ShopService extends IService<Shop> {
      */
     Integer delShopInfo(Integer id);
 
-
+    /**
+     *  下载门店列表信息
+     * @param outputStream
+     */
+    void exportShop(OutputStream outputStream);
 }

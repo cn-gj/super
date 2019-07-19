@@ -56,8 +56,8 @@
     </select>
 
     <!--查询所有门店名称-->
-    <select id="findAllShopName" resultType="string">
-        SELECT id,shop_Name FROM shop
+    <select id="findAllShopName" resultType="shop">
+        SELECT id,shop_name FROM shop
     </select>
 
 
@@ -80,28 +80,28 @@
         UPDATE shop
         <set>
             <if test="shopName != null and shopName != ''">
-                shop_name = #{shopName}
+                shop_name = #{shopName},
             </if>
             <if test="shopLinkman != null and shopLinkman != ''">
-                shop_linkman = #{shopLinkman}
+                shop_linkman = #{shopLinkman},
             </if>
             <if test="shopPhone != null and shopPhone != ''">
-                shop_phone = #{shopPhone}
+                shop_phone = #{shopPhone},
             </if>
             <if test="shopHours != null and shopHours != ''">
-                shop_hours = #{shopHours}
+                shop_hours = #{shopHours},
             </if>
             <if test="shopAdvice != null and shopAdvice != ''">
-                shop_advice = #{shopAdvice}
+                shop_advice = #{shopAdvice},
             </if>
-            <if test="ahopAddress != null and ahopAddress != ''">
-                ahop_address = #{ahopAddress}
+            <if test="shopAddress != null and shopAddress != ''">
+                ahop_address = #{ahopAddress},
             </if>
-            <if test="shopTypeId != null and shopTypeId != ''">
-                shop_type_id = #{shopTypeId}
+            <if test="shopTypeId != null">
+                shop_type_id = #{shopTypeId},
             </if>
             <if test="shopLogo != null and shopLogo != ''">
-                shop_logo = #{shopLogo}
+                shop_logo = #{shopLogo},
             </if>
         </set>
         where id = #{id}

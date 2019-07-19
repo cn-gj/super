@@ -78,7 +78,7 @@ public class ShopController {
     }
 
     /**
-     * 根据账户查询门店信息
+     * 根据账户或门店名查询门店信息
      * @return
      */
     @ResponseBody
@@ -101,7 +101,6 @@ public class ShopController {
     @ResponseBody
     public  String addShop(Shop shop){
         //存放返回到页面的数据
-        System.out.println(shop);
         Map<String,Object> map = new HashMap<>();
         //调用方法添加
         Integer count = shopService.addShop(shop);
@@ -122,14 +121,17 @@ public class ShopController {
      * @return
      */
     @PostMapping("/upShop")
+    @ResponseBody
     public String UpdateShopInfo(Shop shop,MultipartFile fileName){
         //存放返回到页面的数据
         Map<String,Object> map = new HashMap<>();
         try {
-            //获取文件名
-            shop.setShopLogo("\\upload\\images\\"+fileName.getOriginalFilename());
-            //添加文件到images目录
-            fileName.transferTo(new File("\\upload\\images\\"+fileName.getOriginalFilename()));
+            if (fileName != null){
+                //获取文件名、并设置进shop对象
+                shop.setShopLogo("\\upload\\images\\"+fileName.getOriginalFilename());
+                //添加文件到images目录
+                fileName.transferTo(new File("\\upload\\images\\"+fileName.getOriginalFilename()));
+            }
             //调用方法添加
             Integer count = shopService.updateShopInfo(shop);
             if (count > 0){

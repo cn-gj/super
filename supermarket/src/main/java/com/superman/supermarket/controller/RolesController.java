@@ -31,11 +31,10 @@ public class RolesController {
      *  查询所有角色
      * @return
      */
-    @PostMapping("/findAllRoles")
+    @RequestMapping("/findAllRoles")
     @ResponseBody
-    public String finadAll(){
-        List<Roles> rolesList = rolesService.findAll();
-        return JSON.toJSONString(rolesList);
+    public String findAll(){
+        return rolesService.findAll();
     }
 }
 

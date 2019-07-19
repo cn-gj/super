@@ -12,5 +12,8 @@
     <sql id="Base_Column_List">
         id, role_name
     </sql>
-
+    <!-- 查询所有角色id和名称 -->
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from roles
+    </select>
 </mapper>

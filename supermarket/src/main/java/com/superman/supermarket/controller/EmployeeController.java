@@ -141,7 +141,7 @@ public class EmployeeController {
      *  导出员工信息Execl
      * @return
      */
-    @PostMapping("/exportEmp")
+    @GetMapping("/exportEmp")
    public String exportEmp(HttpServletResponse response){
         String fileName = "店铺员工列表_"+ DateUtil.date2Str(new Date()) +".xls";
         //中文名称进行转码
