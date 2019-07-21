@@ -1,11 +1,15 @@
 package com.superman.supermarket;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.superman.supermarket.dao.GoodsMapper;
 import com.superman.supermarket.dao.ShopMapper;
 import com.superman.supermarket.entity.Employee;
+import com.superman.supermarket.entity.Goods;
 import com.superman.supermarket.entity.Roles;
 import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.entity.vo.ShopVO;
+import com.superman.supermarket.service.GoodsService;
 import com.superman.supermarket.service.ShopService;
 
 import com.superman.supermarket.dao.EmployeeMapper;
@@ -25,6 +29,8 @@ public class SupermarketApplicationTests {
     private ShopService shopService;
     @Resource
     private ShopMapper shopMapper;
+    @Resource
+    private GoodsMapper goodsMapper;
 
     @Resource
     private EmployeeMapper employeeMapper;
@@ -40,19 +46,24 @@ public class SupermarketApplicationTests {
         shop.setId(1);
         employee.setShop(shop);
         employee.setEmpAccount("admin");*/
-        //employee.setEmpName("°®µÄÃ×");
+        //employee.setEmpName("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         //employee.setEmpPhone("110");
-       List<Employee> emps = employeeMapper.findAll();
-       System.out.print(emps.size()+"........");
+       /*List<Employee> emps = employeeMapper.findAll();
+       System.out.print(emps.size()+"........");*/
         /*for (Employee emp: emps) {
-            System.out.println("ËùÊôµêÆÌ"+emp.getShop());
-            System.out.println("µÇÂ¼ÕËºÅ"+emp.getEmpAccount());
-            System.out.println("Ãû³Æ"+emp.getEmpName());
-            System.out.println("ÀàĞÍ"+emp.getRoles().getRoleName());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"+emp.getShop());
+            System.out.println("ï¿½ï¿½Â¼ï¿½Ëºï¿½"+emp.getEmpAccount());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½"+emp.getEmpName());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½"+emp.getRoles().getRoleName());
             System.out.println("×´Ì¬"+emp.getEmpStatus());
-            System.out.println("ÁªÏµµç»°"+emp.getEmpPhone());
-            System.out.println("´´½¨Ê±¼ä"+emp.getCreateDate());
+            System.out.println("ï¿½ï¿½Ïµï¿½ç»°"+emp.getEmpPhone());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½"+emp.getCreateDate());
         }*/
+
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_name","æ´‹ä¹å¤š");
+        List<Goods> list = goodsMapper.selectList(wrapper);
+        System.out.print(list.size()+"...........................................");
     }
 
 }

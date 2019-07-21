@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -24,7 +25,7 @@ private static final long serialVersionUID=1L;
 
     private String goodsName;
 
-    private byte[] goodsCode;
+    private String goodsCode;
 
     private Double price;
 
@@ -34,7 +35,7 @@ private static final long serialVersionUID=1L;
 
     private Double costPrice;
 
-    private Integer specTmpId;
+    private Integer specDetailId;
 
     private String unitId;
 
@@ -44,11 +45,11 @@ private static final long serialVersionUID=1L;
 
     private String goodsAddress;
 
-    private LocalDate yieldDate;
+    private Date yieldDate;
 
     private String expirationDay;
 
-    private LocalDate expirationDate;
+    private Date expirationDate;
 
 
     public Integer getId() {
@@ -67,11 +68,11 @@ private static final long serialVersionUID=1L;
         this.goodsName = goodsName;
     }
 
-    public byte[] getGoodsCode() {
+    public String getGoodsCode() {
         return goodsCode;
     }
 
-    public void setGoodsCode(byte[] goodsCode) {
+    public void setGoodsCode(String goodsCode) {
         this.goodsCode = goodsCode;
     }
 
@@ -107,12 +108,12 @@ private static final long serialVersionUID=1L;
         this.costPrice = costPrice;
     }
 
-    public Integer getSpecTmpId() {
-        return specTmpId;
+    public Integer getSpecDetailId() {
+        return specDetailId;
     }
 
-    public void setSpecTmpId(Integer specTmpId) {
-        this.specTmpId = specTmpId;
+    public void setSpecDetailId(Integer specDetailId) {
+        this.specDetailId = specDetailId;
     }
 
     public String getUnitId() {
@@ -147,11 +148,11 @@ private static final long serialVersionUID=1L;
         this.goodsAddress = goodsAddress;
     }
 
-    public LocalDate getYieldDate() {
+    public Date getYieldDate() {
         return yieldDate;
     }
 
-    public void setYieldDate(LocalDate yieldDate) {
+    public void setYieldDate(Date yieldDate) {
         this.yieldDate = yieldDate;
     }
 
@@ -163,11 +164,11 @@ private static final long serialVersionUID=1L;
         this.expirationDay = expirationDay;
     }
 
-    public LocalDate getExpirationDate() {
+    public Date getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(LocalDate expirationDate) {
+    public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -181,7 +182,7 @@ private static final long serialVersionUID=1L;
         ", memberPrice=" + memberPrice +
         ", wholePrice=" + wholePrice +
         ", costPrice=" + costPrice +
-        ", specTmpId=" + specTmpId +
+        ", specTmpId=" + specDetailId +
         ", unitId=" + unitId +
         ", goodsTypeId=" + goodsTypeId +
         ", providerId=" + providerId +

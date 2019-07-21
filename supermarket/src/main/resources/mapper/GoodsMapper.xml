@@ -11,7 +11,7 @@
         <result column="member_price" property="memberPrice" />
         <result column="whole_price" property="wholePrice" />
         <result column="cost_price" property="costPrice" />
-        <result column="spec_tmp_id" property="specTmpId" />
+        <result column="spec_detail_id" property="specDetailId" />
         <result column="unit_id" property="unitId" />
         <result column="goods_type_id" property="goodsTypeId" />
         <result column="provider_id" property="providerId" />
@@ -21,9 +21,105 @@
         <result column="expiration_date" property="expirationDate" />
     </resultMap>
 
+    <resultMap id="InitMap" type="goodsVo" extends="BaseResultMap">
+        <result column="goods_count" property="goodsCount" />
+        <result column="pro_ame" property="proName" />
+        <result column="spec_tmp_name" property="spceTmpName" />
+        <result column="spec_name" property="specName" />
+        <result column="spec_detail_name" property="specDetailName" />
+        <result property="goodsTypeName" column="goods_type_name"></result>
+
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, goods_name, goods_code, price, member_price, whole_price, cost_price, spec_tmp_id, unit_id, goods_type_id, provider_id, goods_address, yield_date, expiration_day, expiration_date
     </sql>
 
+    <!-- 初始化根据条件查询商品信息 -->
+    <select id="findByCondition" resultMap="InitMap" parameterType="goodsVo">
+         select g.goods_code,g.price
+         ,g.member_price,g.whole_price,g.cost_price,
+         idetail.goods_count,
+         gt.goods_type_name,
+         p.pro_name,
+         g.goods_code,
+         g.goods_address,
+         sd.spec_detail_name,
+         sp.spec_name,
+         st.spec_tmp_name,
+         g.goods_name,
+         g.unit_id
+         from goods g
+         left join inventory_detail idetail
+         on g.id = idetail.goods_id
+         Left join goods_type gt
+         on goods_type_id = gt.id
+         left join provider p
+         on g.provider_id = p.id
+         Left join spec_detail sd
+         on g.spec_detail_id = sd.id
+         left join spec sp
+         on sd.spec_id = sp.id
+         left join spec_tmp st
+         on sp.spec_tmp_id = st.id
+
+        <where>
+            <if test="yieldDate != null">
+                and g.yield_date = #{yieldDate}
+            </if>
+            <if test="expirationDay != null">
+                and g.expiration_date = #{expirationDay}
+            </if>
+            <if test="goodsTypeId != null">
+                and goods_type_id = #{goodsTypeId}
+            </if>
+            <if test="condition != null and condition != ''">
+                and goods_name = #{condition} or goods_code =  #{condition}
+            </if>
+        </where>
+    </select>
+
+    <!-- 批量删除 -->
+    <delete id="batchDelete">
+        delete from goods where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 批量修改商品类型 -->
+    <update id="batchModify">
+        UPDATE goods SET goods_type_id = #{goodsTypeId} where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="findById" resultMap="InitMap" parameterType="goodsVo">
+    select g.goods_code,g.price
+    ,g.member_price,g.whole_price,g.cost_price,
+    idetail.goods_count,
+    gt.goods_type_name,
+    p.pro_name,
+    g.goods_code,
+    g.goods_address,
+    sd.spec_detail_name,
+    sp.spec_name,
+    st.spec_tmp_name
+    from goods g
+    left join inventory_detail idetail
+    on g.id = idetail.goods_id
+    Left join goods_type gt
+    on goods_type_id = gt.id
+    left join provider p
+    on g.provider_id = p.id
+    Left join spec_detail sd
+    on g.spec_detail_id = sd.id
+    left join spec sp
+    on sd.spec_id = sp.id
+    left join spec_tmp st
+    on sp.spec_tmp_id = st.id
+    where g.id = #{id}
+    </select>
 </mapper>
