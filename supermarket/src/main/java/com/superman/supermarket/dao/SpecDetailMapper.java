@@ -13,4 +13,17 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SpecDetailMapper extends BaseMapper<SpecDetail> {
 
+    /**
+     * 添加规格详情
+     * @param specDetail
+     * @return
+     */
+    Integer addSpecDetail(SpecDetail specDetail);
+
+    /**
+     * 删除规格详情
+     * @param id
+     * @return
+     */
+    Integer deleteSpecDetail(Integer id);
 }

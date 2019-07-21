@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SpecMapper extends BaseMapper<Spec> {
 
+    /**
+     * 修改规格
+     * @param spec
+     * @return
+     */
+    Integer updateSpec(Spec spec);
 }

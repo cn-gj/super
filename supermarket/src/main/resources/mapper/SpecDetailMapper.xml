@@ -13,5 +13,13 @@
     <sql id="Base_Column_List">
         id, spec_detail_name, spec_id
     </sql>
+    <!--添加规格详情-->
+    <insert id="addSpecDetail">
+        INSERT INTO spec_detail(spec_detail_name,spec_id) VALUE(#{specDetailName},#{specId});
+    </insert>
 
+    <!--删除规格详情-->
+    <delete id="deleteSpecDetail" parameterType="int">
+        DELETE FROM spec_detail WHERE id = #{id}
+    </delete>
 </mapper>

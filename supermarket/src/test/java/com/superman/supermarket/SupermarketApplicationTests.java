@@ -1,26 +1,18 @@
 package com.superman.supermarket;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.superman.supermarket.dao.GoodsMapper;
-import com.superman.supermarket.dao.ShopMapper;
-import com.superman.supermarket.entity.Employee;
-import com.superman.supermarket.entity.Goods;
-import com.superman.supermarket.entity.Roles;
-import com.superman.supermarket.entity.Shop;
-import com.superman.supermarket.entity.vo.ShopVO;
-import com.superman.supermarket.service.GoodsService;
-import com.superman.supermarket.service.ShopService;
-
 import com.superman.supermarket.dao.EmployeeMapper;
-
+import com.superman.supermarket.dao.ShopMapper;
+import com.superman.supermarket.entity.Spec;
+import com.superman.supermarket.entity.SpecTmp;
+import com.superman.supermarket.service.ShopService;
+import com.superman.supermarket.service.SpecTmpService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -29,8 +21,10 @@ public class SupermarketApplicationTests {
     private ShopService shopService;
     @Resource
     private ShopMapper shopMapper;
+
+
     @Resource
-    private GoodsMapper goodsMapper;
+    private SpecTmpService specTmpService;
 
     @Resource
     private EmployeeMapper employeeMapper;
@@ -48,7 +42,7 @@ public class SupermarketApplicationTests {
         employee.setEmpAccount("admin");*/
         //employee.setEmpName("������");
         //employee.setEmpPhone("110");
-       /*List<Employee> emps = employeeMapper.findAll();
+      /* List<Employee> emps = employeeMapper.findAll();
        System.out.print(emps.size()+"........");*/
         /*for (Employee emp: emps) {
             System.out.println("��������"+emp.getShop());
@@ -60,10 +54,15 @@ public class SupermarketApplicationTests {
             System.out.println("����ʱ��"+emp.getCreateDate());
         }*/
 
-        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
-        wrapper.eq("goods_name","洋乐多");
-        List<Goods> list = goodsMapper.selectList(wrapper);
-        System.out.print(list.size()+"...........................................");
+
+
+
+       /*String specs = "桌子,椅子,凳子";
+        specTmpService.addSpecInfo(specs);*/
+
+
+       String idstr = "3,4,5,6,7";
+       specTmpService.delSpecTmpInfo(idstr);
     }
 
 }

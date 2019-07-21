@@ -4,9 +4,18 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.Spec">
-        <id column="id" property="id" />
+        <id column="s_id" property="id" />
         <result column="spec_name" property="specName" />
         <result column="spec_tmp_id" property="specTmpId" />
+
+    </resultMap>
+
+    <resultMap id="SpecDetailResultMap" extends="BaseResultMap" type="com.superman.supermarket.entity.Spec">
+        <collection property="sdList" ofType="com.superman.supermarket.entity.SpecDetail">
+            <id column="sd_id" property="id" />
+            <result column="spec_detail_name" property="specDetailName" />
+            <result column="spec_id" property="specId" />
+        </collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -14,4 +23,13 @@
         id, spec_name, spec_tmp_id
     </sql>
 
+    <!--修改规格-->
+    <update id="updateSpec">
+        UPDATE spec
+        <set>
+            <if test="specName != null and specName != ''">spec_name = #{specName}</if>
+            <if test="specTmpId != null and specTmpId != ''">spec_tmp_id = #{specTmpId}</if>
+        </set>
+        Where id = #{id}
+    </update>
 </mapper>

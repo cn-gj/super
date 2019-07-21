@@ -1,9 +1,11 @@
 package com.superman.supermarket.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -25,6 +27,19 @@ private static final long serialVersionUID=1L;
 
     private Integer specTmpId;
 
+    /**
+     * 规格详情、一个规格对应多个详情
+     */
+    @TableField(exist = false)
+    private List<SpecDetail> sdList;
+
+    public List<SpecDetail> getSdList() {
+        return sdList;
+    }
+
+    public void setSdList(List<SpecDetail> sdList) {
+        this.sdList = sdList;
+    }
 
     public Integer getId() {
         return id;
