@@ -5,12 +5,79 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.SpecTmp">
         <id column="id" property="id" />
-        <result column="spec_detail_name" property="specDetailName" />
+        <result column="spec_tmp_name" property="specTmpName" />
+    </resultMap>
+    <!--配置一对多关系、引用SpecDetailResultMap-->
+    <resultMap id="SpecTmpResultMap" type="com.superman.supermarket.entity.SpecTmp" extends="BaseResultMap">
+        <collection property="specList" ofType="com.superman.supermarket.entity.Spec" resultMap="com.superman.supermarket.dao.SpecMapper.SpecDetailResultMap"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, spec_detail_name
     </sql>
+
+
+    <!--查询规格模板-->
+    <select id="findSpecTmpAndSpec" resultType="specTmp" parameterType="specTmp">
+        SELECT st.`id`,st.`spec_tmp_name`,COUNT(s.spec_tmp_id) sCount
+        FROM spec_tmp st
+        LEFT JOIN spec s
+        ON st.`id` = s.spec_tmp_id
+        <where>
+            <if test="specTmp.specTmpName != null and specTmp.specTmpName != ''">
+                AND st.`spec_tmp_name` LIKE concat('%',#{specTmp.specTmpName},'%')
+            </if>
+            <if test="specTmp.id != null"> AND st.`id` = #{specTmp.id}</if>
+        </where>
+        GROUP BY st.`id`
+    </select>
+
+    <!--添加规格模板-->
+    <insert id="addSpecTmpInfo" parameterType="specTmp" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO spec_tmp VALUE(NULL,#{specTmpName})
+    </insert>
+    <!--添加规格-->
+    <insert id="addSpecInfo" parameterType="string">
+        INSERT INTO spec(spec_name,spec_tmp_id) VALUES
+        <foreach collection="spec" item="item" separator=",">
+            (#{item.specName},#{item.specTmpId})
+        </foreach>
+    </insert>
+    <!--删除规格模板-->
+    <delete id="delSpecTmpInfo">
+        DELETE FROM spec_detail WHERE spec_id IN (SELECT id FROM spec WHERE spec_tmp_id IN (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        ));
+        DELETE FROM spec WHERE spec_tmp_id IN (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        );
+        DELETE FROM spec_tmp WHERE id IN (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        );
+    </delete>
+    <!--修改规格模板-->
+    <update id="updateSpecTmpInfo" parameterType="specTmp">
+        UPDATE spec_tmp
+        <set>
+            <if test="specTmpName != null and specTmpName != ''">
+                spec_tmp_name = #{specTmpName}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--根据模板id，查询除所有的规格，和规格下的规格详情-->
+    <select id="getSpecAndSpecDetailBySpecTmpId" parameterType="int" resultMap="SpecTmpResultMap">
+            SELECT st.*,s.id s_id,s.spec_name,s.spec_tmp_id,sd.id sd_id,sd.`spec_detail_name`,sd.`spec_id`
+            FROM spec_tmp st
+            LEFT JOIN spec s
+            ON st.id = s.spec_tmp_id
+            LEFT JOIN spec_detail sd
+            ON s.id = sd.`spec_id`
+            WHERE st.id  = #{id}
+    </select>
+
+
 
 </mapper>

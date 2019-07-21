@@ -14,5 +14,10 @@ import java.util.List;
  * @since 2019-07-12
  */
 public interface SpecService extends IService<Spec> {
-
+    /**
+     * 修改规格
+     * @param spec
+     * @return
+     */
+    Integer updateSpec(Spec spec);
 }

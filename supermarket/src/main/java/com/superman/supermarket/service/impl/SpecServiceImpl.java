@@ -6,6 +6,8 @@ import com.superman.supermarket.service.SpecService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * <p>
  *  服务实现类
@@ -16,5 +18,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SpecServiceImpl extends ServiceImpl<SpecMapper, Spec> implements SpecService {
-
+    @Resource
+    private SpecMapper specMapper;
+    @Override
+    public Integer updateSpec(Spec spec) {
+        return specMapper.updateSpec(spec);
+    }
 }

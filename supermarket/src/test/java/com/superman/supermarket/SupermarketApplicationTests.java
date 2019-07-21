@@ -1,22 +1,18 @@
 package com.superman.supermarket;
 
 
-import com.superman.supermarket.dao.ShopMapper;
-import com.superman.supermarket.entity.Employee;
-import com.superman.supermarket.entity.Roles;
-import com.superman.supermarket.entity.Shop;
-import com.superman.supermarket.entity.vo.ShopVO;
-import com.superman.supermarket.service.ShopService;
-
 import com.superman.supermarket.dao.EmployeeMapper;
-
+import com.superman.supermarket.dao.ShopMapper;
+import com.superman.supermarket.entity.Spec;
+import com.superman.supermarket.entity.SpecTmp;
+import com.superman.supermarket.service.ShopService;
+import com.superman.supermarket.service.SpecTmpService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,6 +21,10 @@ public class SupermarketApplicationTests {
     private ShopService shopService;
     @Resource
     private ShopMapper shopMapper;
+
+
+    @Resource
+    private SpecTmpService specTmpService;
 
     @Resource
     private EmployeeMapper employeeMapper;
@@ -40,19 +40,29 @@ public class SupermarketApplicationTests {
         shop.setId(1);
         employee.setShop(shop);
         employee.setEmpAccount("admin");*/
-        //employee.setEmpName("°®µÄÃ×");
+        //employee.setEmpName("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         //employee.setEmpPhone("110");
-       List<Employee> emps = employeeMapper.findAll();
-       System.out.print(emps.size()+"........");
+      /* List<Employee> emps = employeeMapper.findAll();
+       System.out.print(emps.size()+"........");*/
         /*for (Employee emp: emps) {
-            System.out.println("ËùÊôµêÆÌ"+emp.getShop());
-            System.out.println("µÇÂ¼ÕËºÅ"+emp.getEmpAccount());
-            System.out.println("Ãû³Æ"+emp.getEmpName());
-            System.out.println("ÀàĞÍ"+emp.getRoles().getRoleName());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"+emp.getShop());
+            System.out.println("ï¿½ï¿½Â¼ï¿½Ëºï¿½"+emp.getEmpAccount());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½"+emp.getEmpName());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½"+emp.getRoles().getRoleName());
             System.out.println("×´Ì¬"+emp.getEmpStatus());
-            System.out.println("ÁªÏµµç»°"+emp.getEmpPhone());
-            System.out.println("´´½¨Ê±¼ä"+emp.getCreateDate());
+            System.out.println("ï¿½ï¿½Ïµï¿½ç»°"+emp.getEmpPhone());
+            System.out.println("ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½"+emp.getCreateDate());
         }*/
+
+
+
+
+       /*String specs = "æ¡Œå­,æ¤…å­,å‡³å­";
+        specTmpService.addSpecInfo(specs);*/
+
+
+       String idstr = "3,4,5,6,7";
+       specTmpService.delSpecTmpInfo(idstr);
     }
 
 }
