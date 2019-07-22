@@ -2,10 +2,15 @@ package com.superman.supermarket.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
+import java.text.Format;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -30,10 +35,12 @@ private static final long serialVersionUID=1L;
     private Integer cashierState;
 
     @TableField("createDate")
-    private LocalDate createDate;
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date createDate;
 
+    @JsonFormat(pattern="yyyy-MM-dd")
     @TableField("modifyDate")
-    private LocalDate modifyDate;
+    private Date modifyDate;
 
 
     public Integer getId() {
@@ -68,19 +75,19 @@ private static final long serialVersionUID=1L;
         this.cashierState = cashierState;
     }
 
-    public LocalDate getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDate createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
-    public LocalDate getModifyDate() {
+    public Date getModifyDate() {
         return modifyDate;
     }
 
-    public void setModifyDate(LocalDate modifyDate) {
+    public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
     }
 

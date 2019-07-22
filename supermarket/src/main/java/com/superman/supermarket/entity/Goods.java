@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -44,11 +46,11 @@ private static final long serialVersionUID=1L;
     private Integer providerId;
 
     private String goodsAddress;
-
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date yieldDate;
 
     private String expirationDay;
-
+    @JsonFormat(pattern="yyyy-MM-dd")
     private Date expirationDate;
 
 

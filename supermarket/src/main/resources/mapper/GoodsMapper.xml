@@ -21,6 +21,7 @@
         <result column="expiration_date" property="expirationDate" />
     </resultMap>
 
+    <!-- 商品Vo映射 -->
     <resultMap id="InitMap" type="goodsVo" extends="BaseResultMap">
         <result column="goods_count" property="goodsCount" />
         <result column="pro_ame" property="proName" />
@@ -96,30 +97,31 @@
         </foreach>
     </update>
 
+    <!-- 根据id查询商品信息 -->
     <select id="findById" resultMap="InitMap" parameterType="goodsVo">
-    select g.goods_code,g.price
-    ,g.member_price,g.whole_price,g.cost_price,
-    idetail.goods_count,
-    gt.goods_type_name,
-    p.pro_name,
-    g.goods_code,
-    g.goods_address,
-    sd.spec_detail_name,
-    sp.spec_name,
-    st.spec_tmp_name
-    from goods g
-    left join inventory_detail idetail
-    on g.id = idetail.goods_id
-    Left join goods_type gt
-    on goods_type_id = gt.id
-    left join provider p
-    on g.provider_id = p.id
-    Left join spec_detail sd
-    on g.spec_detail_id = sd.id
-    left join spec sp
-    on sd.spec_id = sp.id
-    left join spec_tmp st
-    on sp.spec_tmp_id = st.id
-    where g.id = #{id}
+            select g.goods_code,g.price
+            ,g.member_price,g.whole_price,g.cost_price,
+            idetail.goods_count,
+            gt.goods_type_name,
+            p.pro_name,
+            g.goods_code,
+            g.goods_address,
+            sd.spec_detail_name,
+            sp.spec_name,
+            st.spec_tmp_name
+            from goods g
+            left join inventory_detail idetail
+            on g.id = idetail.goods_id
+            Left join goods_type gt
+            on goods_type_id = gt.id
+            left join provider p
+            on g.provider_id = p.id
+            Left join spec_detail sd
+            on g.spec_detail_id = sd.id
+            left join spec sp
+            on sd.spec_id = sp.id
+            left join spec_tmp st
+            on sp.spec_tmp_id = st.id
+            where g.id = #{id}
     </select>
 </mapper>

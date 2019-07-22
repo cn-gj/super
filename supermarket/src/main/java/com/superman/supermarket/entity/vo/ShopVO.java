@@ -5,7 +5,7 @@ import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.entity.ShopType;
 
 import java.util.Date;
-
+/*门店VO*/
 public class ShopVO extends Shop {
 
     @TableField(exist=false)

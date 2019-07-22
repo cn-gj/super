@@ -12,9 +12,75 @@
         <result column="modifyDate" property="modifyDate" />
     </resultMap>
 
+    <!-- VO映射 -->
+    <resultMap id="VoResultMap" type="com.superman.supermarket.entity.vo.CashierDeskVO" extends="BaseResultMap">
+       <!-- 配置商店和收银台的关系 -->
+        <association property="shop" javaType="com.superman.supermarket.entity.Shop">
+           <id property="id" column="shop_id"></id>
+            <result column="shop_name" property="shopName"></result>
+       </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, cashier_name, shop_id, cashier_state, createDate, modifyDate
     </sql>
 
+    <!-- 条件查询收营台 -->
+    <select id="findByConidtion" resultMap="VoResultMap">
+        SELECT * FROM cashier_desk c,shop s
+        <where>
+            c.shop_id = s.id
+            /* 状态有值根据状态精确查询 */
+            <if test="cashierState != null">
+                AND c.cashier_state = #{cashierState}
+            </if>
+            /* 根据收银台号,收银台名称,店名-->一个字段 condition,模糊查询 */
+            <if test="condition != null and condition != ''">
+                AND c.id = #{condition}
+                OR c.cashier_name LIKE CONCAT('%',#{condition},'%')
+                OR s.shop_name LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+    </select>
+
+        <!-- 根据id查询 -->
+        <select id="findById" resultMap="VoResultMap">
+            SELECT * FROM cashier_desk c,shop s
+            where c.shop_id = s.id
+            and c.id = #{id}
+        </select>
+
+        <!-- 根据名称信息 -->
+        <select id="findByName" resultMap="VoResultMap">
+        SELECT * FROM cashier_desk c,shop s
+        where c.shop_id = s.id
+        and  c.cashier_name = #{caseName}
+        </select>
+
+        <!-- 添加收银台 -->
+        <insert id="addCash">
+            insert into cashier_desk
+            value(null,#{cashierName},#{shopId},0,now(),now())
+        </insert>
+
+        <!-- 修改收银台 -->
+        <update id="modifyCash">
+            update cashier_desk
+            <set>
+                <if test="cashierName != null and cashierName != ''">
+                    cashier_name = #{cashierName}
+                </if>
+                <if test="shopId != null">
+                    shop_id = #{shopId}
+                </if>
+                <if test="cashierState != null">
+                    cashier_state = #{cashierState}
+                </if>
+                <if test="modifyDate != null">
+                    modifyDate = now()
+                </if>
+            </set>
+            where id = #{id}
+        </update>
 </mapper>
