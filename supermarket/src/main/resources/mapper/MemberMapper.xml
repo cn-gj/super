@@ -115,4 +115,8 @@
             </foreach>
         )
     </update>
+    <!--根据会员手机号查询会员信息-->
+    <select id="findMemberByMemberPhone" parameterType="string" resultType="member">
+        SELECT * FROM member WHERE member_phone = #{memberPhone}
+    </select>
 </mapper>

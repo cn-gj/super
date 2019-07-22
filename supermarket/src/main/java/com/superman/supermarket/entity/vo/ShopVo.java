@@ -3,10 +3,8 @@ package com.superman.supermarket.entity.vo;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.entity.ShopType;
-
-import java.util.Date;
 /*门店VO*/
-public class ShopVO extends Shop {
+public class ShopVo extends Shop {
 
     @TableField(exist=false)
     private String beginDate;  //起始日期

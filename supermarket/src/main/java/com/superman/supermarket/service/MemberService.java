@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.superman.supermarket.entity.vo.MemberVo;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -59,4 +60,17 @@ public interface MemberService extends IService<Member> {
      * @return
      */
     public Integer batchUpdateSorce(@Param("ids") int [] ids,@Param("totalSorce") Integer totalSorce);
+
+    /**
+     * 根据会员手机号（即卡号）查询会员信息
+     * @param memberPhone
+     * @return
+     */
+    public Member findMemberByMemberPhone(String memberPhone);
+
+    /**
+     * 导出数据
+     * @param outputStream
+     */
+    public void exportMember(OutputStream outputStream);
 }

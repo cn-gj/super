@@ -59,4 +59,11 @@ public interface MemberMapper extends BaseMapper<Member> {
      * @return
      */
     public Integer batchUpdateSorce(@Param("ids") int [] ids,@Param("totalSorce") Integer totalSorce);
+
+    /**
+     * 根据会员手机号（即卡号）查询会员信息
+     * @param memberPhone
+     * @return
+     */
+    public Member findMemberByMemberPhone(String memberPhone);
 }

@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.superman.supermarket.entity.Member;
 import com.superman.supermarket.entity.vo.MemberVo;
 import com.superman.supermarket.service.MemberService;
+import com.superman.supermarket.utils.DateUtil;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,6 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -135,6 +141,42 @@ public class MemberController {
             map.put("state",false);
         }
         return JSON.toJSONString(map);
+    }
+
+    /**
+     * 根据手机号查询会员信息
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getMeByphone")
+    public String findMemberByPhone(String memberPhone){
+        Map<String,Object> map = new HashMap<>();
+        Member member = memberService.findMemberByMemberPhone(memberPhone);
+        map.put("member",member);
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     *  导出会员信息Execl
+     * @return
+     */
+    @GetMapping("/exportGoods")
+    public String exportMember(HttpServletResponse response){
+        String fileName = "会员信息列表_"+ DateUtil.date2Str(new Date()) +".xls";
+        //中文名称进行转码
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" +
+                    new String(fileName.getBytes(),"ISO-8859-1"));
+            // 调用业务层导出excel表格
+            try {
+                memberService.exportMember(response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return  null;
     }
 }
 
