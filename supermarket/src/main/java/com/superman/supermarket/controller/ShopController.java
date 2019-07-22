@@ -3,7 +3,7 @@ package com.superman.supermarket.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.superman.supermarket.entity.Shop;
-import com.superman.supermarket.entity.vo.ShopVO;
+import com.superman.supermarket.entity.vo.ShopVo;
 import com.superman.supermarket.service.ShopService;
 import com.superman.supermarket.service.ShopTypeService;
 import com.superman.supermarket.utils.DateUtil;
@@ -49,12 +49,12 @@ public class ShopController {
      */
     @PostMapping("/shopList")
     @ResponseBody
-    public String toShop(ShopVO shopVO){
+    public String toShop(ShopVo shopVO){
         System.out.println(shopVO);
         //存放返回到页面的数据
         Map<String,Object> map = new HashMap<>();
         //调用方法查询门店列表信息
-        List<ShopVO> shopList= shopService.getShopInfoByCondition(shopVO);
+        List<ShopVo> shopList= shopService.getShopInfoByCondition(shopVO);
 
         System.out.println(shopList);
         map.put("shopList",shopList);

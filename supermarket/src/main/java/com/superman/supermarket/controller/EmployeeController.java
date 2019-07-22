@@ -3,6 +3,7 @@ package com.superman.supermarket.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.superman.supermarket.entity.Employee;
+import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.service.EmployeeService;
 import com.superman.supermarket.utils.DateUtil;
 import org.apache.shiro.SecurityUtils;
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -159,5 +162,41 @@ public class EmployeeController {
        }
        return  null;
    }
+
+    /**
+     *  根据员工id查询员工信息
+     * @param id
+     * @return
+     */
+    @PostMapping("/selectshop")
+    @ResponseBody
+    public String selectfindshop(int id, HttpSession session){
+        Map<String,Object> map = new HashMap<>();
+        List<Shop> list = employeeService.selectfindshop(id);
+        if(list != null){
+            map.put("currentshop",list.get(0));
+            session.setAttribute("currentshop",list.get(0));
+        }else {
+            map.put("currentshop",null);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     *  根据员工id修改门店信息
+     * @return
+     */
+    @PostMapping("/updateshop")
+    @ResponseBody
+    public String updatefindshop(Shop shop){
+        Map<String,Object> map = new HashMap<>();
+        Integer count = employeeService.updatefindshop(shop);
+        if (count > 0){
+            map.put("result",true);
+        }else {
+            map.put("result",false);
+        }
+        return  JSON.toJSONString(map);
+    }
 }
 

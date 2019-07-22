@@ -2,6 +2,7 @@ package com.superman.supermarket.service;
 
 import com.superman.supermarket.entity.Employee;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.superman.supermarket.entity.Shop;
 
 import java.io.OutputStream;
 import java.util.List;
@@ -58,4 +59,16 @@ public interface EmployeeService extends IService<Employee> {
      * @param outputStream
      */
     void exportEmp(OutputStream outputStream);
+
+    /**
+     *  根据员工id查询门店信息
+     * @return
+     */
+    List<Shop> selectfindshop(int id);
+
+    /**
+     *  根据员工id修改门店信息
+     * @return
+     */
+    Integer updatefindshop(Shop shop);
 }

@@ -2,6 +2,7 @@ package com.superman.supermarket.dao;
 
 import com.superman.supermarket.entity.Employee;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.superman.supermarket.entity.Shop;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -55,4 +56,16 @@ public interface EmployeeMapper extends BaseMapper<Employee> {
      * @return
      */
     List<Employee> findAll();
+
+    /**
+     *  根据员工id查询门店信息
+     * @return
+     */
+    List<Shop> selectfindshop(int id);
+
+    /**
+     *  修改门店信息
+     * @return
+     */
+    Integer updatefindshop(Shop shop);
 }

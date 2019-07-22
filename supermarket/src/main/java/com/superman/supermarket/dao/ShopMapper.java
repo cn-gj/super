@@ -1,12 +1,8 @@
 package com.superman.supermarket.dao;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.superman.supermarket.entity.Shop;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.superman.supermarket.entity.vo.ShopVO;
-import org.apache.ibatis.annotations.Param;
+import com.superman.supermarket.entity.vo.ShopVo;
 
 import java.util.List;
 
@@ -25,7 +21,7 @@ public interface ShopMapper extends BaseMapper<Shop> {
      * @param shopVO
      * @return
      */
-   List<ShopVO> getShopInfoByCondition(ShopVO shopVO);
+   List<ShopVo> getShopInfoByCondition(ShopVo shopVO);
 
 
     /**

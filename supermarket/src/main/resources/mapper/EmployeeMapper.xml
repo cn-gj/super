@@ -91,4 +91,38 @@
         LEFT JOIN shop s
         ON emp.shop_id = s.id
     </select>
+
+    <!-- 根据员工id查询门店信息 -->
+    <select id="selectfindshop" resultType="shop">
+        SELECT * FROM employee  e
+        INNER JOIN shop s ON e.shop_id = s.id WHERE e.id =#{id}
+    </select>
+
+    <!-- 修改门店信息 -->
+    <update id="updatefindshop" parameterType="shop">
+        UPDATE shop
+        <set>
+
+            <if test="shopName != null and shopName != ''">
+                shop_name=#{shopName},
+            </if>
+
+            <if test="shopLinkman != null and shopLinkman != ''">
+                shop_linkman=#{shopLinkman},
+            </if>
+
+            <if test="shopHours != null and shopHours != ''">
+                shop_hours=#{shopHours},
+            </if>
+
+            <if test="shopAdvice != null and shopAdvice != ''">
+                shop_advice=#{shopAdvice},
+            </if>
+
+            <if test="shopAddress != null and shopAddress != ''">
+                shop_address=#{shopAddress}
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 </mapper>
