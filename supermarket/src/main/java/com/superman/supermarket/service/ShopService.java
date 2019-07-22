@@ -1,10 +1,8 @@
 package com.superman.supermarket.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.superman.supermarket.entity.Shop;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.superman.supermarket.entity.vo.ShopVO;
+import com.superman.supermarket.entity.vo.ShopVo;
 
 import java.io.OutputStream;
 import java.util.List;
@@ -30,7 +28,7 @@ public interface ShopService extends IService<Shop> {
      * @param shopVO
      * @return
      */
-    List<ShopVO> getShopInfoByCondition(ShopVO shopVO);
+    List<ShopVo> getShopInfoByCondition(ShopVo shopVO);
 
 
     /**

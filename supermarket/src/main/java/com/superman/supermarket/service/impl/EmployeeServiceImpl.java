@@ -3,6 +3,7 @@ package com.superman.supermarket.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.dao.EmployeeMapper;
+import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.service.EmployeeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.utils.DateUtil;
@@ -212,5 +213,23 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
                stauts = "暂无状态";
        }
        return stauts;
+    }
+
+    /**
+     *  根据员工id查询门店信息
+     * @return
+     */
+    @Override
+    public List<Shop> selectfindshop(int id) {
+        return employeeMapper.selectfindshop(id);
+    }
+
+    /**
+     *  根据员工id修改门店信息
+     * @return
+     */
+    @Override
+    public Integer updatefindshop(Shop shop) {
+        return  employeeMapper.updatefindshop(shop);
     }
 }

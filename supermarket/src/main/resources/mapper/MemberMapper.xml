@@ -18,9 +18,101 @@
         <result column="createDate" property="createDate" />
     </resultMap>
 
+    <resultMap id="MemberResultMap" type="memberVo" extends="BaseResultMap">
+        <association property="shop" javaType="com.superman.supermarket.entity.Shop">
+            <id column="sId" property="id" />
+            <result column="shop_name" property="shopName" />
+            <result column="shop_account" property="shopAccount" />
+            <result column="shop_pwd" property="shopPwd" />
+            <result column="shop_linkman" property="shopLinkman" />
+            <result column="shop_phone" property="shopPhone" />
+            <result column="shop_logo" property="shopLogo" />
+            <result column="shop_hours" property="shopHours" />
+            <result column="shop_advice" property="shopAdvice" />
+            <result column="shop_address" property="shopAddress" />
+            <result column="shop_type_id" property="shopTypeId" />
+            <result column="createDate" property="createDate" />
+        </association>
+        <association property="level" javaType="com.superman.supermarket.entity.Level">
+            <id column="lId" property="id" />
+            <result column="level_name" property="levelName" />
+            <result column="level_image" property="levelImage" />
+            <result column="discount" property="discount" />
+        </association>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, member_name, member_phone, member_birthday, member_sex, shop_id, level_id, total_money, total_sorce, residue_money, residue_sorce, createDate
     </sql>
 
+    <!--查询所有会员信息、按条件查询会员信息-->
+    <select id="findAllMember" resultMap="MemberResultMap" parameterType="memberVo">
+        SELECT s.id sId,s.shop_name,m.*,l.id lId,l.level_name,l.level_image FROM member m
+        LEFT JOIN shop s
+        ON m.shop_id = s.id
+        LEFT JOIN `level` l
+        ON m.level_id = l.id
+        <where>
+            <if test="shopId != null">
+                and m.shop_id = #{shopId}
+            </if>
+            <if test="levelId != null">
+                AND m.level_id = #{levelId}
+            </if>
+            <if test="memberSex != null and memberSex != ''">
+                AND m.member_sex = #{memberSex}
+            </if>
+            <if test="condition != null and condition != ''">
+                AND m.member_phone LIKE concat('%',#{condition},'%') or OR m.member_name LIKE concat('%',#{condition},'%')
+            </if>
+        </where>
+    </select>
+    <!--添加会员-->
+    <insert id="addMember">
+        INSERT INTO member (member_name,member_phone,member_birthday,member_sex,shop_id,level_id)
+        VALUE(#{memberName},#{memberPhone},#{memberBirthday},#{memberSex},#{shopId},#{levelId})
+    </insert>
+    <!--删除会员-->
+    <delete id="deleteMember">
+        DELETE FROM member WHERE id in (
+            <foreach collection="ids" item="id" separator=",">
+                #{id}
+            </foreach>
+        )
+    </delete>
+    <!--修改会员信息-->
+    <update id="updateMember" parameterType="member">
+        UPDATE member
+        <set>
+            <if test="memberName != null and memberName != ''">
+                member_name = #{memberName},
+            </if>
+            <if test="memberBirthday != null and memberBirthday != ''">
+                member_birthday = #{memberBirthday},
+            </if>
+            <if test="memberSex != null and memberSex != ''">
+                member_sex = #{memberSex},
+            </if>
+            <if test="levelId != null">
+                level_id=#{levelId}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--批量修改会员所属会员卡-->
+    <update id="batchUpdateMemberLevel">
+        UPDATE member SET level_id = #{levelId} where id in (
+            <foreach collection="ids" item="id" separator=",">
+                #{id}
+            </foreach>
+        )
+    </update>
+    <!--批量修改会员积分-->
+    <update id="batchUpdateSorce">
+        UPDATE member SET total_sorce = #{totalSorce} where id in (
+            <foreach collection="ids" item="id" separator=",">
+                #{id}
+            </foreach>
+        )
+    </update>
 </mapper>

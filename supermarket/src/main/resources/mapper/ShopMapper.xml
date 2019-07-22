@@ -18,7 +18,7 @@
         <result column="createDate" property="createDate" />
     </resultMap>
     <!--一对一关联map：一个门店对应一个门店类别-->
-    <resultMap id="shopMap" type="com.superman.supermarket.entity.vo.ShopVO" extends="BaseResultMap">
+    <resultMap id="shopMap" type="com.superman.supermarket.entity.vo.ShopVo" extends="BaseResultMap">
         <association property="shopType" javaType="com.superman.supermarket.entity.ShopType">
             <id column="stId" property="id" />
             <result column="shop_type_name" property="shopTypeName" />

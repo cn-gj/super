@@ -3,9 +3,8 @@ package com.superman.supermarket.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.ShopMapper;
-import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.entity.Shop;
-import com.superman.supermarket.entity.vo.ShopVO;
+import com.superman.supermarket.entity.vo.ShopVo;
 import com.superman.supermarket.service.ShopService;
 import com.superman.supermarket.utils.DateUtil;
 import org.apache.poi.hssf.usermodel.*;
@@ -85,7 +84,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
      * @return
      */
     @Override
-    public List<ShopVO> getShopInfoByCondition(ShopVO shopVO) {
+    public List<ShopVo> getShopInfoByCondition(ShopVo shopVO) {
         return  shopMapper.getShopInfoByCondition(shopVO);
     }
 
@@ -142,7 +141,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
     @Override
     public void exportShop(OutputStream outputStream) {
         //获取门店信息列表
-        List<ShopVO> shopVos = shopMapper.getShopInfoByCondition(null);
+        List<ShopVo> shopVos = shopMapper.getShopInfoByCondition(null);
         // 表名称
         String sheetName = "门店信息列表_"+new Date().toString();
         // 创建execl工作簿对象
@@ -187,7 +186,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
         HSSFRow contentRow = null;  // 内容行对象
         Integer rowIndex = 1;   // 内容行起始索引
         // 写入员工信息到表格中
-        for (ShopVO shop : shopVos) {
+        for (ShopVo shop : shopVos) {
             // 创建行
             contentRow = sheet.createRow(rowIndex);
             // 创建单元格,赋值

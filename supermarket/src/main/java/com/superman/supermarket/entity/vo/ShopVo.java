@@ -6,7 +6,7 @@ import com.superman.supermarket.entity.ShopType;
 
 import java.util.Date;
 
-public class ShopVO extends Shop {
+public class ShopVo extends Shop {
 
     @TableField(exist=false)
     private String beginDate;  //起始日期

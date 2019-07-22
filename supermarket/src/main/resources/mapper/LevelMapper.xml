@@ -14,5 +14,22 @@
     <sql id="Base_Column_List">
         id, level_name, level_image, discount
     </sql>
+    <!-- 删除会员等级 -->
+    <delete id="findDeleteLeve"  parameterType="Level">
+        DELETE FROM LEVEL WHERE id=#{id}
+    </delete>
 
+    <!-- 修改会员等级 -->
+    <update id="findUpdateLeve" parameterType="Level">
+            UPDATE  LEVEL SET level_name=#{levelName},level_image=#{levelImage},discount=#{discount} WHERE id=#{id}
+    </update>
+
+    <!-- 查询所有会员等级信息 -->
+    <select id="findSelectLeve" resultMap="BaseResultMap">
+            SELECT * FROM LEVEL
+    </select>
+
+    <insert id="findinsertLeve"  parameterType="Level">
+        INSERT INTO LEVEL VALUE(NULL,#{levelName},#{levelImage},#{discount})
+    </insert>
 </mapper>

@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -27,7 +28,7 @@ private static final long serialVersionUID=1L;
 
     private String memberPhone;
 
-    private LocalDate memberBirthday;
+    private Date memberBirthday;
 
     private String memberSex;
 
@@ -44,7 +45,7 @@ private static final long serialVersionUID=1L;
     private Integer residueSorce;
 
     @TableField("createDate")
-    private LocalDate createDate;
+    private Date createDate;
 
 
     public Integer getId() {
@@ -71,11 +72,11 @@ private static final long serialVersionUID=1L;
         this.memberPhone = memberPhone;
     }
 
-    public LocalDate getMemberBirthday() {
+    public Date getMemberBirthday() {
         return memberBirthday;
     }
 
-    public void setMemberBirthday(LocalDate memberBirthday) {
+    public void setMemberBirthday(Date memberBirthday) {
         this.memberBirthday = memberBirthday;
     }
 
@@ -135,11 +136,11 @@ private static final long serialVersionUID=1L;
         this.residueSorce = residueSorce;
     }
 
-    public LocalDate getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDate createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
