@@ -18,9 +18,90 @@
         <result column="createDate" property="createDate" />
     </resultMap>
 
+    <!--一个供应商对应多个门店、一个门店对应多个供应商-->
+    <resultMap id="providerResultMap" type="com.superman.supermarket.entity.vo.ProviderVo" extends="BaseResultMap">
+        <collection property="shopList" ofType="shop" resultMap="com.superman.supermarket.dao.ShopMapper.BaseResultMap"></collection>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, pro_name, pro_linkman, pro_phone, pro_email, bank, bank_num, pro_address, should_money, pro_status, ready_money, createDate
     </sql>
 
+
+    <!-- 查询全部供应商 -->
+    <select id="findSelectProvider" resultMap="providerResultMap">
+        SELECT * FROM provider p
+        LEFT JOIN pro_shop_relation psr
+        ON p.id = psr.pro_id
+        LEFT JOIN shop s
+        ON psr.shop_id = s.id
+        <where>
+            <if test="proName != null and proName != ''">
+                p.proName LIKE CONCAT('%',#{proName},'%')
+            </if>
+            <if test="proLinkman != null and proLinkman != ''">
+                AND p.pro_linkman ='张三'
+            </if>
+            <if test="proPhone != null and proPhone != ''">
+                AND p.pro_phone = '1233333333'
+            </if>
+            <if test="proAddress != null and proAddress != ''">
+                AND p.pro_address LIKE CONCAT('%',#{proAddress},'%')
+            </if>
+        </where>
+    </select>
+
+    <!-- 新增供货商、并返回id -->
+    <insert id="findInsertProvider"  parameterType="Provider" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO provider(pro_name,pro_linkman,pro_phone,pro_email,bank,bank_num,pro_address,pro_status,createDate)
+        VALUE(#{proName},#{proLinkman},#{proPhone},#{proEmail},#{bank},#{bankNum},#{proAddress},0,#{createDate})
+    </insert>
+
+    <!--修改供应商-->
+    <update id="updateProvider">
+        UPDATE provider
+        <set>
+            <if test="proName != null and proName !=''">
+                pro_name = #{proName},
+            </if>
+            <if test="proLinkman != null and proLinkman !=''">
+                pro_linkman = #{proLinkman},
+            </if>
+            <if test="proPhone != null and proPhone !=''">
+                pro_phone = #{proPhone},
+            </if>
+            <if test="proEmail != null and proEmail !=''">
+                pro_email = #{proEmail},
+            </if>
+            <if test="bank != null and bank !=''">
+                bank = #{bank},
+            </if>
+            <if test="bankNum != null and bankNum !=''">
+                bank_num = #{bankNum},
+            </if>
+            <if test="proAddress != null and proAddress !=''">
+                pro_address = #{proAddress},
+            </if>
+            <if test="proStatus != null and proStatus !=''">
+                pro_status = #{proStatus},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
+    <!--删除供应商-->
+    <delete id="deleteProvider">
+        DELETE FROM pro_shop_relation WHERE pro_id IN(
+        <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        );
+        DELETE FROM provider WHERE id IN (
+        <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        );
+    </delete>
+    <!--批量修改供应商状态-->
+    <update id="updateProStatus">
+        UPDATE provider set pro_status = #{proStatus} WHERE id IN (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        )
+    </update>
 </mapper>

@@ -39,8 +39,8 @@ public interface ShopTypeMapper extends BaseMapper<ShopType> {
 
     /**
      * 删除门店类别信息
-     * @param id
+     * @param ids
      * @return
      */
-    Integer delShopType(@Param("id") Integer id);
+    Integer delShopType(@Param("ids") int [] ids);
 }

@@ -1,5 +1,6 @@
 package com.superman.supermarket.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -24,7 +25,6 @@ private static final long serialVersionUID=1L;
     private Integer proId;
 
     private Integer shopId;
-
 
     public Integer getId() {
         return id;

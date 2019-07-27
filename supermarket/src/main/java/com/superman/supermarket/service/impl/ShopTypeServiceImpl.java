@@ -68,12 +68,12 @@ public class ShopTypeServiceImpl extends ServiceImpl<ShopTypeMapper, ShopType> i
 
     /**
      * 删除门店信息
-     * @param id
+     * @param ids
      * @return
      */
     @Override
-    public Integer delShopType(Integer id) {
+    public Integer delShopType(int [] ids) {
         redisTemplate.delete("shopTypeList");
-        return shopTypeMapper.delShopType(id);
+        return shopTypeMapper.delShopType(ids);
     }
 }

@@ -8,10 +8,13 @@
         <result column="pro_id" property="proId" />
         <result column="shop_id" property="shopId" />
     </resultMap>
-
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, pro_id, shop_id
     </sql>
 
+    <!--往中间表添加供应商和门店-->
+    <insert id="addProShop" parameterType="proShopRelation">
+          INSERT INTO pro_shop_relation VALUE(NULL,#{proId},#{shopId});
+    </insert>
 </mapper>

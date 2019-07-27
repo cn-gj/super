@@ -37,7 +37,8 @@
     </update>
 
     <!--删除门店信息-->
-    <delete id="delShopType" parameterType="int">
-        delete from shop_type where id = #{id}
+    <delete id="delShopType">
+        update shop set shop_type_id = null where shop_type_id in (<foreach collection="ids" item="item" separator=",">#{item}</foreach>);
+        delete from shop_type where id in ( <foreach collection="ids" item="item" separator=",">#{item}</foreach>);
     </delete>
 </mapper>

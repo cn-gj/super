@@ -77,10 +77,11 @@ public class MemberController {
     @PostMapping("/delMember")
     public String deleteMember(int [] ids){
         Map<String,Object> map = new HashMap<>();
-        Integer count = memberService.deleteMember(ids);
-        if (count > 0){
+        try {
+            Integer count = memberService.deleteMember(ids);
             map.put("state",true);
-        }else{
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("state",false);
         }
         return JSON.toJSONString(map);
@@ -114,10 +115,11 @@ public class MemberController {
     @PostMapping("/batchML")
     public String batchUpdateMemberLevel(int[] ids, Integer levelId){
         Map<String,Object> map = new HashMap<>();
-        Integer count = memberService.batchUpdateMemberLevel(ids,levelId);
-        if (count > 0){
+        try {
+            Integer count = memberService.batchUpdateMemberLevel(ids,levelId);
             map.put("state",true);
-        }else{
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("state",false);
         }
         return JSON.toJSONString(map);
@@ -134,10 +136,11 @@ public class MemberController {
         @PostMapping("/batchSorce")
     public String batchUpdateSorce(int[] ids, Integer totalSorce){
         Map<String,Object> map = new HashMap<>();
-        Integer count = memberService.batchUpdateSorce(ids, totalSorce);
-        if (count > 0){
+        try {
+            Integer count = memberService.batchUpdateSorce(ids, totalSorce);
             map.put("state",true);
-        }else{
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("state",false);
         }
         return JSON.toJSONString(map);

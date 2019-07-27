@@ -1,11 +1,15 @@
 package com.superman.supermarket.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -44,7 +48,8 @@ private static final long serialVersionUID=1L;
     private Double readyMoney;
 
     @TableField("createDate")
-    private LocalDate createDate;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date createDate;
 
 
     public Integer getId() {
@@ -135,11 +140,11 @@ private static final long serialVersionUID=1L;
         this.readyMoney = readyMoney;
     }
 
-    public LocalDate getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDate createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 

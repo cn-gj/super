@@ -93,16 +93,14 @@ public class ShopTypeController {
      */
     @PostMapping("/delShopType")
     @ResponseBody
-    public String deleteShopType(Integer id){
+    public String deleteShopType(int [] ids){
         //存放返回页面的数据
         Map<String,Object> map = new HashMap<>();
-        System.out.println(id);
-        Integer count = shopTypeService.delShopType(id);
-        if (count > 0){
-            //成功
+        try {
+            Integer count = shopTypeService.delShopType(ids);
             map.put("state",true);
-        }else {
-            //失败
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("state",false);
         }
         //返回map数据
