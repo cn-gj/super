@@ -37,7 +37,7 @@ public class OrderController {
     private OrderService orderService;
 
     /**
-     * 多条件查询订单或查询所有
+     * 多条件查询订单或查询所有/*****************
      * @param orderVo
      * @return
      */
@@ -51,7 +51,82 @@ public class OrderController {
     }
 
     /**
-     *  导出订单信息Execl
+     * 添加订单/********************
+     * @param orderVo
+     * @param str
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/insertOrder")
+    public String insertOredrAndOrderDetail(OrderVo orderVo,String str){
+        Map<String,Object> map = new HashMap<>();
+        try {
+            Integer count = orderService.addOrder(orderVo,str);
+            map.put("state",true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     * 修改采购订单状态
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/upSingleState")
+    public String updateOrderSingleState(Integer id){
+        Map<String,Object> map = new HashMap<>();
+        Integer count = orderService.updateOrderSingleState(id);
+        if (count > 0){
+            map.put("state",true);
+        }else {
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     * 修改采购订单收货状态
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/upTakeState")
+    public String updateTakeState(Integer id){
+        Map<String,Object> map = new HashMap<>();
+        Integer count = orderService.updateTakeState(id);
+        if (count > 0){
+            map.put("state",true);
+        }else {
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     * 删除订单同时删除订单详情
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("delOrder")
+    public String deleteOrder(Integer id){
+        Map<String,Object> map = new HashMap<>();
+        try {
+            orderService.deleteOrder(id);
+            map.put("state",true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     *  导出采购订单信息Execl/*******************88
      * @return
      */
     @GetMapping("/exportOrder")

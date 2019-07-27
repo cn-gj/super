@@ -87,15 +87,19 @@
                 OR e.emp_name = #{condition}
                 OR e.emp_phone = #{condition}
             </if>
+            <if test="takeState != null and takeState != ''">
+                 AND o.take_state = #{takeState}<!--(0:待收货,1:已退货,2:已收货)-->
+            </if>
         </where>
     </select>
 
-    <!--1.生成订单表 shop_id 默认为当前登陆的门店id,emp_id 为当前登陆的emp id-->
+    <!--1.生成采购订单表 shop_id 默认为当前登陆的门店id,emp_id 为当前登陆的emp id-->
     <insert id="addOrder" parameterType="orderVo" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `order`(pro_id,shop_id,place_order_date,ready_date,emp_id,single_state,take_state)
         VALUE (#{proId},#{shopId},#{placeOrderDate},#{readyDate},#{singleState},0,0)
     </insert>
-    <!--2.选择商品后，生成订单明细表 order_id 为上边生成的订单表的id,-->
+
+    <!--2.选择商品后，生成采购订单明细表 order_id 为上边生成的订单表的id,-->
     <insert id="addOrderDetail">
         INSERT INTO order_detail (goods_id,goods_count,total_money,order_id,order_type)
         VALUES
@@ -103,4 +107,20 @@
                 (#{goodsId},#{goodsCount},#{totalMoney},#{orderId},0);
         </foreach>
     </insert>
+
+    <!--修改采购订单的单据状态(0:待审核,1:已审核,)-->
+    <update id="updateOrderSingleState">
+        UPDATE `order` SET single_state = 1 WHERE id = #{id}
+    </update>
+
+    <!--删除采购订单-->
+    <delete id="deleteOrder">
+        DELETE FROM order_detail WHERE order_id = #{id}
+        DELETE FROM `order` WHERE id = #{id}
+    </delete>
+    
+    <!--修改收获状态-->
+    <update id="updateTakeState">
+         UPDATE `order` SET take_state = 2 WHERE id = #{id}
+    </update>
 </mapper>

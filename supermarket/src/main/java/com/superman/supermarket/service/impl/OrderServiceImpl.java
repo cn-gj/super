@@ -1,8 +1,12 @@
 package com.superman.supermarket.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.superman.supermarket.entity.Order;
 import com.superman.supermarket.dao.OrderMapper;
 import com.superman.supermarket.entity.OrderDetail;
+import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.OrderVo;
 import com.superman.supermarket.entity.vo.ShopVo;
 import com.superman.supermarket.service.OrderService;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,18 +38,78 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     private OrderMapper orderMapper;
 
+    /**
+     * 多条件查询订单
+     * @param orderVo
+     * @return
+     */
     @Override
     public List<OrderVo> findAllOrderOrCondition(OrderVo orderVo) {
         return orderMapper.findAllOrderOrCondition(orderVo);
     }
 
+    /**
+     * 添加采购订单
+     *
+     * @param orderVo 订单对象
+     * @param str 订单明细对象（多个）
+     * @return
+     */
     @Override
-    public Integer addOrder(Order order, OrderDetail orderDetail) {
-        Integer count = orderMapper.addOrder(order);
-       // orderDetail.setOredrId(order.getId());
-        orderDetail.setOrderId(order.getId());
-        orderMapper.addOrderDetail(orderDetail);
+    public Integer addOrder(OrderVo orderVo, String str) {
+        //用于接收订单明细对象
+        List<OrderDetailVo> details = new ArrayList<>();
+        OrderDetailVo detail = null;
+        // 把jaon字符串转换为数组
+        JSONArray array = JSON.parseArray(str);
+        //调用方法生成订单
+        int count = orderMapper.addOrder(orderVo);
+        //遍历jaon字符串转换后的数组
+        for (int i = 0; i < array.size(); i++) {
+            // 获取数组中的对象
+            JSONObject object = (JSONObject) array.get(i);
+            // JsonArray中的对象是JSONObject类型将它转换成订单明细类型对像
+            detail = (OrderDetailVo) JSONObject.toJavaObject(object, OrderDetailVo.class);
+            //获取到订单的id、并设置进订单明细中
+            detail.setOrderId(orderVo.getId());
+            // 放入订单明细集合中
+            details.add(detail);
+        }
+        //给order设置参数、把订单明细集合放入订单中
+        orderVo.setOrderDetailVoList(details);
+        count += orderMapper.addOrderDetail(detail);
         return count;
+    }
+
+
+    /**
+     * 修改采购订单单据状态
+     * @param id
+     * @return
+     */
+    @Override
+    public Integer updateOrderSingleState(Integer id) {
+        return orderMapper.updateOrderSingleState(id);
+    }
+
+    /**
+     * 修改收货状态
+     * @param id
+     * @return
+     */
+    @Override
+    public Integer updateTakeState(Integer id) {
+        return orderMapper.updateTakeState(id);
+    }
+
+    /**
+     * 删除订单的同时删除订单详情
+     * @param id
+     * @return
+     */
+    @Override
+    public Integer deleteOrder(Integer id) {
+        return orderMapper.deleteOrder(id);
     }
 
     /**

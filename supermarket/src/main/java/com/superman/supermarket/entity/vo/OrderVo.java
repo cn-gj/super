@@ -30,6 +30,13 @@ public class OrderVo extends Order {
     @TableField(exist = false)
     private List<OrderDetailVo> orderDetailVoList; //订单明细、一个订单对应多个明细
 
+    public List<OrderDetailVo> getOrderDetailVoList() {
+        return orderDetailVoList;
+    }
+
+    public void setOrderDetailVoList(List<OrderDetailVo> orderDetailVoList) {
+        this.orderDetailVoList = orderDetailVoList;
+    }
 
     public Provider getProvider() {
         return provider;

@@ -19,6 +19,13 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
     /**
      * ------------------------------------------
      *  批发订单
+     * 根据订单号查询订单详情/********************************
+     * @param id
+     * @return
+     */
+    public List<OrderDetailVo> findOrderDateilByOrderId(Integer id);
+
+    /**
      *  添加订单明细,前台需要区分是采购订单还是批发订单
      * @param orderDetail
      * @return

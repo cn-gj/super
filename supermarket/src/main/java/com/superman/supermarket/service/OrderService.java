@@ -32,9 +32,29 @@ public interface OrderService extends IService<Order> {
     /**
      * 生成订单表
      * 选择商品后，生成订单明细表
-     * @param order
+     * @param orderVo
      * @return
      */
-    Integer addOrder(Order order,OrderDetail orderDetail);
+    public Integer addOrder(OrderVo orderVo,String str);
 
+    /**
+     * 修改订单的单据状态
+     * @param id
+     * @return
+     */
+    Integer updateOrderSingleState(Integer id);
+
+    /**
+     * 删除订单的同时删除订单详情
+     * @param id
+     * @return
+     */
+    Integer deleteOrder(Integer id);
+
+    /**
+     * 修改收货状态
+     * @param id
+     * @return
+     */
+    Integer updateTakeState(Integer  id);
 }
