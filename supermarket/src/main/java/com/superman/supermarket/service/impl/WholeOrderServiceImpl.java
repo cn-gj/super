@@ -6,6 +6,7 @@ import com.superman.supermarket.dao.OrderDetailMapper;
 import com.superman.supermarket.entity.OrderDetail;
 import com.superman.supermarket.entity.WholeOrder;
 import com.superman.supermarket.dao.WholeOrderMapper;
+import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.WholeOrderVo;
 import com.superman.supermarket.service.WholeOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -32,6 +33,7 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
     private WholeOrderMapper wholeOrderMapper;
     @Resource
     private OrderDetailMapper orderDetailMapper;
+
     @Override
     public boolean addWholeOrder(String str) {
         WholeOrderVo wholeOrderVo = null;
@@ -39,12 +41,12 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
         JSONObject jsonObject =JSONObject.parseObject(str);
         // 将jsonObject中的listlist对象装换成JSONArray
         JSONArray array = jsonObject.getJSONArray("details");
-        List<OrderDetail> details = new ArrayList<>();
+        List<OrderDetailVo> details = new ArrayList<>();
         for (int i=0;i<array.size();i++){
             // 获取集合中的对象
             JSONObject object = (JSONObject) array.get(i);
             // JsonArray中的对象是JSONObject类型将它转换成订单明细类型对像
-            OrderDetail detail = (OrderDetail) JSONObject.toJavaObject(object,OrderDetail.class);
+            OrderDetailVo detail = (OrderDetailVo) JSONObject.toJavaObject(object,OrderDetailVo.class);
             // 放入订单明细集合中
             details.add(detail);
         }
@@ -81,5 +83,26 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
        }else {
            return false;
        }
+    }
+
+
+    @Override
+    public List<WholeOrderVo> findByCondition(WholeOrderVo wholeOrderVo) {
+        // 查询订单单据金额
+        List<WholeOrderVo> wholeOrderVos = wholeOrderMapper.findByCondition(wholeOrderVo);
+        for (WholeOrderVo w:wholeOrderVos) {
+            w.setWhoMoney(orderDetailMapper.findWholeMoney(w.getId()));
+        }
+        return wholeOrderVos;
+    }
+
+    @Override
+    public WholeOrderVo findById(int id) {
+        WholeOrderVo wholeOrderVo = wholeOrderMapper.findById(id);
+        if (wholeOrderVo != null){
+            // 根据订单id查询该订单下的订单明细
+            wholeOrderVo.setDetails(orderDetailMapper.findByWholeId(id));
+        }
+        return wholeOrderVo;
     }
 }

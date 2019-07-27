@@ -3,7 +3,6 @@ package com.superman.supermarket.dao;
 import com.superman.supermarket.entity.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.superman.supermarket.entity.OrderDetail;
-import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.OrderVo;
 import org.apache.ibatis.annotations.Param;
 

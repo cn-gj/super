@@ -38,5 +38,33 @@ public class OrderDetailController {
         map.put("orderDetailList",orderDetailVoList);
         return JSON.toJSONString(map);
     }
+
+    /**
+     *  查询批发订单总金额-----------------------------
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/findWholeTotalMoney")
+    public String findWholeTotalMoney(){
+        return JSON.toJSONString(orderDetailService.findWholeTotalMoney());
+    }
+
+    /**
+     *  根据订单明细id删除订单明细
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/deleteById")
+    public String deleteById(int id){
+        int rowCount = orderDetailService.deleteById(id);
+        Map<String,Object> map = new HashMap<>();
+        if (rowCount > 0){
+            map.put("result",true);
+        }else {
+            map.put("result",false);
+        }
+        return JSON.toJSONString(map);
+    }
 }
 

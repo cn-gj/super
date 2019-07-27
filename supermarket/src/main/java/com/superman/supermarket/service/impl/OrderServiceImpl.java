@@ -41,7 +41,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public Integer addOrder(Order order, OrderDetail orderDetail) {
         Integer count = orderMapper.addOrder(order);
-        orderDetail.setOredrId(order.getId());
+       // orderDetail.setOredrId(order.getId());
+        orderDetail.setOrderId(order.getId());
         orderMapper.addOrderDetail(orderDetail);
         return count;
     }

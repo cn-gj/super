@@ -13,7 +13,7 @@ public class WholeOrderVo extends WholeOrder {
     /**
      *  订单明细
      */
-    private List<OrderDetail> details;
+    private List<OrderDetailVo> details;
 
     /**
      *  订单金额
@@ -23,14 +23,65 @@ public class WholeOrderVo extends WholeOrder {
     /**
      *  查询条件
      */
-    private String condiion;
+    private String condition;
 
-    public String getCondiion() {
-        return condiion;
+    /**
+     *  店铺名称
+     */
+    private String shopName;
+
+    /**
+     *  客户名称
+     */
+    private String CustomerName;
+
+    /**
+     *  员工名称
+     */
+    private String empName;
+
+    /**
+     *  员工联系电话
+     */
+    private String empPhone;
+
+    /**
+     *  店铺地址
+     */
+    private String shopAddress;
+
+    /**
+     *  时间查询,开始时间
+     */
+    private String startDate;
+
+    /**
+     *  时间查询,结束时间
+     */
+    private String endDate;
+
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setCondiion(String condiion) {
-        this.condiion = condiion;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
     public Double getWhoMoney() {
@@ -41,11 +92,51 @@ public class WholeOrderVo extends WholeOrder {
         this.whoMoney = whoMoney;
     }
 
-    public List<OrderDetail> getDetails() {
+    public List<OrderDetailVo> getDetails() {
         return details;
     }
 
-    public void setDetails(List<OrderDetail> details) {
+    public void setDetails(List<OrderDetailVo> details) {
         this.details = details;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getCustomerName() {
+        return CustomerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        CustomerName = customerName;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
+
+    public String getEmpPhone() {
+        return empPhone;
+    }
+
+    public void setEmpPhone(String empPhone) {
+        this.empPhone = empPhone;
+    }
+
+    public String getShopAddress() {
+        return shopAddress;
+    }
+
+    public void setShopAddress(String shopAddress) {
+        this.shopAddress = shopAddress;
     }
 }

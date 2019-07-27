@@ -4,6 +4,8 @@ import com.superman.supermarket.entity.WholeOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.superman.supermarket.entity.vo.WholeOrderVo;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -20,4 +22,20 @@ public interface WholeOrderService extends IService<WholeOrder> {
      * @return
      */
     boolean addWholeOrder(String str);
+
+    /**
+     *  根据条件查询批发订单
+     * @param wholeOrderVo
+     * @return
+     */
+    List<WholeOrderVo> findByCondition(WholeOrderVo wholeOrderVo);
+
+    /**
+     *  根据id查询批发订单
+     * @param id
+     * @return
+     */
+    WholeOrderVo findById(int id);
+
+    // 导出批发订单
 }

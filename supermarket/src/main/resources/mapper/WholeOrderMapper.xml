@@ -12,7 +12,15 @@
         <result column="emp_id" property="empId" />
         <result column="single_state" property="singleState" />
         <result column="take_state" property="takeState" />
-        <result column="who_money" property="whoMoney"></result>
+    </resultMap>
+
+    <!-- 批发订单Vo映射 -->
+    <resultMap id="WholeOrderMapper" type="com.superman.supermarket.entity.vo.WholeOrderVo" extends="BaseResultMap">
+        <result column="shop_name" property="shopName"></result>
+        <result column="customer_name" property="customerName"></result>
+        <result column="emp_name" property="empName"></result>
+        <result column="emp_phone" property="empPhone"></result>
+        <result column="shop_address" property="shopAddress"></result>
     </resultMap>
 
 
@@ -27,6 +35,66 @@
         INSERT INTO whole_order VALUE(NULL,#{customerId},#{shopId},NOW(),#{readyDate},#{empId},#{singleState},#{takeState})
     </insert>
 
-    <select id="findByCondition"></select>
+    <!-- 根据条件查询批发订单信息 -->
+    <select id="findByCondition" resultMap="WholeOrderMapper" parameterType="com.superman.supermarket.entity.vo.WholeOrderVo">
+            select
+                w.`id`,
+                s.`shop_name`,
+                c.`customer_name`,
+                w.`single_state`,
+                w.`take_state`,
+                w.`place_order_date`,
+                e.`emp_name`,
+                e.`emp_phone`,
+                s.`shop_address`,
+                w.`ready_date`
+            from whole_order w
+            inner join shop s
+            on w.`shop_id` = s.`id`
+            inner join customer c
+            on w.`customer_id` = c.`id`
+            inner join employee e
+            on w.`emp_id` = e.`id`
+            <where>
+                <if test="startDate != null and endDate != null">
+                    w.place_order_date  between #{startDate} and #{endDate}
+                </if>
+                <if test="singleState != null">
+                    and w.`single_state` = #{singleState}
+                </if>
+                <if test="takeState != null">
+                    and w.`take_state` = #{takeState}
+                </if>
+                <if test="condition != null and condition != ''">
+                    and w.`id` like concat('%',#{condition},'%')
+                    or s.`shop_name`like concat('%',#{condition},'%')
+                    or c.`customer_name`like concat('%',#{condition},'%')
+                    or e.`emp_name`like concat('%',#{condition},'%')
+                    or e.`emp_phone`like concat('%',#{condition},'%')
+                    or s.`shop_address`like concat('%',#{condition},'%')
+                </if>
+            </where>
+    </select>
 
+    <select id="findById" resultMap="WholeOrderMapper" parameterType="com.superman.supermarket.entity.vo.WholeOrderVo">
+         select
+                w.`id`,
+                s.`shop_name`,
+                c.`customer_name`,
+                w.`single_state`,
+                w.`take_state`,
+                w.`place_order_date`,
+                e.`emp_name`,
+                e.`emp_phone`,
+                s.`shop_address`,
+                w.`ready_date`
+            from whole_order w
+            inner join shop s
+            on w.`shop_id` = s.`id`
+            inner join customer c
+            on w.`customer_id` = c.`id`
+            inner join employee e
+            on w.`emp_id` = e.`id`
+            where w.id = #{id}
+    </select>
 </mapper>

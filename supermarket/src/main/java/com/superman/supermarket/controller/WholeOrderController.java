@@ -41,22 +41,35 @@ public class WholeOrderController {
      * @param
      * @return
      */
-  /*  @PostMapping("/addWholeOrder")
-    @ResponseBody*/
-   /* public String addWholeOrder(WholeOrderVo wholeOrderVo){
-        System.out.println(wholeOrderVo.getJsonSrt()+".....");
-        // 将json格式的字符串装换成list集合
-        wholeOrderVo.setDetails(JSON.parseArray(wholeOrderVo.getJsonSrt(), OrderDetail.class));
-        Map<String,Object> map = new HashMap<>();
-        return JSON.toJSONString(map.put("result",wholeOrderService.addWholeOrder(wholeOrderVo)));
-    }*/
-
     @PostMapping("/addWholeOrder")
     @ResponseBody
     public String addWholeOrder(@RequestBody String str ){
         Map<String,Object> map = new HashMap<>();
         map.put("result",wholeOrderService.addWholeOrder(str));
         return JSON.toJSONString(map);
+    }
+
+    /**
+     *  根据条件查询批发订单
+     * @param wholeOrderVo
+     * @return
+     */
+    @PostMapping("/findByCondition")
+    @ResponseBody
+    public String findByCondition(WholeOrderVo wholeOrderVo){
+        return JSON.toJSONString(wholeOrderService.findByCondition(wholeOrderVo));
+    }
+
+
+    /**
+     *  根据订单id查询订单详情
+     * @param id
+     * @return
+     */
+    @PostMapping("/findById")
+    @ResponseBody
+    public String findById(int id){
+        return JSON.toJSONString(wholeOrderService.findById(id));
     }
 
 }

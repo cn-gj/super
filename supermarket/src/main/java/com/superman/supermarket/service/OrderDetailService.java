@@ -4,7 +4,6 @@ import com.superman.supermarket.entity.OrderDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.superman.supermarket.entity.vo.OrderDetailVo;
 
-import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -23,5 +22,21 @@ public interface OrderDetailService extends IService<OrderDetail> {
      * @return
      */
     public List<OrderDetailVo> findOrderDateilByOrderId(Integer id);
+
+    /**
+     * ------------------------------------------------------
+     *  查询批发订单总金额
+     * @return
+     */
+    Double findWholeTotalMoney();
+
+
+    /**
+     * --------------------------------------------------
+     *  根据明细id删除明细
+     * @param id
+     * @return
+     */
+    int deleteById(int id);
 
 }

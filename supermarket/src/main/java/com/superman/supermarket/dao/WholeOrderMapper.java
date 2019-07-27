@@ -29,4 +29,14 @@ public interface WholeOrderMapper extends BaseMapper<WholeOrder> {
      * @return
      */
     List<WholeOrderVo> findByCondition(WholeOrderVo wholeOrderVo);
+
+    /**
+     *  根据id查询批发订单
+     * @param id
+     * @return
+     */
+    WholeOrderVo findById(int id);
+
+
+    // 修改批发订单
 }

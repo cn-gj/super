@@ -14,7 +14,7 @@
 
     <!--一个明细对应一个商品-->
     <resultMap id="orderDetailResultMap" type="com.superman.supermarket.entity.vo.OrderDetailVo" extends="BaseResultMap">
-        <association property="goodsVoList" javaType="com.superman.supermarket.entity.vo.GoodsVo" resultMap="com.superman.supermarket.dao.GoodsMapper.InitMap"></association>
+        <association property="goodsVo" javaType="com.superman.supermarket.entity.vo.GoodsVo" resultMap="com.superman.supermarket.dao.GoodsMapper.InitMap"></association>
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -31,8 +31,57 @@
         WHERE od.order_type = 0
         AND od.`order_id` = #{id};
     </select>
-    <!-- 添加订单明细 -->
+
+    <!-- 添加批发订单明细 -->
     <insert id="addOrderDetail" parameterType="com.superman.supermarket.entity.OrderDetail">
         INSERT INTO order_detail VALUE(NULL,#{goodsId},#{goodsCount},#{totalMoney},#{orderId},#{orderType})
     </insert>
+
+    <!-- 查询批发订单单据金额 -->
+    <select id="findWholeMoney" resultType="double" parameterType="int">
+        SELECT SUM(od.total_money) who_money FROM order_detail od
+        WHERE od.order_id = #{id}
+        AND od.order_type = 1
+        GROUP BY od.order_id
+    </select>
+
+    <!-- 查询批发订单总金额 -->
+    <select id="findWholeTotalMoney" resultType="double">
+        SELECT SUM(od.total_money) FROM order_detail od
+	    WHERE od.order_type = 1
+    </select>
+
+    <!-- 根据批发订单id查询该订单下的订单明细 -->
+    <select id="findByWholeId" resultMap="orderDetailResultMap">
+        SELECT
+		g.goods_code,
+		g.goods_name,
+		sd.spec_detail_name,
+		sp.spec_name,
+		st.spec_tmp_name,
+		g.unit_id,
+		g.price,
+		od.total_money,
+		od.goods_count,
+		od.id
+       FROM order_detail od
+       INNER JOIN whole_order w
+       ON od.order_id = w.`id`
+       INNER JOIN goods g
+       ON od.goods_id = g.id
+       LEFT JOIN spec_detail sd
+       ON g.spec_detail_id = sd.id
+       LEFT JOIN spec sp
+       ON sd.spec_id = sp.id
+       LEFT JOIN spec_tmp st
+       ON sp.spec_tmp_id = st.id
+       WHERE od.order_type = 1
+       AND w.`id` = #{id}
+    </select>
+
+    <!-- 根据明细id删除明显 -->
+    <delete id="deleteById">
+       DELETE FROM order_detail WHERE id = #{id}
+    </delete>
+
 </mapper>
