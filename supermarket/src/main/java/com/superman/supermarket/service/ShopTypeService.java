@@ -38,8 +38,8 @@ public interface ShopTypeService extends IService<ShopType> {
 
     /**
      * 删除门店类别信息
-     * @param id
+     * @param ids
      * @return
      */
-    Integer delShopType(Integer id);
+    Integer delShopType(int [] ids);
 }

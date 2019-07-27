@@ -8,11 +8,27 @@
         <result column="goods_id" property="goodsId" />
         <result column="goods_count" property="goodsCount" />
         <result column="total_money" property="totalMoney" />
+        <result column="oredr_id" property="oredrId"/>
+        <result column="order_type" property="orderType"/>
     </resultMap>
 
+    <!--一个明细对应一个商品-->
+    <resultMap id="orderDetailResultMap" type="com.superman.supermarket.entity.vo.OrderDetailVo" extends="BaseResultMap">
+        <association property="goodsVoList" javaType="com.superman.supermarket.entity.vo.GoodsVo" resultMap="com.superman.supermarket.dao.GoodsMapper.InitMap"></association>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, goods_id, goods_count, total_money
     </sql>
 
+    <!--根据订单号查询订单详情-->
+    <select id="findOrderDateilByOrderId" resultMap="orderDetailResultMap" parameterType="int">
+        SELECT * FROM order_detail od
+        LEFT JOIN goods g
+        ON od.`goods_id` = g.`id`
+        LEFT JOIN spec_detail sd
+        ON g.`spec_detail_id` = sd.`id`
+        WHERE od.order_type = 0
+        AND od.`order_id` = #{id};
+    </select>
 </mapper>

@@ -73,10 +73,11 @@ public class SpecTmpController {
     @PostMapping("/delSpecTmp")
     public String delSpecTmpInfo(String ids){
         Map<String,Object> map = new HashMap<>();
-        Integer count = specTmpService.delSpecTmpInfo(ids);
-        if (count > 0){
+        try {
+            Integer count = specTmpService.delSpecTmpInfo(ids);
             map.put("state",true);
-        }else {
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("state",false);
         }
         return JSON.toJSONString(map);

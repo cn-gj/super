@@ -14,9 +14,93 @@
         <result column="take_state" property="takeState" />
     </resultMap>
 
+   <resultMap id="orderResultMap" type="com.superman.supermarket.entity.vo.OrderVo" extends="BaseResultMap">
+       <!--一对一、一个订单对应一个门店-->
+       <association property="shop" javaType="com.superman.supermarket.entity.Shop">
+           <id column="s_id" property="id" />
+           <result column="shop_name" property="shopName" />
+           <result column="shop_account" property="shopAccount" />
+           <result column="shop_pwd" property="shopPwd" />
+           <result column="shop_linkman" property="shopLinkman" />
+           <result column="shop_phone" property="shopPhone" />
+           <result column="shop_logo" property="shopLogo" />
+           <result column="shop_hours" property="shopHours" />
+           <result column="shop_advice" property="shopAdvice" />
+           <result column="shop_address" property="shopAddress" />
+           <result column="shop_type_id" property="shopTypeId" />
+           <result column="createDate" property="createDate" />
+       </association>
+       <!--一对一、一个订单对应一个收货人(员工)-->
+        <association property="employee" javaType="com.superman.supermarket.entity.Employee">
+            <id column="emp_id" property="id" />
+            <result column="emp_account" property="empAccount" />
+            <result column="emp_pwd" property="empPwd" />
+            <result column="emp_name" property="empName" />
+            <result column="emp_status" property="empStatus" />
+            <result column="emp_phone" property="empPhone" />
+            <result column="createDate" property="createDate" />
+            <result column="shop_id" property="shopId" />
+        </association>
+         <!--一对一、一个订单对应一个供应商-->
+        <association property="provider" javaType="com.superman.supermarket.entity.Provider">
+            <id column="pro_id" property="id" />
+            <result column="pro_name" property="proName" />
+            <result column="pro_linkman" property="proLinkman" />
+            <result column="pro_phone" property="proPhone" />
+            <result column="pro_email" property="proEmail" />
+            <result column="bank" property="bank" />
+            <result column="bank_num" property="bankNum" />
+            <result column="pro_address" property="proAddress" />
+            <result column="should_money" property="shouldMoney" />
+            <result column="pro_status" property="proStatus" />
+            <result column="ready_money" property="readyMoney" />
+            <result column="createDate" property="createDate" />
+        </association>
+        <collection property="orderDetailVoList" ofType="com.superman.supermarket.entity.vo.OrderDetailVo" resultMap="com.superman.supermarket.dao.OrderDetailMapper.orderDetailResultMap"></collection>
+</resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, shop_id, place_order_date, ready_date, emp_id, odetail_id, single_state, take_state
     </sql>
 
+    <!--查询所有采购订单-->
+    <select id="findAllOrderOrCondition" resultMap="orderResultMap" parameterType="OrderVo">
+            SELECT * FROM `order` o
+            LEFT JOIN shop s
+            ON o.`shop_id` = s.`id`
+            LEFT JOIN provider p
+            ON o.`pro_id` = p.`id`
+            LEFT JOIN employee e
+            ON o.`emp_id` = e.`id`
+        <where>
+            <!--开始到结束日期查询-->
+            <if test="beginDate != null and beginDate != ''">
+                AND o.`place_order_date` &gt;= #{beginDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND o.`place_order_date` &lt;= #{endDate}
+            </if>
+            <if test="condition != null and condition != ''">
+                AND o.id = #{condition}
+                OR s.shop_name LIKE CONCAT('%',#{condition},'%')
+                OR p.pro_name LIKE CONCAT('%',#{condition},'%')
+                OR e.emp_name = #{condition}
+                OR e.emp_phone = #{condition}
+            </if>
+        </where>
+    </select>
+
+    <!--1.生成订单表 shop_id 默认为当前登陆的门店id,emp_id 为当前登陆的emp id-->
+    <insert id="addOrder" parameterType="orderVo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `order`(pro_id,shop_id,place_order_date,ready_date,emp_id,single_state,take_state)
+        VALUE (#{proId},#{shopId},#{placeOrderDate},#{readyDate},#{singleState},0,0)
+    </insert>
+    <!--2.选择商品后，生成订单明细表 order_id 为上边生成的订单表的id,-->
+    <insert id="addOrderDetail">
+        INSERT INTO order_detail (goods_id,goods_count,total_money,order_id,order_type)
+        VALUES
+        <foreach collection="ids" item="item" separator=",">
+                (#{goodsId},#{goodsCount},#{totalMoney},#{orderId},0);
+        </foreach>
+    </insert>
 </mapper>

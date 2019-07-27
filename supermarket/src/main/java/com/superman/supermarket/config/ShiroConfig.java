@@ -50,7 +50,7 @@ public class ShiroConfig {
 		Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String,String>();
 		/**********************设置放行anon请求***************************/
 		filterChainDefinitionMap.put("/employee/login", "anon");//登录操作
-
+		filterChainDefinitionMap.put("/images/**", "anon");//登录操作
 		//设置过滤器链
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		// 设置登录页面请求（不设置默认去到login.jsp页面）

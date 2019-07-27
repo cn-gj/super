@@ -7,6 +7,10 @@ import com.superman.supermarket.entity.vo.ShopVo;
 import com.superman.supermarket.service.ShopService;
 import com.superman.supermarket.service.ShopTypeService;
 import com.superman.supermarket.utils.DateUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,14 +19,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -39,7 +42,6 @@ public class ShopController {
     private ShopTypeService shopTypeService;//门店类型service
     @Resource
     private ShopService shopService; //门店service
-
 
 
     /**
@@ -127,15 +129,37 @@ public class ShopController {
      */
     @PostMapping("/upShop")
     @ResponseBody
-    public String UpdateShopInfo(Shop shop,MultipartFile fileName){
+    public String UpdateShopInfo(Shop shop, MultipartFile fileName, HttpServletRequest request){
         //存放返回到页面的数据
         Map<String,Object> map = new HashMap<>();
         try {
             if (fileName != null){
-                //获取文件名、并设置进shop对象
-                shop.setShopLogo("\\upload\\images\\"+fileName.getOriginalFilename());
-                //添加文件到images目录
-                fileName.transferTo(new File("\\upload\\images\\"+fileName.getOriginalFilename()));
+                //获取根路径
+                File path = new File(System.getProperty("user.dir"));
+                System.out.println(path);
+                //文件上传路径、项目路径
+                File upLoadPath = new File(path.getAbsolutePath(),"static/upload/images");
+                System.out.println(upLoadPath);
+                //如果路径不存在则创建
+                if(!upLoadPath.exists()) upLoadPath.mkdirs();
+                //生成uuid
+                String uuid = UUID.randomUUID().toString().replace("-","");
+                //获取旧文件名
+                String oldFileName = fileName.getOriginalFilename();
+                //获取文件名后缀
+                String suffixName = oldFileName.substring(oldFileName.lastIndexOf(".")).toLowerCase();
+                //拼接新文件名
+                String newFileName ="\\"+ uuid + suffixName;
+                try {
+                    //获取文件名、并设置进shop对象
+                    shop.setShopLogo(newFileName);
+                    System.out.println(upLoadPath+newFileName);
+                    //添加文件到本地磁盘
+                    fileName.transferTo(new File(upLoadPath+newFileName));
+                } catch (IllegalStateException | IOException e) {
+                    e.printStackTrace();
+                    /*return "请重新上传图片";*/
+                }
             }
             //调用方法添加
             Integer count = shopService.updateShopInfo(shop);
@@ -146,13 +170,12 @@ public class ShopController {
                 //失败
                 map.put("state",false);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //返回json数据
         return  JSON.toJSONString(map);
     }
-
 
     /**
      * 删除门店信息

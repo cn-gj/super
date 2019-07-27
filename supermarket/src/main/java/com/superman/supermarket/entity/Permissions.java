@@ -23,7 +23,6 @@ private static final long serialVersionUID=1L;
 
     private String permissionsName;
 
-
     public Integer getId() {
         return id;
     }

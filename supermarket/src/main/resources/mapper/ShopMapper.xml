@@ -95,7 +95,7 @@
                 shop_advice = #{shopAdvice},
             </if>
             <if test="shopAddress != null and shopAddress != ''">
-                ahop_address = #{ahopAddress},
+                shop_address = #{shopAddress},
             </if>
             <if test="shopTypeId != null">
                 shop_type_id = #{shopTypeId},

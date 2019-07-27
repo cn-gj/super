@@ -2,9 +2,12 @@ package com.superman.supermarket;
 
 
 import com.superman.supermarket.dao.EmployeeMapper;
+import com.superman.supermarket.dao.OrderMapper;
 import com.superman.supermarket.dao.ShopMapper;
+import com.superman.supermarket.entity.Provider;
 import com.superman.supermarket.entity.Spec;
 import com.superman.supermarket.entity.SpecTmp;
+import com.superman.supermarket.service.ProviderService;
 import com.superman.supermarket.service.ShopService;
 import com.superman.supermarket.service.SpecTmpService;
 import org.junit.Test;
@@ -28,6 +31,12 @@ public class SupermarketApplicationTests {
 
     @Resource
     private EmployeeMapper employeeMapper;
+
+    @Resource
+    private ProviderService providerService;
+
+    @Resource
+    private OrderMapper orderMapper;
     @Test
     public void contextLoads() {
        //System.out.print(employeeMapper.findAll());
@@ -62,7 +71,8 @@ public class SupermarketApplicationTests {
 
 
        String idstr = "3,4,5,6,7";
-       specTmpService.delSpecTmpInfo(idstr);
+      // specTmpService.delSpecTmpInfo(idstr);
+
     }
 
 }

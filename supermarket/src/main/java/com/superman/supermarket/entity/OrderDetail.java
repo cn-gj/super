@@ -1,9 +1,11 @@
 package com.superman.supermarket.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -27,6 +29,17 @@ private static final long serialVersionUID=1L;
 
     private Double totalMoney;
 
+    private Integer oredrId;
+
+    private Integer orderType;
+
+    public Integer getOredrId() {
+        return oredrId;
+    }
+
+    public void setOredrId(Integer oredrId) {
+        this.oredrId = oredrId;
+    }
 
     public Integer getId() {
         return id;

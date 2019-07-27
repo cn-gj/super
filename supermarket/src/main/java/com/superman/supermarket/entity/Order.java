@@ -1,10 +1,16 @@
 package com.superman.supermarket.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -24,18 +30,17 @@ private static final long serialVersionUID=1L;
 
     private String shopId;
 
-    private LocalDate placeOrderDate;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date placeOrderDate;
 
-    private LocalDate readyDate;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date readyDate;
 
     private Integer empId;
-
-    private Integer odetailId;
 
     private Integer singleState;
 
     private Integer takeState;
-
 
     public Integer getId() {
         return id;
@@ -53,19 +58,19 @@ private static final long serialVersionUID=1L;
         this.shopId = shopId;
     }
 
-    public LocalDate getPlaceOrderDate() {
+    public Date getPlaceOrderDate() {
         return placeOrderDate;
     }
 
-    public void setPlaceOrderDate(LocalDate placeOrderDate) {
+    public void setPlaceOrderDate(Date placeOrderDate) {
         this.placeOrderDate = placeOrderDate;
     }
 
-    public LocalDate getReadyDate() {
+    public Date getReadyDate() {
         return readyDate;
     }
 
-    public void setReadyDate(LocalDate readyDate) {
+    public void setReadyDate(Date readyDate) {
         this.readyDate = readyDate;
     }
 
@@ -75,14 +80,6 @@ private static final long serialVersionUID=1L;
 
     public void setEmpId(Integer empId) {
         this.empId = empId;
-    }
-
-    public Integer getOdetailId() {
-        return odetailId;
-    }
-
-    public void setOdetailId(Integer odetailId) {
-        this.odetailId = odetailId;
     }
 
     public Integer getSingleState() {
@@ -109,7 +106,6 @@ private static final long serialVersionUID=1L;
         ", placeOrderDate=" + placeOrderDate +
         ", readyDate=" + readyDate +
         ", empId=" + empId +
-        ", odetailId=" + odetailId +
         ", singleState=" + singleState +
         ", takeState=" + takeState +
         "}";
