@@ -17,8 +17,7 @@ import java.util.List;
 public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
 
     /**
-     * ------------------------------------------
-     *  批发订单
+     *
      * 根据订单号查询订单详情/********************************
      * @param id
      * @return
@@ -26,6 +25,7 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
     public List<OrderDetailVo> findOrderDateilByOrderId(Integer id);
 
     /**
+     * * ------------------------------------------
      *  添加订单明细,前台需要区分是采购订单还是批发订单
      * @param orderDetail
      * @return
@@ -39,14 +39,6 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
      * @return
      */
     Double findWholeMoney(int wholeId);
-
-
-    /**
-     * 根据订单号查询订单详情/********************************
-     * @param id
-     * @return
-     */
-    public List<OrderDetailVo> findOrderDateilByOrderId(Integer id);
 
 
     /**
