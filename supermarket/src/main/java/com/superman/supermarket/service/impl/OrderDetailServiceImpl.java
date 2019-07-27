@@ -32,6 +32,12 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
     @Resource
     private OrderDetailMapper orderDetailMapper;
 
+
+    /**
+     *根据订单号查询订单详情/********************************
+     * @param id
+     * @return
+     */
     @Override
     public List<OrderDetailVo> findOrderDateilByOrderId(Integer id) {
         return orderDetailMapper.findOrderDateilByOrderId(id);

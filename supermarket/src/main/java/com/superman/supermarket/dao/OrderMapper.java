@@ -23,14 +23,14 @@ public interface OrderMapper extends BaseMapper<Order> {
      *  查询订单信息或多条件查询
      * @return
      */
-    List<OrderVo> findAllOrderOrCondition(@Param("orderVo") OrderVo orderVo);
+    List<OrderVo> findAllOrderOrCondition(OrderVo orderVo);
 
     /**
      * 生成订单表
-     * @param order
+     * @param orderVo
      * @return
      */
-    Integer addOrder(Order order);
+    Integer addOrder(OrderVo orderVo);
 
     /**
      * 选择商品后，生成订单明细表
@@ -38,4 +38,25 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @return
      */
     Integer addOrderDetail(OrderDetail orderDetail);
+
+    /**
+     * 修改订单的单据状态
+     * @param id
+     * @return
+     */
+    Integer updateOrderSingleState(Integer id);
+
+    /**
+     * 删除订单的同时删除订单详情
+     * @param id
+     * @return
+     */
+    Integer deleteOrder(Integer id);
+
+    /**
+     * 修改收获状态
+     * @param id
+     * @return
+     */
+    Integer updateTakeState(Integer  id);
 }
