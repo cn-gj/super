@@ -1,10 +1,14 @@
 package com.superman.supermarket.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -23,8 +27,8 @@ private static final long serialVersionUID=1L;
     private Integer id;
 
     private Integer cashierDeskId;
-
-    private LocalDate placeOrderDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date placeOrderDate;
 
     private Integer memberId;
 
@@ -40,6 +44,7 @@ private static final long serialVersionUID=1L;
 
     private Integer empId;
 
+    @TableField(exist = false)
     private Integer ticketId;
 
 
@@ -59,11 +64,11 @@ private static final long serialVersionUID=1L;
         this.cashierDeskId = cashierDeskId;
     }
 
-    public LocalDate getPlaceOrderDate() {
+    public Date getPlaceOrderDate() {
         return placeOrderDate;
     }
 
-    public void setPlaceOrderDate(LocalDate placeOrderDate) {
+    public void setPlaceOrderDate(Date placeOrderDate) {
         this.placeOrderDate = placeOrderDate;
     }
 

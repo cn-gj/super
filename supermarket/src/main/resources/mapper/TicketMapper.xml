@@ -14,12 +14,83 @@
         <result column="sell_count" property="sellCount" />
         <result column="single_score" property="singleScore" />
         <result column="emp_id" property="empId" />
-        <result column="ticket_id" property="ticketId" />
+    </resultMap>
+
+    <!-- TicketVo映射 -->
+    <resultMap id="TicketVoMapper" type="com.superman.supermarket.entity.vo.TicketVo" extends="BaseResultMap">
+        <result property="shopName" column="shop_name"></result>
+        <result property="cashName" column="cashier_name"></result>
+        <result property="memberName" column="member_name"></result>
+        <result property="empName" column="emp_name"></result>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, cashier_desk_id, place_order_date, member_id, original_count_money, practical_money, discount_money, sell_count, single_score, emp_id, ticket_id
     </sql>
+    
+    <!-- 初始化查询和根据条件查询 -->
+    <select id="findByCondition" resultMap="TicketVoMapper">
+        select
+            s.shop_name,
+            cd.id cashier_desk_id,
+            cd.cashier_name,
+            t.id,
+            t.place_order_date,
+            t.sell_count,
+            t.original_count_money,
+            t.practical_money,
+            t.discount_money,
+            m.member_name,
+            emp.emp_name
+        from ticket t
+        left join cashier_desk cd
+        on t.cashier_desk_id = cd.id
+        LEFT join shop s
+        on cd.shop_id = s.id
+        LEFT join employee emp
+        on t.emp_id = emp.id
+        LEFT join member m
+        on t.member_id = m.member_name
+        /* 根据下单时间范围查询,店铺名称/单号/会员名称/收银员查询 */
+        <where>
+            <if test="endDate != null and startDate != null">
+                t.place_order_date BETWEEN #{startDate} AND #{endDate}
+            </if>
+            <if test="condition != null and condition != ''">
+                and s.shop_name LIKE CONCAT('%',#{condition},'%')
+                OR t.id LIKE CONCAT('%',#{condition},'%')
+                OR m.member_name LIKE CONCAT('%',#{condition},'%')
+                OR emp.emp_name LIKE CONCAT('%',#{condition},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <!-- 根据id查询收银单信息 -->
+    <select id="findById" resultMap="TicketVoMapper">
+        select
+            s.shop_name,
+            cd.id cashier_desk_id,
+            cd.cashier_name,
+            t.id,
+            t.place_order_date,
+            t.sell_count,
+            t.original_count_money,
+            t.practical_money,
+            t.discount_money,
+            m.member_name,
+            emp.emp_name
+        from ticket t
+        left join cashier_desk cd
+        on t.cashier_desk_id = cd.id
+        LEFT join shop s
+        on cd.shop_id = s.id
+        LEFT join employee emp
+        on t.emp_id = emp.id
+        LEFT join member m
+        on t.member_id = m.member_name
+        WHERE t.id = #{id}
+    </select>
 
 </mapper>

@@ -3,8 +3,11 @@ package com.superman.supermarket;
 
 import com.superman.supermarket.dao.EmployeeMapper;
 import com.superman.supermarket.dao.ShopMapper;
+import com.superman.supermarket.dao.TicketMapper;
 import com.superman.supermarket.entity.Spec;
 import com.superman.supermarket.entity.SpecTmp;
+import com.superman.supermarket.entity.vo.TicketDetailVo;
+import com.superman.supermarket.entity.vo.TicketVo;
 import com.superman.supermarket.service.ShopService;
 import com.superman.supermarket.service.SpecTmpService;
 import org.junit.Test;
@@ -13,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,7 +25,8 @@ public class SupermarketApplicationTests {
     private ShopService shopService;
     @Resource
     private ShopMapper shopMapper;
-
+    @Resource
+    private TicketMapper ticketMapper;
 
     @Resource
     private SpecTmpService specTmpService;
@@ -61,8 +66,10 @@ public class SupermarketApplicationTests {
         specTmpService.addSpecInfo(specs);*/
 
 
-       String idstr = "3,4,5,6,7";
-       specTmpService.delSpecTmpInfo(idstr);
+     /*  String idstr = "3,4,5,6,7";
+       specTmpService.delSpecTmpInfo(idstr);*/
+
+
     }
 
 }

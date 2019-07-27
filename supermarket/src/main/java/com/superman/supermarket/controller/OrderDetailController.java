@@ -1,9 +1,15 @@
 package com.superman.supermarket.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.alibaba.fastjson.JSON;
+import com.superman.supermarket.dao.OrderDetailMapper;
+import com.superman.supermarket.entity.OrderDetail;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -17,5 +23,14 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/orderDetail")
 public class OrderDetailController {
 
+    @Resource
+    private OrderDetailMapper orderDetailMapper;
+
+   @GetMapping("/findAll")
+   @ResponseBody
+    public String findAll(){
+       List<OrderDetail> details = orderDetailMapper.selectList(null);
+        return JSON.toJSONString(details);
+    }
 }
 

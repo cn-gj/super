@@ -8,6 +8,8 @@
         <result column="goods_id" property="goodsId" />
         <result column="goods_count" property="goodsCount" />
         <result column="total_money" property="totalMoney" />
+        <result column="order_id" property="orderId" />
+        <result column="order_type" property="orderType" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -15,4 +17,8 @@
         id, goods_id, goods_count, total_money
     </sql>
 
+    <!-- 添加订单明细 -->
+    <insert id="addOrderDetail" parameterType="com.superman.supermarket.entity.OrderDetail">
+        INSERT INTO order_detail VALUE(NULL,#{goodsId},#{goodsCount},#{totalMoney},#{orderId},#{orderType})
+    </insert>
 </mapper>

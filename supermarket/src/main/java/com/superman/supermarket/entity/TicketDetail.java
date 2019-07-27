@@ -27,6 +27,15 @@ private static final long serialVersionUID=1L;
 
     private Double totalMoney;
 
+    private Integer ticketId;
+
+    public Integer getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Integer ticketId) {
+        this.ticketId = ticketId;
+    }
 
     public Integer getId() {
         return id;

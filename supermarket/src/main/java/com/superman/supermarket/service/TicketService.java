@@ -2,6 +2,10 @@ package com.superman.supermarket.service;
 
 import com.superman.supermarket.entity.Ticket;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.superman.supermarket.entity.vo.TicketVo;
+
+import java.io.OutputStream;
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,24 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TicketService extends IService<Ticket> {
 
+    /**
+     *  根据条件查询收银单信息
+     * @param ticketVo
+     * @return
+     */
+    List<TicketVo> findByCondition(TicketVo ticketVo);
+
+    /**
+     *  根据id查询收银单信息
+     * @param id
+     * @return
+     */
+    TicketVo findById(Integer id);
+
+
+    /**
+     *  导出收银单execl表格
+     * @param outputStream
+     */
+    void exportTicket(OutputStream outputStream);
 }

@@ -8,11 +8,55 @@
         <result column="goods_id" property="goodsId" />
         <result column="goods_count" property="goodsCount" />
         <result column="total_money" property="totalMoney" />
+        <result column="ticket_id" property="ticketId"></result>
+    </resultMap>
+
+    <!-- TicketDetailVo映射 -->
+    <resultMap id="TicketDetailVoMapper" type="com.superman.supermarket.entity.vo.TicketDetailVo" extends="BaseResultMap">
+        <result property="specDetailName" column="spec_detail_name"></result>
+        <result property="specName" column="spec_name"></result>
+        <result property="specTmpName" column="spec_tmp_name"></result>
+        <!-- 收银单详情和商品关系映射 -->
+        <association property="goods" javaType="com.superman.supermarket.entity.Goods">
+            <id property="id" column="goods_id"></id>
+            <result property="goodsName" column="goods_name"></result>
+            <result property="goodsCode" column="goods_code"></result>
+            <result property="unitId" column="unit_id"></result>
+            <result property="price" column="price"></result>
+            <result property="wholePrice" column="whole_price"></result>
+        </association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, goods_id, goods_count, total_money
     </sql>
+
+    <!-- 根据收银单id查询收银单详情列表 -->
+    <select id="findByTicketId" resultMap="TicketDetailVoMapper">
+        SELECT
+		g.goods_code,
+		g.goods_name,
+		sd.spec_detail_name,
+		sp.spec_name ,
+		st.spec_tmp_name ,
+		g.unit_id,
+		g.price,
+		g.whole_price,
+		td.goods_count,
+		td.total_money
+       FROM ticket_detail td
+       INNER JOIN ticket t
+       ON td.ticket_id = t.id
+       INNER JOIN goods g
+       ON td.goods_id = g.id
+       INNER JOIN spec_detail sd
+       ON g.spec_detail_id = sd.id
+       INNER JOIN spec sp
+       ON sd.spec_id = sp.id
+       INNER JOIN spec_tmp st
+       ON sp.spec_tmp_id = st.id
+       WHERE t.id = #{id}
+    </select>
 
 </mapper>

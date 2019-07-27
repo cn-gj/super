@@ -49,7 +49,7 @@ public class EmployeeController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public String login(Employee employee) {
+    public String login(Employee employee,HttpSession session) {
        // System.out.println(employee);
         //用于接收返回页面的数据
         Map<String,Object> map = new HashMap<>();
@@ -74,6 +74,8 @@ public class EmployeeController {
             map.put("message","登录成功!");
             // 保存登录对象返回前台
             map.put("userCode",emp);
+            // 将当前登录用户保存到session中
+            session.setAttribute("currentEmp",emp);
         } catch (AuthenticationException e) {
             e.printStackTrace();
             map.put("state",false);

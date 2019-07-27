@@ -12,6 +12,7 @@
         <result column="emp_phone" property="empPhone" />
         <result column="createDate" property="createDate" />
         <result column="shop_id" property="shopId" />
+        <result column="role_id" property="roleId" />
         <!--
             配置用户与角色关系
         -->
@@ -57,8 +58,8 @@
         <where>
             AND emp.`role_id` = r.`id`
             AND emp.shop_id = s.id
-            <if test="roles != null and roles.id != null">
-                AND emp.role_id = #{roles.id}
+            <if test="roleId != null">
+                AND emp.role_id = #{roleId}
             </if>
             <if test="empStatus != null">
                 AND emp.emp_status = #{empStatus}
@@ -74,7 +75,7 @@
 
     <!-- 添加员工 -->
     <insert id="addEmp" parameterType="employee">
-        INSERT INTO employee VALUE(NULL,#{empAccount},#{empPwd},#{empName},NULL,0,#{empPhone},NOW(),#{shop.id});
+        INSERT INTO employee VALUE(NULL,#{empAccount},#{empPwd},#{empName},NULL,0,#{empPhone},NOW(),#{shopId});
     </insert>
 
     <!-- 修改员工状态 -->

@@ -33,6 +33,15 @@ private static final long serialVersionUID=1L;
     private String empName;
 
     private Roles roles;
+    private Integer roleId;
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
 
     private Integer empStatus;
 

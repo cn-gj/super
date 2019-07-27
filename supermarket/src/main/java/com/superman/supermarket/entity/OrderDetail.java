@@ -27,6 +27,34 @@ private static final long serialVersionUID=1L;
 
     private Double totalMoney;
 
+    /**
+     *  订单id
+     */
+    private Integer orderId;
+    /**
+     *  订单类型
+     */
+    private Integer orderType;
+
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
+    public Integer getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(Integer orderType) {
+        this.orderType = orderType;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     public Integer getId() {
         return id;

@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
 
+    /**
+     *  添加订单明细,前台需要区分是采购订单还是批发订单
+     * @param orderDetail
+     * @return
+     */
+    int addOrderDetail(OrderDetail orderDetail);
 }

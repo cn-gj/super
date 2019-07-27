@@ -2,6 +2,9 @@ package com.superman.supermarket.dao;
 
 import com.superman.supermarket.entity.WholeOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.superman.supermarket.entity.vo.WholeOrderVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,17 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface WholeOrderMapper extends BaseMapper<WholeOrder> {
 
+    /**
+     *  添加批发订单,返回受影响的行数和主键
+     * @param wholeOrderVo
+     * @return
+     */
+    int addWholeOrder(WholeOrderVo wholeOrderVo);
+
+    /**
+     *  根据条件查询批发订单
+     * @param wholeOrderVo
+     * @return
+     */
+    List<WholeOrderVo> findByCondition(WholeOrderVo wholeOrderVo);
 }

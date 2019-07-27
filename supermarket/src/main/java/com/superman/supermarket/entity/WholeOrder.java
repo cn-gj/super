@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -26,13 +27,13 @@ private static final long serialVersionUID=1L;
 
     private Integer shopId;
 
-    private LocalDate placeOrderDate;
+    private Date placeOrderDate;
 
-    private LocalDate readyDate;
+    private Date readyDate;
 
     private Integer empId;
 
-    private Integer odetailId;
+    //private Integer odetailId;
 
     private Integer singleState;
 
@@ -63,19 +64,19 @@ private static final long serialVersionUID=1L;
         this.shopId = shopId;
     }
 
-    public LocalDate getPlaceOrderDate() {
+    public Date getPlaceOrderDate() {
         return placeOrderDate;
     }
 
-    public void setPlaceOrderDate(LocalDate placeOrderDate) {
+    public void setPlaceOrderDate(Date placeOrderDate) {
         this.placeOrderDate = placeOrderDate;
     }
 
-    public LocalDate getReadyDate() {
+    public Date getReadyDate() {
         return readyDate;
     }
 
-    public void setReadyDate(LocalDate readyDate) {
+    public void setReadyDate(Date readyDate) {
         this.readyDate = readyDate;
     }
 
@@ -87,13 +88,13 @@ private static final long serialVersionUID=1L;
         this.empId = empId;
     }
 
-    public Integer getOdetailId() {
+   /* public Integer getOdetailId() {
         return odetailId;
     }
 
     public void setOdetailId(Integer odetailId) {
         this.odetailId = odetailId;
-    }
+    }*/
 
     public Integer getSingleState() {
         return singleState;
@@ -120,7 +121,7 @@ private static final long serialVersionUID=1L;
         ", placeOrderDate=" + placeOrderDate +
         ", readyDate=" + readyDate +
         ", empId=" + empId +
-        ", odetailId=" + odetailId +
+        //", odetailId=" + odetailId +
         ", singleState=" + singleState +
         ", takeState=" + takeState +
         "}";
