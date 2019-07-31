@@ -39,13 +39,19 @@
 
     <!-- 初始化根据条件查询商品信息 -->
     <select id="findByCondition" resultMap="InitMap" parameterType="goodsVo">
-         select g.goods_code,g.price
+         select g.id,g.goods_code,g.price
          ,g.member_price,g.whole_price,g.cost_price,
          idetail.goods_count,
          gt.goods_type_name,
+         g.goods_type_id,
+         g.yield_date,
+         g.expiration_date,
+         g.expiration_day,
          p.pro_name,
          g.goods_code,
          g.goods_address,
+         g.provider_id,
+         g.spec_detail_id,
          sd.spec_detail_name,
          sp.spec_name,
          st.spec_tmp_name,
@@ -76,9 +82,15 @@
                 and goods_type_id = #{goodsTypeId}
             </if>
             <if test="condition != null and condition != ''">
-                and goods_name = #{condition} or goods_code =  #{condition}
+                and g.goods_name = #{condition} or g.goods_code =  #{condition}
+            </if>
+            <if test="id != null">
+                and g.id =#{id}
             </if>
         </where>
+        <if test="sortName != null and sortName != '' and sortType != null and sortType != ''">
+            order by ${sortName} ${sortType}
+        </if>
     </select>
 
     <!-- 批量删除 -->

@@ -95,9 +95,9 @@ public class OrderController {
      */
     @ResponseBody
     @PostMapping("/upTakeState")
-    public String updateTakeState(Integer id){
+    public String updateTakeState(Integer takeState,Integer id){
         Map<String,Object> map = new HashMap<>();
-        Integer count = orderService.updateTakeState(id);
+        Integer count = orderService.updateTakeState(takeState,id);
         if (count > 0){
             map.put("state",true);
         }else {

@@ -35,11 +35,12 @@
         id, emp_account, emp_pwd, emp_name, role_id, emp_status, emp_phone, createDate, shop_id
     </sql>
 
-    <!-- 根据用户id关联查询用户角色 -->
+    <!-- 根据用户id关联查询用户角色和门店信息 -->
     <select id="findEmpById" parameterType="int" resultMap="BaseResultMap">
-        SELECT emp.*,r.`id` roles_id,r.`role_name`
-        FROM employee emp,roles r
+        SELECT emp.*,r.`id` roles_id,r.`role_name`,s.`shop_name`
+        FROM employee emp,roles r,shop s
         WHERE emp.`role_id` = r.`id`
+        AND emp.`shop_id` = s.`id`
         AND emp.`id` = #{id}
     </select>
 
@@ -64,7 +65,7 @@
             <if test="empStatus != null">
                 AND emp.emp_status = #{empStatus}
             </if>
-            <if test="condition != null">
+            <if test="condition != null and condition != ''">
                 AND s.shop_name = #{condition}
                 or emp.emp_account = #{condition}
                 or emp.emp_name = #{condition}

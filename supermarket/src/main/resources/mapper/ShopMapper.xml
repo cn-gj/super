@@ -106,6 +106,10 @@
         </set>
         where id = #{id}
     </update>
+    <!--根据门店id查询员工信息-->
+    <select id="selectEmpByShopId" parameterType="int" resultType="employee">
+        SELECT * FROM employee WHERE shop_id =#{id}
+    </select>
     <!--删除门店信息-->
     <delete id="delShopInfo" parameterType="int">
         delete from shop where id = #{id}

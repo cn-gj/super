@@ -33,6 +33,13 @@ public interface GoodsService extends IService<Goods> {
     Goods findByGoodsName(String goodsName);
 
     /**
+     *  修改商品
+     * @param goods
+     * @return
+     */
+    int updateGoods(Goods goods);
+
+    /**
      *  根据商品条码查询商品
      * @param goodsCode
      * @return

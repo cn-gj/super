@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -33,11 +34,31 @@ public class SpecDetailServiceImpl extends ServiceImpl<SpecDetailMapper, SpecDet
 
     /**
      * 删除规格详情
+     * @param ids
+     * @return
+     */
+    @Override
+    public Integer deleteSpecDetail(int [] ids) {
+        return specDetailMapper.deleteSpecDetail(ids);
+    }
+
+    /**
+     * 根据规格id查询规格详情
      * @param id
      * @return
      */
     @Override
-    public Integer deleteSpecDetail(Integer id) {
-        return specDetailMapper.deleteSpecDetail(id);
+    public List<SpecDetail> selectSpecDetailBySpecId(Integer id) {
+        return specDetailMapper.selectSpecDetailBySpecId(id);
+    }
+
+    /**
+     * 根据规格详情id查询商品信息
+     * @param ids
+     * @return
+     */
+    @Override
+    public Long selectGoodsBySpecDetailId(int [] ids) {
+        return specDetailMapper.selectGoodsBySpecDetailId(ids);
     }
 }

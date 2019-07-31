@@ -48,13 +48,13 @@ public class GoodsController {
 
 
     /**
-     *  根据商品代码查询商品信息
+     *  根据商品条码查询商品信息
      * @param goodsCode
      * @return
      */
     @PostMapping("/findByGoodsCode")
     @ResponseBody
-    public String findByGoodsCode(String goodsCode){
+        public String findByGoodsCode(String goodsCode){
         Map<String,Object> map = new HashMap<>();
         if (goodsService.findByGoodsCode(goodsCode) != null){
             map.put("result",true);
@@ -168,6 +168,23 @@ public class GoodsController {
             e.printStackTrace();
         }
         return  null;
+    }
+
+    /**
+     *  修改商品
+     * @param goods
+     * @return
+     */
+    @PostMapping("/updateGoods")
+    @ResponseBody
+    public String updateGoods(Goods goods){
+        Map<String,Object> map = new HashMap<>();
+        if (goodsService.updateGoods(goods) > 0){
+            map.put("result",true);
+        }else {
+            map.put("result",false);
+        }
+        return  JSON.toJSONString(map);
     }
 }
 

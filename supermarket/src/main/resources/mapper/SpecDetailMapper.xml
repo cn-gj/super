@@ -19,7 +19,26 @@
     </insert>
 
     <!--删除规格详情-->
-    <delete id="deleteSpecDetail" parameterType="int">
-        DELETE FROM spec_detail WHERE id = #{id}
+    <delete id="deleteSpecDetail">
+        DELETE FROM spec_detail WHERE id in (
+            <foreach collection="ids" separator="," item="id">
+                #{id}
+            </foreach>
+        )
     </delete>
+
+    <!--根据规格id查询规格详情-->
+    <select id="selectSpecDetailBySpecId" resultType="specDetail">
+        select * from spec_detail where spec_id =#{specId}
+    </select>
+
+    <!--根据规格详情id查询商品信息-->
+    <select id="selectGoodsBySpecDetailId" resultType="long">
+        SELECT COUNT(1) FROM goods WHERE spec_detail_id IN (
+            <foreach collection="ids" item="id" separator=",">
+                #{id}
+            </foreach>
+        )
+
+    </select>
 </mapper>

@@ -98,8 +98,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @return
      */
     @Override
-    public Integer updateTakeState(Integer id) {
-        return orderMapper.updateTakeState(id);
+    public Integer updateTakeState(Integer takeState,Integer id) {
+        return orderMapper.updateTakeState(takeState,id);
     }
 
     /**

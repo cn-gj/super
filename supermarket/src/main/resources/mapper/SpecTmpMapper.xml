@@ -19,16 +19,15 @@
 
 
     <!--查询规格模板-->
-    <select id="findSpecTmpAndSpec" resultType="specTmp" parameterType="specTmp">
+    <select id="findSpecTmpAndSpec" resultType="specTmp" parameterType="String">
         SELECT st.`id`,st.`spec_tmp_name`,COUNT(s.spec_tmp_id) sCount
         FROM spec_tmp st
         LEFT JOIN spec s
         ON st.`id` = s.spec_tmp_id
         <where>
-            <if test="specTmp.specTmpName != null and specTmp.specTmpName != ''">
-                AND st.`spec_tmp_name` LIKE concat('%',#{specTmp.specTmpName},'%')
+            <if test="condition != null and condition != ''">
+                AND st.`spec_tmp_name` LIKE concat('%',#{condition},'%')
             </if>
-            <if test="specTmp.id != null"> AND st.`id` = #{specTmp.id}</if>
         </where>
         GROUP BY st.`id`
     </select>
@@ -75,9 +74,24 @@
             ON st.id = s.spec_tmp_id
             LEFT JOIN spec_detail sd
             ON s.id = sd.`spec_id`
-            WHERE st.id  = #{id}
+            WHERE st.id  in (
+            <foreach collection="ids" item="id" separator=",">
+                #{id}
+            </foreach>
+            )
     </select>
 
+    <!--查询所有规格模板、规格、规格详情-->
+    <select id="selectSpecTmpAndSpecAndSpecDetail" resultMap="SpecTmpResultMap">
+        SELECT sd.id sd_id,sd.`spec_detail_name`,s.`spec_name`,st.`spec_tmp_name` FROM spec_detail sd
+        INNER JOIN spec s
+        ON sd.`spec_id` = s.`id`
+        INNER JOIN spec_tmp st
+        ON s.`spec_tmp_id` = st.`id`
+    </select>
 
-
+    <!--查询规格模板-->
+    <select id="selectSpecTmpByName" resultType="SpecTmp">
+         SELECT * FROM spec_tmp WHERE spec_tmp_name = #{specTmpName}
+    </select>
 </mapper>

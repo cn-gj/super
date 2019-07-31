@@ -121,6 +121,6 @@
     
     <!--修改收获状态-->
     <update id="updateTakeState">
-         UPDATE `order` SET take_state = 2 WHERE id = #{id}
+         UPDATE `order` SET take_state = #{takeState} WHERE id = #{id}
     </update>
 </mapper>

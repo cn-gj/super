@@ -34,10 +34,18 @@ private static final long serialVersionUID=1L;
      * 用于接收规格数
      */
     @TableField(exist = false)
-    private Integer sCount;
+    private Integer sCount;//查询条件
 
+    @TableField(exist = false)
+    private String condition;
 
+    public String getCondition() {
+        return condition;
+    }
 
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
 
     public Integer getsCount() {
         return sCount;

@@ -57,5 +57,5 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @param id
      * @return
      */
-    Integer updateTakeState(Integer  id);
+    Integer updateTakeState(@Param("takeState") Integer takeState,@Param("id") Integer  id);
 }

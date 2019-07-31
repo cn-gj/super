@@ -56,5 +56,5 @@ public interface OrderService extends IService<Order> {
      * @param id
      * @return
      */
-    Integer updateTakeState(Integer  id);
+    Integer updateTakeState(Integer takeState,Integer  id);
 }

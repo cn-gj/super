@@ -98,19 +98,36 @@ public class GoodsTypeController {
 
     /**
      *  删除商品类型
-     * @param id
+     * @param ids
      * @return
      */
     @PostMapping("/deleteGoodsTypeById")
     @ResponseBody
-    public String deleteGoodsTypeById(int id){
+    public String deleteGoodsTypeById(int [] ids){
         Map<String,Object> map = new HashMap<>();
-        if (goodsTypeService.deleteById(id) > 0){
+        if (goodsTypeService.deleteByIds(ids) > 0){
             map.put("result",true);
         }else{
             map.put("result",false);
         }
         return  JSON.toJSONString(map);
+    }
+
+    /**
+     * 查看商品类型下有没商品信息
+     * @param ids
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/selGoodsByType")
+    public String selectGoodsByGoodsType(int [] ids){
+        Map<String,Object> map = new HashMap<>();
+        if (goodsTypeService.selectGoodsByGoodsType(ids)){
+            map.put("result",true);
+        }else{
+            map.put("result",false);
+        }
+        return JSON.toJSONString(map);
     }
 }
 

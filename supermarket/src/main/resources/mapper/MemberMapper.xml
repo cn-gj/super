@@ -62,8 +62,11 @@
             <if test="memberSex != null and memberSex != ''">
                 AND m.member_sex = #{memberSex}
             </if>
+            <if test="id != null and id != ''">
+                and m.id = #{id}
+            </if>
             <if test="condition != null and condition != ''">
-                AND m.member_phone LIKE concat('%',#{condition},'%') or OR m.member_name LIKE concat('%',#{condition},'%')
+                AND m.member_phone LIKE concat('%',#{condition},'%')  OR m.member_name LIKE concat('%',#{condition},'%')
             </if>
         </where>
     </select>
@@ -109,7 +112,12 @@
     </update>
     <!--批量修改会员积分-->
     <update id="batchUpdateSorce">
-        UPDATE member SET total_sorce = #{totalSorce} where id in (
+        UPDATE member SET
+            <if test="totalSorce > 0">
+                total_sorce = total_sorce + #{totalSorce},
+            </if>
+                residue_sorce = residue_sorce + #{totalSorce}
+        where id in (
             <foreach collection="ids" item="id" separator=",">
                 #{id}
             </foreach>

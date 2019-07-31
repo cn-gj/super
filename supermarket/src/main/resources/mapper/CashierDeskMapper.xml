@@ -18,6 +18,7 @@
         <association property="shop" javaType="com.superman.supermarket.entity.Shop">
            <id property="id" column="shop_id"></id>
             <result column="shop_name" property="shopName"></result>
+            <result column="shop_address" property="shopAddress"></result>
        </association>
     </resultMap>
 
@@ -71,15 +72,10 @@
                 <if test="cashierName != null and cashierName != ''">
                     cashier_name = #{cashierName}
                 </if>
-                <if test="shopId != null">
-                    shop_id = #{shopId}
-                </if>
                 <if test="cashierState != null">
                     cashier_state = #{cashierState}
                 </if>
-                <if test="modifyDate != null">
-                    modifyDate = now()
-                </if>
+                    ,modifyDate = now()
             </set>
             where id = #{id}
         </update>

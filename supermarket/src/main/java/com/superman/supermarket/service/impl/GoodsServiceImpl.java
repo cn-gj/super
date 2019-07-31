@@ -179,4 +179,9 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
             }
         }
     }
+
+    @Override
+    public int updateGoods(Goods goods) {
+        return goodsMapper.updateById(goods);
+    }
 }

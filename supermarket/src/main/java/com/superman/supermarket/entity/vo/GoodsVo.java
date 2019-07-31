@@ -24,6 +24,31 @@ public class GoodsVo extends Goods {
     // 规格模版名称
     private String specName;
 
+    /**
+     * 排序名称
+     */
+    private String sortName;
+    /**
+     * 排序类型
+     */
+    private String sortType;
+
+    public String getSortName() {
+        return sortName;
+    }
+
+    public void setSortName(String sortName) {
+        this.sortName = sortName;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
+    }
+
     public String getCondition() {
         return condition;
     }
