@@ -38,5 +38,10 @@ public interface WholeOrderMapper extends BaseMapper<WholeOrder> {
     WholeOrderVo findById(int id);
 
 
-    // 修改批发订单
+    /**
+     * 修改批发订单
+     * @param wholeOrder
+     * @return
+     */
+    int updateWhole(WholeOrder wholeOrder);
 }

@@ -2,8 +2,10 @@ package com.superman.supermarket.service;
 
 import com.superman.supermarket.entity.WholeOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.WholeOrderVo;
 
+import java.io.OutputStream;
 import java.util.List;
 
 /**
@@ -37,5 +39,31 @@ public interface WholeOrderService extends IService<WholeOrder> {
      */
     WholeOrderVo findById(int id);
 
-    // 导出批发订单
+    /**
+     * 修改批发订单
+     * @param wholeOrder
+     * @return
+     */
+    int updateWhole(WholeOrder wholeOrder);
+
+    /**
+     *  导出批发订单
+     * @param outputStream
+     */
+    void exportWhole(OutputStream outputStream);
+
+    /**
+     *  批发订单出库
+     * @param
+     * @return
+     */
+    String outWholeStore(Integer wholeId,Integer storeId);
+
+    /**
+     *  批发订单入库即退货
+     * @param
+     * @return
+     */
+    String inWholeStore(Integer wholeId,Integer storeId);
+
 }

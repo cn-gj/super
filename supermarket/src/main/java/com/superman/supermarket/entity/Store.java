@@ -25,7 +25,7 @@ private static final long serialVersionUID=1L;
 
     private Integer shopId;
 
-    private Integer invDetailId;
+   // private Integer invDetailId;
 
 
     public Integer getId() {
@@ -52,13 +52,13 @@ private static final long serialVersionUID=1L;
         this.shopId = shopId;
     }
 
-    public Integer getInvDetailId() {
+   /* public Integer getInvDetailId() {
         return invDetailId;
-    }
+    }*/
 
-    public void setInvDetailId(Integer invDetailId) {
+    /*public void setInvDetailId(Integer invDetailId) {
         this.invDetailId = invDetailId;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -66,7 +66,7 @@ private static final long serialVersionUID=1L;
         "id=" + id +
         ", storeName=" + storeName +
         ", shopId=" + shopId +
-        ", invDetailId=" + invDetailId +
+        ", invDetailId="  +
         "}";
     }
 }

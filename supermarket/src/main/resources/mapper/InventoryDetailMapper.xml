@@ -7,11 +7,39 @@
         <id column="id" property="id" />
         <result column="goods_id" property="goodsId" />
         <result column="goods_count" property="goodsCount" />
+        <result column="store_id" property="storeId"></result>
     </resultMap>
+
+    <!--&lt;!&ndash; 库存明细Vo映射 &ndash;&gt;
+    <resultMap id="VoMapper" type="com.superman.supermarket.entity.vo.InventoryDetailVo" extends="BaseResultMap">
+        <association property="store" javaType="com.superman.supermarket.entity.Store">
+
+        </association>
+    </resultMap>-->
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, goods_id, goods_count
     </sql>
 
+    <!-- 根据商品id查询库存信息中有的商品id -->
+    <select id="findGoodsIdByIds" resultType="java.lang.Integer">
+        SELECT goods_id FROM `inventory_detail` WHERE store_id = #{storeId} AND goods_id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+             #{id}
+         </foreach>
+    </select>
+
+    <!-- 根据仓库id和商品id查询库存明细中的商品数量 -->
+    <select id="findGoodsCountById" resultType="int">
+        SELECT goods_count FROM inventory_detail WHERE store_id = #{storeId}
+		AND goods_id = #{goodsId}
+    </select>
+
+    <!--  根据仓库id和库存商品id修改商品库存数量-->
+    <update id="updateInvByGoodsIds">
+        UPDATE inventory_detail SET goods_count = #{goodsCount}
+        WHERE store_id = #{storeId}
+        AND goods_id = #{goodsId}
+    </update>
 </mapper>

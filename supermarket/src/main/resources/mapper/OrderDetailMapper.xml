@@ -63,7 +63,8 @@
 		g.price,
 		od.total_money,
 		od.goods_count,
-		od.id
+		od.id,
+		g.id goods_id
        FROM order_detail od
        INNER JOIN whole_order w
        ON od.order_id = w.`id`
@@ -79,9 +80,26 @@
        AND w.`id` = #{id}
     </select>
 
-    <!-- 根据明细id删除明显 -->
+    <!-- 根据明细id删除明细 -->
     <delete id="deleteById">
        DELETE FROM order_detail WHERE id = #{id}
     </delete>
 
+    <!-- 添加批发订单明细 -->
+    <insert id="addWholeOrder">
+        INSERT INTO order_detail VALUE(NULL,#{goodsId},#{goodsCount},#{totalMoney},#{orderId},1);
+    </insert>
+
+    <!-- 修改批发订单明细 -->
+    <update id="updateWholeOrder">
+        UPDATE order_detail SET goods_count = #{goodsCount}
+       WHERE id = #{id}
+    </update>
+    <!--根据订单id和商品id查询批发订单明细中的商品数量-->
+    <select id="getgoodsCountByWholeIdAndGoodsId" resultType="int">
+        SELECT goods_count FROM order_detail
+        WHERE order_id = #{wholeId}
+        AND goods_id = #{goodsId}
+        AND order_type = 1
+    </select>
 </mapper>

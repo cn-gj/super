@@ -25,6 +25,15 @@ private static final long serialVersionUID=1L;
 
     private Integer goodsCount;
 
+    private Integer storeId;
+
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
 
     public Integer getId() {
         return id;

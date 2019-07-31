@@ -3,6 +3,7 @@ package com.superman.supermarket.dao;
 import com.superman.supermarket.entity.OrderDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.superman.supermarket.entity.vo.OrderDetailVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -65,5 +66,29 @@ public interface OrderDetailMapper extends BaseMapper<OrderDetail> {
     int deleteById(int id);
 
 
-    // 添加明细
+    /**
+     * ------------------------------------
+     * 添加批发订单明细
+     * @param orderDetail
+     * @return
+     */
+    int addWholeOrder(OrderDetail orderDetail);
+
+
+    /**
+     * ------------------------------------
+     *  修改批发订单明细
+     * @param orderDetail
+     * @return
+     */
+    int updateWholeOrder(OrderDetail orderDetail);
+
+    /**
+     * -----------------------------------------
+     * 根据订单id和商品id查询批发订单明细中的商品数量
+     * @param wholeId
+     * @param goodsId
+     * @return
+     */
+    int getgoodsCountByWholeIdAndGoodsId(@Param("wholeId") int wholeId, @Param("goodsId")int goodsId);
 }

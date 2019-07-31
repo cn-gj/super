@@ -2,6 +2,7 @@ package com.superman.supermarket.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.superman.supermarket.entity.OrderDetail;
 import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.service.OrderDetailService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,7 @@ public class OrderDetailController {
     }
 
     /**
+     * ---------------------------------
      *  根据订单明细id删除订单明细
      * @param id
      * @return
@@ -58,6 +60,42 @@ public class OrderDetailController {
     @PostMapping("/deleteById")
     public String deleteById(int id){
         int rowCount = orderDetailService.deleteById(id);
+        Map<String,Object> map = new HashMap<>();
+        if (rowCount > 0){
+            map.put("result",true);
+        }else {
+            map.put("result",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     *  添加批发订单明细
+     * @param orderDetail
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/addWholeOrder")
+    public String addWholeOrder(OrderDetail orderDetail){
+        int rowCount = orderDetailService.addWholeOrder(orderDetail);
+        Map<String,Object> map = new HashMap<>();
+        if (rowCount > 0){
+            map.put("result",true);
+        }else {
+            map.put("result",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     *  修改批发订单明细
+     * @param orderDetail
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/updateWholeOrder")
+    public String updateWholeOrder(OrderDetail orderDetail){
+        int rowCount = orderDetailService.updateWholeOrder(orderDetail);
         Map<String,Object> map = new HashMap<>();
         if (rowCount > 0){
             map.put("result",true);

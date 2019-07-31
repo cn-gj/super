@@ -44,4 +44,14 @@ public class OrderDetailServiceImpl extends ServiceImpl<OrderDetailMapper, Order
     public int deleteById(int id) {
         return orderDetailMapper.deleteById(id);
     }
+
+    @Override
+    public int addWholeOrder(OrderDetail orderDetail) {
+        return orderDetailMapper.addOrderDetail(orderDetail);
+    }
+
+    @Override
+    public int updateWholeOrder(OrderDetail orderDetail) {
+        return orderDetailMapper.updateWholeOrder(orderDetail);
+    }
 }

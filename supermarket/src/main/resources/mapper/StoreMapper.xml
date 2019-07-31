@@ -7,12 +7,18 @@
         <id column="id" property="id" />
         <result column="store_name" property="storeName" />
         <result column="shop_id" property="shopId" />
-        <result column="inv_detail_id" property="invDetailId" />
+        <!--<result column="inv_detail_id" property="invDetailId" />-->
+    </resultMap>
+
+    <!-- StoreVo映射 -->
+    <resultMap id="StoreMapper" type="com.superman.supermarket.entity.vo.StoreVo" extends="BaseResultMap">
+       <!-- <collection property="details" ofType="com.superman.supermarket.entity.InventoryDetail"  resultMap="com.superman.supermarket.dao.InventoryDetailMapper.BaseResultMap" />-->
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, store_name, shop_id, inv_detail_id
     </sql>
+
 
 </mapper>

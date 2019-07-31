@@ -8,18 +8,16 @@ import com.superman.supermarket.entity.OrderDetail;
 import com.superman.supermarket.entity.WholeOrder;
 import com.superman.supermarket.entity.vo.WholeOrderVo;
 import com.superman.supermarket.service.WholeOrderService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.superman.supermarket.utils.DateUtil;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * <p>
@@ -72,5 +70,69 @@ public class WholeOrderController {
         return JSON.toJSONString(wholeOrderService.findById(id));
     }
 
+    /**
+     *  修改批发订单详情
+     * @param wholeOrder
+     * @return
+     */
+    @PostMapping("/updateWhole")
+    @ResponseBody
+    public String updateWhole(WholeOrder wholeOrder){
+        int rowCount = wholeOrderService.updateWhole(wholeOrder);
+        Map<String,Object> map = new HashMap<>();
+        if (rowCount > 0){
+            map.put("result",true);
+        }else {
+            map.put("result",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     *  导出批发订单信息Execl
+     * @return
+     */
+    @GetMapping("/exportWhole")
+    public String exportWhole(HttpServletResponse response){
+        String fileName = "批发订单列表_"+ DateUtil.date2Str(new Date()) +".xls";
+        //中文名称进行转码
+        try {
+            response.setHeader("Content-Disposition", "attachment;filename=" +
+                    new String(fileName.getBytes(),"ISO-8859-1"));
+            // 调用业务层导出excel表格
+            try {
+                wholeOrderService.exportWhole(response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return  null;
+    }
+
+    /**
+     *  出库
+     * @param wholeId
+     * @param storeId
+     * @return
+     */
+    @PostMapping("/outWholeStore")
+    @ResponseBody
+    public String outWholeStore(Integer wholeId, Integer storeId){
+        return JSON.toJSONString(wholeOrderService.outWholeStore(wholeId,storeId));
+    }
+
+    /**
+     *  退货
+     * @param wholeId
+     * @param storeId
+     * @return
+     */
+    @PostMapping("/inWholeStore")
+    @ResponseBody
+    public String inWholeStore(Integer wholeId, Integer storeId){
+        return JSON.toJSONString(wholeOrderService.inWholeStore(wholeId,storeId));
+    }
 }
 

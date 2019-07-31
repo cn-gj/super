@@ -59,4 +59,12 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      * @return
      */
     List<GoodsVo> findById(int id);
+
+
+    /**
+     *  根据商品id数组查询商品名称
+     * @param noIds
+     * @return
+     */
+    List<String> findGoodsNameByIds(@Param("noIds") List<Integer> noIds);
 }

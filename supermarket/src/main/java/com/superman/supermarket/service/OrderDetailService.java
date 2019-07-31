@@ -39,4 +39,20 @@ public interface OrderDetailService extends IService<OrderDetail> {
      */
     int deleteById(int id);
 
+    /**
+     * ------------------------------------
+     * 添加批发订单明细
+     * @param orderDetail
+     * @return
+     */
+    int addWholeOrder(OrderDetail orderDetail);
+
+    /**
+     * ------------------------------------
+     *  修改批发订单明细
+     * @param orderDetail
+     * @return
+     */
+    int updateWholeOrder(OrderDetail orderDetail);
+
 }

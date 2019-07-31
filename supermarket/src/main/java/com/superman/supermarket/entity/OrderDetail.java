@@ -28,11 +28,11 @@ private static final long serialVersionUID=1L;
     private Double totalMoney;
 
     /**
-     *  订单id
+     *  璁㈠崟id
      */
     private Integer orderId;
     /**
-     *  订单类型
+     *  璁㈠崟绫诲瀷
      */
     private Integer orderType;
 

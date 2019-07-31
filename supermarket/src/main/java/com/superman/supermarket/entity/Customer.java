@@ -3,7 +3,10 @@ package com.superman.supermarket.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -35,6 +38,25 @@ private static final long serialVersionUID=1L;
 
     private String proAddress;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createDate;
+    private Integer customerStatus;
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Integer getCustomerStatus() {
+        return customerStatus;
+    }
+
+    public void setCustomerStatus(Integer customerStatus) {
+        this.customerStatus = customerStatus;
+    }
 
     public Integer getId() {
         return id;

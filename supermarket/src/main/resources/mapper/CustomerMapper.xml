@@ -48,7 +48,7 @@
         INNER JOIN shop s
         ON e.shop_id = s.id
         <where>
-            <if test="condition !=null" >
+            <if test="condition != null and condition != ''" >
                 and c.`customer_name` like CONCAT('%',#{condition},'%')OR e.`emp_name` LIKE CONCAT('%',#{condition},'%')OR customer_linkman LIKE CONCAT('%',#{condition},'%')
                 OR c.pro_address LIKE CONCAT('%',#{condition},'%')OR c.customer_phone LIKE CONCAT('%',#{condition},'%')
             </if>
