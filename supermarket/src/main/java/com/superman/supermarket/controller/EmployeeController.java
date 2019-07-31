@@ -71,15 +71,19 @@ public class EmployeeController {
             map.put("state",true);
             // 获取登录对象
             Employee emp = employeeService.getEmployeeByEmpAccount(employee.getEmpAccount());
-            map.put("message","登录成功!");
+            map.put("shopId",emp.getShopId());
             // 保存登录对象返回前台
-            map.put("userCode",emp);
+            map.put("empId",emp.getId());
             // 将当前登录用户保存到session中
-            session.setAttribute("currentEmp",emp);
+            if (session.getAttribute("currentEmp") == null){
+                session.setAttribute("currentEmp",emp);
+            }else {
+                if (session.getAttribute("currentEmp") != emp){
+                    session.setAttribute("currentEmp",emp);
+                }
+            }
         } catch (AuthenticationException e) {
-            e.printStackTrace();
             map.put("state",false);
-            map.put("message","用户名或密码错误!");
         }
         return JSON.toJSONString(map);
     }
@@ -166,21 +170,16 @@ public class EmployeeController {
    }
 
     /**
-     *  根据员工id查询员工信息
+     *  根据员工id查询员工门店信息
      * @param id
      * @return
      */
     @PostMapping("/selectshop")
     @ResponseBody
-    public String selectfindshop(int id, HttpSession session){
+    public String selectfindshop(int id){
         Map<String,Object> map = new HashMap<>();
         List<Shop> list = employeeService.selectfindshop(id);
-        if(list != null){
-            map.put("currentshop",list.get(0));
-            session.setAttribute("currentshop",list.get(0));
-        }else {
-            map.put("currentshop",null);
-        }
+        map.put("shopListByEmpId",list.get(0));
         return JSON.toJSONString(map);
     }
 

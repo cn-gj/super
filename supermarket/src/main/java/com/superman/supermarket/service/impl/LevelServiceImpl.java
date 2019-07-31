@@ -1,5 +1,6 @@
 package com.superman.supermarket.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.superman.supermarket.entity.Level;
 import com.superman.supermarket.dao.LevelMapper;
 import com.superman.supermarket.service.LevelService;
@@ -57,5 +58,26 @@ public class LevelServiceImpl extends ServiceImpl<LevelMapper, Level> implements
     @Override
     public int findinsertLeve(Level level) {
         return levelMapper.findinsertLeve(level);
+    }
+
+    @Override
+    public Level findLevelByName(String levelName) {
+        QueryWrapper<Level> wrapper = new QueryWrapper<>();
+        wrapper.eq("level_name",levelName);
+        List<Level> levels = levelMapper.selectList(wrapper);
+        if (levels != null && levels.size() > 0){
+            return levels.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public long findMemberCountByIds(int[] ids) {
+        return levelMapper.findMemberCountByIds(ids);
+    }
+
+    @Override
+    public int batchLevel(int[] ids) {
+        return levelMapper.batchLevel(ids);
     }
 }

@@ -21,7 +21,7 @@ public interface SpecTmpMapper extends BaseMapper<SpecTmp> {
      * 查询规格模板、以及某一个规格模板对应的规格数
      * @return
      */
-    List<SpecTmp> findSpecTmpAndSpec(@Param("specTmp") SpecTmp specTmp);
+    List<SpecTmp> findSpecTmpAndSpec(@Param("condition") String condition);
 
     /**
      * 添加规格模板
@@ -53,8 +53,21 @@ public interface SpecTmpMapper extends BaseMapper<SpecTmp> {
 
     /**
      * 根据模板id，查询除所有的规格，和规格下的规格详情
-     * @param id
+     * @param ids
      * @return
      */
-    List<SpecTmp> getSpecAndSpecDetailBySpecTmpId(Integer id);
+    List<SpecTmp> getSpecAndSpecDetailBySpecTmpId(@Param("ids") int [] ids);
+
+    /**
+     *查询所有规格模板、规格、规格详情
+     * @return
+     */
+    List<SpecTmp>selectSpecTmpAndSpecAndSpecDetail();
+
+    /**
+     * 查询规格模板
+     * @param specTmpName
+     * @return
+     */
+    SpecTmp selectSpecTmpByName(String specTmpName);
 }

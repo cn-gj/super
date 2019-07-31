@@ -2,6 +2,7 @@ package com.superman.supermarket.dao;
 
 import com.superman.supermarket.entity.Level;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -37,4 +38,18 @@ public interface LevelMapper extends BaseMapper<Level> {
      * @return
      */
     int findinsertLeve(Level level);
+
+    /**
+     * 根据等级id批量查询会员个数
+     * @param ids
+     * @return
+     */
+    long findMemberCountByIds(@Param("ids") int[]ids);
+
+    /**
+     * 根据等级id批量查询会员个数
+     * @param ids
+     * @return
+     */
+    int batchLevel(@Param("ids") int[]ids);
 }

@@ -13,4 +13,17 @@
         id, goods_type_name
     </sql>
 
+    <!--根据类型id查询商品信息-->
+    <select id="selectGoodsByGoodsType" resultType="long">
+        SELECT COUNT(1) FROM goods WHERE goods_type_id IN (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        )
+    </select>
+
+    <!--删除商品信息-->
+    <delete id="deleteByIds">
+        delete from goods_type where id in (
+            <foreach collection="ids" item="item" separator=",">#{item}</foreach>
+        )
+    </delete>
 </mapper>

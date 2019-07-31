@@ -28,7 +28,6 @@
         UPDATE spec
         <set>
             <if test="specName != null and specName != ''">spec_name = #{specName}</if>
-            <if test="specTmpId != null and specTmpId != ''">spec_tmp_id = #{specTmpId}</if>
         </set>
         Where id = #{id}
     </update>

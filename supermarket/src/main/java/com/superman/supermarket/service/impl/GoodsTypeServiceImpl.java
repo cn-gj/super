@@ -49,9 +49,15 @@ public class GoodsTypeServiceImpl extends ServiceImpl<GoodsTypeMapper, GoodsType
     }
 
     @Override
-    public int deleteById(int id) {
-        return goodsTypeMapper.deleteById(id);
+    public int deleteByIds(int [] ids) {
+        return goodsTypeMapper.deleteByIds(ids);
     }
 
-
+    @Override
+    public Boolean selectGoodsByGoodsType(int[] ids) {
+        if (goodsTypeMapper.selectGoodsByGoodsType(ids) > 0){
+            return true;
+        }
+        return false;
+    }
 }

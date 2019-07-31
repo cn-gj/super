@@ -38,9 +38,15 @@ public interface GoodsTypeService extends IService<GoodsType> {
 
     /**
      *  根据id删除商品类型
-     * @param id
+     * @param ids
      * @return
      */
-    int deleteById(int id);
+    int deleteByIds(int [] ids);
 
+    /**
+     *  根据类型id查询商品信息
+     * @param ids
+     * @return
+     */
+    Boolean selectGoodsByGoodsType(int [] ids);
 }

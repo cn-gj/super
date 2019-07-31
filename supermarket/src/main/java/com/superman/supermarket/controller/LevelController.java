@@ -76,6 +76,23 @@ public class LevelController {
     }
 
     /**
+     *  根据等级名称查询对象
+     * @param levelName
+     * @return
+     */
+    @PostMapping("/findLevelByName")
+    @ResponseBody
+    public String findLevelByName(String levelName){
+        Map<String,Object> map = new HashMap<>();
+        if (levelService.findLevelByName(levelName)!= null){
+            map.put("state",false);
+        }else {
+            map.put("state",true);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
      *新增会员等级信息
      * @return
      */
@@ -85,6 +102,42 @@ public class LevelController {
         Map<String,Object> map = new HashMap<>();
         Integer count = levelService.findinsertLeve(level);
         if (count > 0){
+            map.put("state",true);
+        }else {
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     * 根据等级id批量查询会员个数
+     * @param ids
+     * @return
+     */
+    @PostMapping("/findMemberCountByIds")
+    @ResponseBody
+    public String findMemberCountByIds(int[]ids){
+        Map<String,Object> map = new HashMap<>();
+        long count = levelService.findMemberCountByIds(ids);
+        if (count > 0){
+            map.put("state",false);
+        }else {
+            map.put("state",true);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     * 删除会员等级
+     * @param ids
+     * @return
+     */
+    @PostMapping("/batchLevel")
+    @ResponseBody
+    public String batchLevel(int[]ids){
+        Map<String,Object> map = new HashMap<>();
+        int count = levelService.batchLevel(ids);
+        if (count == ids.length){
             map.put("state",true);
         }else {
             map.put("state",false);

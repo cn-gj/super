@@ -1,5 +1,6 @@
 package com.superman.supermarket.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
@@ -46,11 +47,11 @@ private static final long serialVersionUID=1L;
     private Integer providerId;
 
     private String goodsAddress;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JSONField(format = "yyyy/MM/dd")
     private Date yieldDate;
 
     private String expirationDay;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JSONField(format = "yyyy/MM/dd")
     private Date expirationDate;
 
 

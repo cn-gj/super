@@ -1,5 +1,6 @@
 package com.superman.supermarket.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
@@ -28,6 +29,7 @@ private static final long serialVersionUID=1L;
 
     private String memberPhone;
 
+    @JSONField(format = "yyyy-MM-dd")
     private Date memberBirthday;
 
     private String memberSex;
@@ -44,6 +46,7 @@ private static final long serialVersionUID=1L;
 
     private Integer residueSorce;
 
+    @JSONField(format = "yyyy-MM-dd")
     @TableField("createDate")
     private Date createDate;
 

@@ -1,5 +1,6 @@
 package com.superman.supermarket.dao;
 
+import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.entity.Shop;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.superman.supermarket.entity.vo.ShopVo;
@@ -30,7 +31,12 @@ public interface ShopMapper extends BaseMapper<Shop> {
      */
     List<Shop> findAllShopName();
 
-
+    /**
+     * 根据门店id查询员工信息
+     * @param id
+     * @return
+     */
+    List<Employee> selectEmpByShopId(Integer id);
     /**
      * 添加门店信息
      * @param shop

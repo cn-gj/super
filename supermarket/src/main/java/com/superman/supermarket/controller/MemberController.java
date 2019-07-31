@@ -163,7 +163,7 @@ public class MemberController {
      *  导出会员信息Execl
      * @return
      */
-    @GetMapping("/exportGoods")
+    @GetMapping("/exportMember")
     public String exportMember(HttpServletResponse response){
         String fileName = "会员信息列表_"+ DateUtil.date2Str(new Date()) +".xls";
         //中文名称进行转码

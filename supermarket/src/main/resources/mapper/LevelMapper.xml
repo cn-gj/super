@@ -21,15 +21,33 @@
 
     <!-- 修改会员等级 -->
     <update id="findUpdateLeve" parameterType="Level">
-            UPDATE  LEVEL SET level_name=#{levelName},level_image=#{levelImage},discount=#{discount} WHERE id=#{id}
+            UPDATE  LEVEL SET discount=#{discount} WHERE id=#{id}
     </update>
 
     <!-- 查询所有会员等级信息 -->
     <select id="findSelectLeve" resultMap="BaseResultMap">
-            SELECT * FROM LEVEL
+            SELECT * FROM `LEVEL`
     </select>
 
     <insert id="findinsertLeve"  parameterType="Level">
         INSERT INTO LEVEL VALUE(NULL,#{levelName},#{levelImage},#{discount})
     </insert>
+
+    <!-- 根据等级id批量查询会员个数 -->
+    <select id="findMemberCountByIds" resultType="long">
+        SELECT COUNT(id) FROM member WHERE level_id IN(
+        <foreach collection="ids" separator="," item="id">
+            #{id}
+        </foreach>
+        )
+    </select>
+
+    <!-- 批量删除会员等级 -->
+    <delete id="batchLevel">
+         DELETE FROM`level` WHERE id IN(
+        <foreach collection="ids" separator="," item="id">
+            #{id}
+        </foreach>
+         )
+    </delete>
 </mapper>

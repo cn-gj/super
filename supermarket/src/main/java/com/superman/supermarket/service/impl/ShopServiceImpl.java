@@ -3,6 +3,7 @@ package com.superman.supermarket.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.ShopMapper;
+import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.entity.vo.ShopVo;
 import com.superman.supermarket.service.ShopService;
@@ -129,9 +130,16 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
      */
     @Override
     public Integer delShopInfo(Integer id) {
-        //清空缓存数据
-        redisTemplate.delete("shopNameList");
-        return shopMapper.delShopInfo(id);
+        //调用方法查询门店下的员工信息
+        List<Employee> list= shopMapper.selectEmpByShopId(id);
+        int count =0;
+        //如果门店下没有员工了才能进行删除
+        if (list == null){
+            //清空缓存数据
+            redisTemplate.delete("shopNameList");
+            count = shopMapper.delShopInfo(id);
+        }
+        return count;
     }
 
     /**
