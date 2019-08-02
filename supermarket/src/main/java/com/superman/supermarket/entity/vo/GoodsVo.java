@@ -1,5 +1,6 @@
 package com.superman.supermarket.entity.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.superman.supermarket.entity.*;
 
 /**
@@ -23,6 +24,17 @@ public class GoodsVo extends Goods {
     private String spceTmpName;
     // 规格模版名称
     private String specName;
+
+    @TableField(exist = false)
+    private InventoryDetail inventoryDetail;//一个商品对应一个库存明细
+
+    public InventoryDetail getInventoryDetail() {
+        return inventoryDetail;
+    }
+
+    public void setInventoryDetail(InventoryDetail inventoryDetail) {
+        this.inventoryDetail = inventoryDetail;
+    }
 
     /**
      * 排序名称

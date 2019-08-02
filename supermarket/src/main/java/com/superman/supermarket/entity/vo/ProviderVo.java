@@ -9,7 +9,18 @@ import java.util.List;
 public class ProviderVo extends Provider {
 
     @TableField(exist = false)
+    private Integer shopId;
+
+    @TableField(exist = false)
     private List<Shop> shopList;
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
 
     public List<Shop> getShopList() {
         return shopList;

@@ -2,7 +2,10 @@ package com.superman.supermarket.dao;
 
 import com.superman.supermarket.entity.InventoryDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.superman.supermarket.entity.TicketDetail;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -38,4 +41,11 @@ public interface InventoryDetailMapper extends BaseMapper<InventoryDetail> {
      * @return
      */
     int updateInvByGoodsIds(@Param("storeId")int storeId,@Param("goodsId") int goodsId,@Param("goodsCount")int goodsCount);
+
+    /**
+     * 根据小票明细同步库存明细
+     * @param detailList
+     * @return
+     */
+    int updateInvByTicketDetailList(@Param("detailList") List<TicketDetail> detailList);
 }

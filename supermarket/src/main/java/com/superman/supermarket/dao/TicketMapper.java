@@ -30,5 +30,7 @@ public interface TicketMapper extends BaseMapper<Ticket> {
      */
     TicketVo findById(Integer id);
 
+    int addTicket(Ticket ticket);
+
 
 }

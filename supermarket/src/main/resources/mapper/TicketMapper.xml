@@ -41,6 +41,7 @@
             t.original_count_money,
             t.practical_money,
             t.discount_money,
+            t.single_score,
             m.member_name,
             emp.emp_name
         from ticket t
@@ -54,8 +55,11 @@
         on t.member_id = m.member_name
         /* 根据下单时间范围查询,店铺名称/单号/会员名称/收银员查询 */
         <where>
-            <if test="endDate != null and startDate != null">
-                t.place_order_date BETWEEN #{startDate} AND #{endDate}
+            <if test="startDate != null and startDate != ''">
+                AND t.place_order_date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND t.place_order_date &lt;= #{endDate}
             </if>
             <if test="condition != null and condition != ''">
                 and s.shop_name LIKE CONCAT('%',#{condition},'%')
@@ -93,4 +97,9 @@
         WHERE t.id = #{id}
     </select>
 
+    <!--添加收银单-->
+    <insert id="addTicket" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO ticket(cashier_desk_id,place_order_date,member_id,original_count_money,practical_money,discount_money,sell_count,single_score,emp_id)
+        VALUE(#{cashierDeskId},NOW(),#{memberId},#{originalCountMoney},#{practicalMoney},#{discountMoney},#{sellCount},#{singleScore},#{empId})
+    </insert>
 </mapper>

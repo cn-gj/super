@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ProShopRelationService extends IService<ProShopRelation> {
 
+    /**
+     * 往中间表添加门店和供应商信息
+     * @param proShopRelation
+     * @return
+     */
+    Integer addProShop(ProShopRelation proShopRelation);
 }

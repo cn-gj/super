@@ -1,5 +1,6 @@
 package com.superman.supermarket.service;
 
+import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.entity.Shop;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.superman.supermarket.entity.vo.ShopVo;
@@ -68,6 +69,12 @@ public interface ShopService extends IService<Shop> {
      */
     Integer delShopInfo(Integer id);
 
+    /**
+     * 根据门店id查询员工信息
+     * @param id
+     * @return
+     */
+    List<Employee> selectEmpByShopId(Integer id, Integer empStatus);
     /**
      *  下载门店列表信息
      * @param outputStream

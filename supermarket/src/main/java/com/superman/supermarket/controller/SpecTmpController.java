@@ -122,15 +122,15 @@ public class SpecTmpController {
         return JSON.toJSONString(specTmpService.selectSpecTmpAndSpecAndSpecDetail());
     }
 
-  /* /**
+  /**
      * 查询所有的规格模板、规格、规格详情
      * @return
-     *//*
+     */
     @ResponseBody
     @PostMapping("/seSpecTmpAndSpecAndSd")
     public String selectSpecTmpAndSpecAndsd(){
         return JSON.toJSONString(specTmpService.selectSpecTmp());
-    }*/
+    }
 
     /**
      * 根据模板名称查询模板信息 ok

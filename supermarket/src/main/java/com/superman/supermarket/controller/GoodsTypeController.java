@@ -129,5 +129,7 @@ public class GoodsTypeController {
         }
         return JSON.toJSONString(map);
     }
+
+
 }
 

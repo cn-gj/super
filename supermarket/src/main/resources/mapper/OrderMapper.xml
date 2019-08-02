@@ -6,10 +6,11 @@
     <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.Order">
         <id column="id" property="id" />
         <result column="shop_id" property="shopId" />
+        <result column="pro_id" property="proId"/>
         <result column="place_order_date" property="placeOrderDate" />
         <result column="ready_date" property="readyDate" />
         <result column="emp_id" property="empId" />
-        <result column="odetail_id" property="odetailId" />
+       <!-- <result column="odetail_id" property="odetailId" />-->
         <result column="single_state" property="singleState" />
         <result column="take_state" property="takeState" />
     </resultMap>
@@ -56,11 +57,13 @@
             <result column="ready_money" property="readyMoney" />
             <result column="createDate" property="createDate" />
         </association>
-        <collection property="orderDetailVoList" ofType="com.superman.supermarket.entity.vo.OrderDetailVo" resultMap="com.superman.supermarket.dao.OrderDetailMapper.orderDetailResultMap"></collection>
+        <collection property="orderDetailVoList" ofType="com.superman.supermarket.entity.vo.OrderDetailVo" resultMap="com.superman.supermarket.dao.OrderDetailMapper.orderDetailResultMap">
+
+        </collection>
 </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, shop_id, place_order_date, ready_date, emp_id, odetail_id, single_state, take_state
+        id, shop_id, place_order_date, ready_date, emp_id, single_state, take_state
     </sql>
 
     <!--查询所有采购订单-->
@@ -96,15 +99,15 @@
     <!--1.生成采购订单表 shop_id 默认为当前登陆的门店id,emp_id 为当前登陆的emp id-->
     <insert id="addOrder" parameterType="orderVo" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO `order`(pro_id,shop_id,place_order_date,ready_date,emp_id,single_state,take_state)
-        VALUE (#{proId},#{shopId},#{placeOrderDate},#{readyDate},#{singleState},0,0)
+        VALUE (#{proId},#{shopId},now(),#{readyDate},#{empId},0,0)
     </insert>
 
     <!--2.选择商品后，生成采购订单明细表 order_id 为上边生成的订单表的id,-->
     <insert id="addOrderDetail">
         INSERT INTO order_detail (goods_id,goods_count,total_money,order_id,order_type)
         VALUES
-        <foreach collection="ids" item="item" separator=",">
-                (#{goodsId},#{goodsCount},#{totalMoney},#{orderId},0);
+        <foreach collection="orderDetails" item="item" separator=",">
+                (#{item.goodsId},#{item.goodsCount},#{item.totalMoney},#{item.orderId},0)
         </foreach>
     </insert>
 
@@ -123,4 +126,20 @@
     <update id="updateTakeState">
          UPDATE `order` SET take_state = #{takeState} WHERE id = #{id}
     </update>
+
+    <!--根据订单id查询订单信息即订单详情-->
+    <select id="selOrderAndOrderDetailByOrderId" resultMap="orderResultMap">
+        SELECT * FROM `order` o
+        LEFT JOIN provider p
+        ON o.pro_id = p.id
+        LEFT JOIN shop s
+        ON o.shop_id = s.id
+        LEFT JOIN employee e
+        ON o.emp_id = e.id
+        LEFT JOIN order_detail od
+        ON o.id = od.order_id
+        LEFT JOIN goods g
+        ON od.goods_id = g.id
+        WHERE o.id = #{id}
+    </select>
 </mapper>

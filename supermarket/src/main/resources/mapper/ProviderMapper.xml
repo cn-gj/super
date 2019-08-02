@@ -49,13 +49,23 @@
             <if test="proAddress != null and proAddress != ''">
                 AND p.pro_address LIKE CONCAT('%',#{proAddress},'%')
             </if>
+            <!--根据供应商状态(正常)查询所有供应商信息-->
+            <if test="proStatus != null and proStatus != ''">
+                AND p.pro_status =#{proStatus}
+            </if>
+            <if test="shopId != null ">
+                AND psr.shop_id =#{shopId}
+            </if>
+            <if test="id != null ">
+                and p.id =#{id}
+            </if>
         </where>
     </select>
 
     <!-- 新增供货商、并返回id -->
     <insert id="findInsertProvider"  parameterType="Provider" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO provider(pro_name,pro_linkman,pro_phone,pro_email,bank,bank_num,pro_address,pro_status,createDate)
-        VALUE(#{proName},#{proLinkman},#{proPhone},#{proEmail},#{bank},#{bankNum},#{proAddress},0,#{createDate})
+        VALUE(#{proName},#{proLinkman},#{proPhone},#{proEmail},#{bank},#{bankNum},#{proAddress},0,now())
     </insert>
 
     <!--修改供应商-->
@@ -104,4 +114,21 @@
             <foreach collection="ids" item="item" separator=",">#{item}</foreach>
         )
     </update>
+
+    <!--根据供应商名称查询该门店下的供应商信息-->
+    <select id="selProviderByProNameAndShopId" resultMap="providerResultMap">
+        SELECT * FROM provider p
+        LEFT JOIN pro_shop_relation psr
+        ON p.id = psr.pro_id
+        LEFT JOIN shop s
+        ON psr.shop_id = s.id
+        <where>
+            <if test="proName != null and proName != ''">
+                and p.pro_name =#{proName}
+            </if>
+           <if test="shopId != null">
+               and s.id = #{shopId}
+           </if>
+        </where>
+    </select>
 </mapper>

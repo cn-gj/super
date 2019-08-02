@@ -42,6 +42,17 @@ public class ProviderServiceImpl extends ServiceImpl<ProviderMapper, Provider> i
     }
 
     /**
+     * 根据供应商名称查询该门店下的供应商信息
+     * @param proName
+     * @param shopId
+     * @return
+     */
+    @Override
+    public ProviderVo selProviderByProNameAndShopId(String proName, Integer shopId) {
+        return providerMapper.selProviderByProNameAndShopId(proName, shopId);
+    }
+
+    /**
      * 添加供应商的同时添加中间表
      * @param provider
      * @param shopId

@@ -124,6 +124,17 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
     }
 
     /**
+     * 根据门店id查询员工信息
+     * @param id
+     * @param empStatus
+     * @return
+     */
+    @Override
+    public List<Employee> selectEmpByShopId(Integer id, Integer empStatus) {
+        return shopMapper.selectEmpByShopId(id,empStatus);
+    }
+
+    /**
      * 删除门店信息
      * @param id
      * @return
@@ -131,7 +142,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements Sh
     @Override
     public Integer delShopInfo(Integer id) {
         //调用方法查询门店下的员工信息
-        List<Employee> list= shopMapper.selectEmpByShopId(id);
+        List<Employee> list= shopMapper.selectEmpByShopId(id,null);
         int count =0;
         //如果门店下没有员工了才能进行删除
         if (list == null){

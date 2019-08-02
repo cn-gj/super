@@ -51,6 +51,17 @@ public class OrderController {
     }
 
     /**
+     * 根据订单id查询订单信息即订单详情
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/selOrderAndDetailByOrderId")
+    public String selOrderAndOrderDetailByOrderId(Integer id){
+        return JSON.toJSONString(orderService.selOrderAndOrderDetailByOrderId(id));
+    }
+
+    /**
      * 添加订单/********************
      * @param orderVo
      * @param str

@@ -34,7 +34,7 @@
     <select id="getShopInfoByCondition" resultMap="shopMap" parameterType="shopVO">
         SELECT s.*,st.id as stId,st.shop_type_name,st.createDate type_cDate
         FROM shop s
-        INNER JOIN shop_type st
+        LEFT JOIN shop_type st
         ON s.`shop_type_id` = st.`id`
         <where>
             <if test="shopName != null and shopName != ''">
@@ -51,6 +51,9 @@
             </if>
             <if test="shopTypeId != null">
                 and s.`shop_type_id` = #{shopTypeId}
+            </if>
+            <if test="id != null">
+                and s.id = #{id}
             </if>
         </where>
     </select>
@@ -107,8 +110,16 @@
         where id = #{id}
     </update>
     <!--根据门店id查询员工信息-->
-    <select id="selectEmpByShopId" parameterType="int" resultType="employee">
-        SELECT * FROM employee WHERE shop_id =#{id}
+    <select id="selectEmpByShopId"  resultType="employee">
+        SELECT * FROM employee
+        <where>
+            <if test="id != null">
+                AND shop_id =#{id}
+            </if>
+            <if test="empStatus != null">
+                and emp_status = #{empStatus}
+            </if>
+        </where>
     </select>
     <!--删除门店信息-->
     <delete id="delShopInfo" parameterType="int">

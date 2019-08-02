@@ -119,5 +119,25 @@ public class ProviderController {
         }
         return JSON.toJSONString(map);
     }
+
+    /**
+     * 根据供应商名称查询该门店下的供应商信息
+     * @param proName
+     * @param shopId
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/selProByProNameAndShopId")
+    public String selProviderByProNameAndShopId(String proName,Integer shopId){
+        Map<String,Object>map = new HashMap<>();
+        ProviderVo providerVo= providerService.selProviderByProNameAndShopId(proName,shopId);
+        if (providerVo != null){
+            map.put("state",true);//存在
+            map.put("proId",providerVo.getId());
+        }else {
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
 }
 

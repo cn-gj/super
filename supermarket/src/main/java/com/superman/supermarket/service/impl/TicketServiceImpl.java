@@ -1,9 +1,12 @@
 package com.superman.supermarket.service.impl;
 
+import com.superman.supermarket.dao.InventoryDetailMapper;
+import com.superman.supermarket.dao.MemberMapper;
 import com.superman.supermarket.dao.TicketDetailMapper;
 import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.entity.Ticket;
 import com.superman.supermarket.dao.TicketMapper;
+import com.superman.supermarket.entity.TicketDetail;
 import com.superman.supermarket.entity.vo.TicketVo;
 import com.superman.supermarket.service.TicketService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -12,6 +15,8 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -29,13 +34,17 @@ import java.util.List;
  * @since 2019-07-12
  */
 @Service
-@Transactional
+@EnableTransactionManagement
 public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> implements TicketService {
 
     @Resource
     private TicketMapper ticketMapper;
     @Resource
     private TicketDetailMapper ticketDetailMapper;
+    @Resource
+    private MemberMapper memberMapper;
+    @Resource
+    private InventoryDetailMapper inventoryDetailMapper;
 
     @Override
     public List<TicketVo> findByCondition(TicketVo ticketVo) {
@@ -136,5 +145,41 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
             } finally {
             }
         }
+    }
+
+    @Override
+    @Transactional(propagation=Propagation.REQUIRED)
+    public boolean addTicket(Ticket ticket, List<TicketDetail> detailList) {
+        try {
+            // 1.添加收银单
+            int count = ticketMapper.addTicket(ticket);
+            int ticketId = ticket.getId();
+            /*int num = 1/0;*/
+            if (count < 0){
+                return false;
+            }
+            // 2.如果是会员购买，需要修改会员积分
+            if (ticket.getMemberId() != null){
+                int [] ids = {ticket.getMemberId()};
+                int mCount = memberMapper.batchUpdateSorce(ids,ticket.getSingleScore());
+
+                if (mCount<0)  return false;
+            }
+            // 3.添加小票明细
+            for (TicketDetail td : detailList){
+                td.setTicketId(ticketId);
+            }
+            int dCount = ticketDetailMapper.addTicketDetail(detailList);
+            if (dCount != detailList.size()) return false;
+
+            // 4.同步仓库
+            int iCount = inventoryDetailMapper.updateInvByTicketDetailList(detailList);
+            if (iCount>0){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

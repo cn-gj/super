@@ -40,7 +40,17 @@ private static final long serialVersionUID=1L;
 
     private Integer singleState;
 
+    private Integer proId;
+
     private Integer takeState;
+
+    public Integer getProId() {
+        return proId;
+    }
+
+    public void setProId(Integer proId) {
+        this.proId = proId;
+    }
 
     public Integer getId() {
         return id;

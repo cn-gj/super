@@ -1,7 +1,10 @@
 package com.superman.supermarket.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.superman.supermarket.entity.Goods;
 import com.superman.supermarket.entity.OrderDetail;
+
+import java.util.List;
 
 public class OrderDetailVo extends OrderDetail {
     @TableField(exist = false)
@@ -14,6 +17,4 @@ public class OrderDetailVo extends OrderDetail {
     public void setGoodsVo(GoodsVo goodsVo) {
         this.goodsVo = goodsVo;
     }
-
-
 }

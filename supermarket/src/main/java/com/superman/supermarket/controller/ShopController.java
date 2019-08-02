@@ -57,8 +57,6 @@ public class ShopController {
         Map<String,Object> map = new HashMap<>();
         //调用方法查询门店列表信息
         List<ShopVo> shopList= shopService.getShopInfoByCondition(shopVO);
-
-        System.out.println(shopList);
         map.put("shopList",shopList);
         //返回json数据
         return JSON.toJSONString(map);
@@ -122,6 +120,17 @@ public class ShopController {
         return  JSON.toJSONString(map);
     }
 
+    /**
+     * 根据门店id、员工状态查询员工信息
+     * @param id
+     * @param empStatus
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/selEmpByShopId")
+    public String selectEmpByShopId(Integer id, Integer empStatus){
+        return JSON.toJSONString(shopService.selectEmpByShopId(id,empStatus));
+    }
 
     /**
      * 修改门店信息

@@ -31,6 +31,13 @@ public interface ProviderMapper extends BaseMapper<Provider> {
     Integer findInsertProvider(Provider provider);
 
     /**
+     * 根据供应商名称查询该门店下的供应商信息
+     * @param proName
+     * @param shopId
+     * @return
+     */
+    ProviderVo selProviderByProNameAndShopId(@Param("proName") String proName,@Param("shopId") Integer shopId);
+    /**
      * 修改供应商
      * @param provider
      * @return

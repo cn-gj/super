@@ -68,16 +68,21 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         for (int i = 0; i < array.size(); i++) {
             // 获取数组中的对象
             JSONObject object = (JSONObject) array.get(i);
-            // JsonArray中的对象是JSONObject类型将它转换成订单明细类型对像
-            detail = (OrderDetailVo) JSONObject.toJavaObject(object, OrderDetailVo.class);
-            //获取到订单的id、并设置进订单明细中
+            detail = new OrderDetailVo();
+            detail.setGoodsId(object.getInteger("id"));
+            detail.setGoodsCount(object.getInteger("goodsCount"));
+            detail.setTotalMoney(object.getDouble("totalMoney"));
             detail.setOrderId(orderVo.getId());
+            // JsonArray中的对象是JSONObject类型将它转换成订单明细类型对像
+            /*detail = (OrderDetailVo) JSONObject.toJavaObject(object, OrderDetailVo.class);
+            //获取到订单的id、并设置进订单明细中
+            detail.setOrderId(orderVo.getId());*/
             // 放入订单明细集合中
             details.add(detail);
         }
         //给order设置参数、把订单明细集合放入订单中
         orderVo.setOrderDetailVoList(details);
-        count += orderMapper.addOrderDetail(detail);
+        count += orderMapper.addOrderDetail(details);
         return count;
     }
 
@@ -90,6 +95,16 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public Integer updateOrderSingleState(Integer id) {
         return orderMapper.updateOrderSingleState(id);
+    }
+
+    /**
+     * 根据订单id查询订单信息即订单详情
+     * @param id
+     * @return
+     */
+    @Override
+    public List<OrderVo> selOrderAndOrderDetailByOrderId(Integer id) {
+        return orderMapper.selOrderAndOrderDetailByOrderId(id);
     }
 
     /**

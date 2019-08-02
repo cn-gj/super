@@ -4,6 +4,7 @@ import com.superman.supermarket.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.superman.supermarket.entity.vo.GoodsVo;
 import org.apache.ibatis.annotations.Param;
+import org.omg.CORBA.INTERNAL;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      * @param id
      * @return
      */
-    List<GoodsVo> findById(int id);
+    List<GoodsVo> findById(@Param("id") Integer id, @Param("providerId") Integer providerId);
 
 
     /**
@@ -67,4 +68,11 @@ public interface GoodsMapper extends BaseMapper<Goods> {
      * @return
      */
     List<String> findGoodsNameByIds(@Param("noIds") List<Integer> noIds);
+
+    /**
+     * 根据商品条码查询库存中的商品
+     * @param goodsCode
+     * @return
+     */
+    GoodsVo selGoodsAndInventoryDetailByGoodsCode(String goodsCode);
 }

@@ -59,4 +59,12 @@
        WHERE t.id = #{id}
     </select>
 
+    <!--添加小票明细-->
+    <insert id="addTicketDetail">
+        INSERT INTO ticket_detail(goods_id,goods_count,total_money,ticket_id)
+        VALUES
+        <foreach collection="detailList" item="detail" separator=",">
+            (#{detail.goodsId},#{detail.goodsCount},#{detail.totalMoney},#{detail.ticketId})
+        </foreach>
+    </insert>
 </mapper>

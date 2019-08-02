@@ -42,4 +42,11 @@
         WHERE store_id = #{storeId}
         AND goods_id = #{goodsId}
     </update>
+
+    <!--根据小票明细同步库存明细-->
+    <update id="updateInvByTicketDetailList">
+        <foreach collection="detailList" item="detail">
+            UPDATE inventory_detail SET goods_count=goods_count-#{detail.goodsCount} where goods_id = #{detail.goodsId};
+        </foreach>
+    </update>
 </mapper>

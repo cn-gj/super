@@ -50,4 +50,12 @@ public interface ProviderService extends IService<Provider> {
      * @return
      */
     Integer updateProStatus(int [] ids,Integer proStatus);
+
+    /**
+     * 根据供应商名称查询该门店下的供应商信息
+     * @param proName
+     * @param shopId
+     * @return
+     */
+    ProviderVo selProviderByProNameAndShopId(String proName,Integer shopId);
 }

@@ -65,5 +65,14 @@ public interface MemberMapper extends BaseMapper<Member> {
      * @param memberPhone
      * @return
      */
-    public Member findMemberByMemberPhone(String memberPhone);
+    public Member findMemberByMemberPhone(@Param("memberPhone") String memberPhone,@Param("shopId") Integer shopId);
+
+    /**
+     * 根据会员手机号（即卡号）和门店id查询会员信息
+     * @param memberPhone
+     * @param shopId
+     * @return
+     */
+    public MemberVo selMemberAndLevelByShopIdAndMemberPhone(@Param("memberPhone") String memberPhone,@Param("shopId") Integer shopId);
+
 }

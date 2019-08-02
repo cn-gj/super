@@ -51,6 +51,11 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
+    public GoodsVo selGoodsAndInventoryDetailByGoodsCode(String goodsCode) {
+        return goodsMapper.selGoodsAndInventoryDetailByGoodsCode(goodsCode);
+    }
+
+    @Override
     public Goods findByGoodsName(String goodsName) {
         QueryWrapper<Goods> wrapper = new QueryWrapper<>();
         wrapper.eq("goods_name",goodsName);
@@ -82,8 +87,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     }
 
     @Override
-    public List<GoodsVo> findById(int id) {
-        return goodsMapper.findById(id);
+    public List<GoodsVo> findById(Integer id,Integer providerId) {
+        return goodsMapper.findById(id,providerId);
+    }
+
+    /**
+     * 根据供应商id查询商品信息
+     * @param providerId
+     * @return
+     */
+    @Override
+    public List<Goods> selGoodsByProviderId(Integer providerId) {
+        QueryWrapper<Goods> query = new QueryWrapper<>();
+        query.eq("provider_id",providerId);
+        return goodsMapper.selectList(query);
     }
 
     @Override

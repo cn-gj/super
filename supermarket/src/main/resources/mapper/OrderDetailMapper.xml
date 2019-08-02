@@ -14,7 +14,24 @@
 
     <!--一个明细对应一个商品-->
     <resultMap id="orderDetailResultMap" type="com.superman.supermarket.entity.vo.OrderDetailVo" extends="BaseResultMap">
-        <association property="goodsVo" javaType="com.superman.supermarket.entity.vo.GoodsVo" resultMap="com.superman.supermarket.dao.GoodsMapper.InitMap"></association>
+<!--        <association property="goodsVo" javaType="com.superman.supermarket.entity.vo.GoodsVo" resultMap="com.superman.supermarket.dao.GoodsMapper.InitMap"></association>-->
+        <association property="goodsVo" javaType="com.superman.supermarket.entity.vo.GoodsVo">
+            <id column="id" property="id" />
+            <result column="goods_name" property="goodsName" />
+            <result column="goods_code" property="goodsCode" />
+            <result column="price" property="price" />
+            <result column="member_price" property="memberPrice" />
+            <result column="whole_price" property="wholePrice" />
+            <result column="cost_price" property="costPrice" />
+            <result column="spec_detail_id" property="specDetailId" />
+            <result column="unit_id" property="unitId" />
+            <result column="goods_type_id" property="goodsTypeId" />
+            <result column="provider_id" property="providerId" />
+            <result column="goods_address" property="goodsAddress" />
+            <result column="yield_date" property="yieldDate" />
+            <result column="expiration_day" property="expirationDay" />
+            <result column="expiration_date" property="expirationDate" />
+        </association>
     </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">

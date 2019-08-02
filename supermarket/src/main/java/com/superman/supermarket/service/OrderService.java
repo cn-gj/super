@@ -57,4 +57,11 @@ public interface OrderService extends IService<Order> {
      * @return
      */
     Integer updateTakeState(Integer takeState,Integer  id);
+
+    /**
+     * 根据订单id查询订单信息即订单详情
+     * @param id
+     * @return
+     */
+    List<OrderVo> selOrderAndOrderDetailByOrderId(Integer id);
 }

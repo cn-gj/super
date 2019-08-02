@@ -125,6 +125,28 @@
     </update>
     <!--根据会员手机号查询会员信息-->
     <select id="findMemberByMemberPhone" parameterType="string" resultType="member">
-        SELECT * FROM member WHERE member_phone = #{memberPhone}
+        SELECT * FROM member
+        <where>
+            <if test="memberPhone != null and memberPhone !=''">
+               and member_phone = #{memberPhone}
+            </if>
+            <if test="shopId != null">
+               and shop_id =#{shopId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selMemberAndLevelByShopIdAndMemberPhone" resultMap="MemberResultMap">
+        SELECT m.*,l.id lId,l.level_name,l.level_image,l.discount FROM member m
+        LEFT JOIN `level` l
+        ON m.level_id = l.id
+        <where>
+            <if test="memberPhone != null and memberPhone !=''">
+                and m.member_phone = #{memberPhone}
+            </if>
+            <if test="shopId != null">
+                and m.shop_id =#{shopId}
+            </if>
+        </where>
     </select>
 </mapper>
