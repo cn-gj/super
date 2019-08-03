@@ -1,14 +1,15 @@
 package com.superman.supermarket.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.ProShopRelationMapper;
+import com.superman.supermarket.dao.ProviderMapper;
 import com.superman.supermarket.entity.ProShopRelation;
 import com.superman.supermarket.entity.Provider;
-import com.superman.supermarket.dao.ProviderMapper;
 import com.superman.supermarket.entity.vo.ProviderVo;
 import com.superman.supermarket.service.ProviderService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -59,7 +60,7 @@ public class ProviderServiceImpl extends ServiceImpl<ProviderMapper, Provider> i
      * @return
      */
     @Override
-    @Transactional
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
     public Integer findInsertProvider(Provider provider,Integer shopId) {
         Integer count = providerMapper.findInsertProvider(provider);
         System.out.println(provider.getId());

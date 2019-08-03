@@ -3,7 +3,6 @@ package com.superman.supermarket.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.superman.supermarket.entity.Customer;
 import com.superman.supermarket.entity.vo.CustomerVo;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,10 +30,6 @@ public interface CustomerMapper extends BaseMapper<Customer> {
     * */
     List<CustomerVo> findByMessage(CustomerVo customerVo);
 
-    /**
-     * 批量修改商品类型
-     */
-    int batchModify(@Param("ids") int[] ids, @Param("id") int id);
 
     /**
      * 批量删除
@@ -42,9 +37,10 @@ public interface CustomerMapper extends BaseMapper<Customer> {
     int batchDelete(int[] ids);
 
     /**
-     * 根据ID修改状态
-     **/
-    int batchModifyCustomerstatus(@Param("id") int id, @Param("customerStatus") int customerStatus);
+     * 修改客户信息
+     * @return
+     */
+    Integer batchCust(Customer customer);
 
     /**
      * 添加客户列表

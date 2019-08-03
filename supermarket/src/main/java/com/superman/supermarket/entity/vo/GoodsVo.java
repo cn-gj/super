@@ -25,6 +25,8 @@ public class GoodsVo extends Goods {
     // 规格模版名称
     private String specName;
 
+
+
     @TableField(exist = false)
     private InventoryDetail inventoryDetail;//一个商品对应一个库存明细
 

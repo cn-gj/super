@@ -4,19 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.GoodsMapper;
 import com.superman.supermarket.dao.InventoryDetailMapper;
 import com.superman.supermarket.dao.OrderDetailMapper;
-import com.superman.supermarket.entity.Employee;
+import com.superman.supermarket.dao.WholeOrderMapper;
 import com.superman.supermarket.entity.InventoryDetail;
 import com.superman.supermarket.entity.OrderDetail;
 import com.superman.supermarket.entity.WholeOrder;
-import com.superman.supermarket.dao.WholeOrderMapper;
-import com.superman.supermarket.entity.vo.GoodsVo;
 import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.WholeOrderVo;
 import com.superman.supermarket.service.WholeOrderService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.utils.DateUtil;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -51,8 +49,8 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
     private GoodsMapper goodsMapper;
 
     @Override
-    public boolean addWholeOrder(String str) {
-        WholeOrderVo wholeOrderVo = null;
+    public boolean addWholeOrder(WholeOrderVo wholeOrderVo, String str) {
+        /*WholeOrderVo wholeOrderVo = null;
         // 将JSON格式字符串转换成jsonObject对象
         JSONObject jsonObject =JSONObject.parseObject(str);
         // 将jsonObject中的listlist对象装换成JSONArray
@@ -98,7 +96,37 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
            return  true;
        }else {
            return false;
-       }
+       }*/
+   // System.out.println(str+"........................");
+        int totalCount = 1;
+        // 添加批发订单
+        wholeOrderVo.setTakeState(0);
+        wholeOrderVo.setSingleState(0);
+      int rowCount = wholeOrderMapper.addWholeOrder(wholeOrderVo);
+        // 将字符串转成list集合
+        JSONArray jsonArray = JSON.parseArray(str);
+        if (jsonArray != null &&jsonArray.size() > 0){
+            totalCount += jsonArray.size();
+            OrderDetail orderDetail = null;
+            // 循环添加list集合中的订单明细
+            for (int i = 0; i<jsonArray.size(); i++){
+                // 将jsonArray中的元素转成实体类
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                orderDetail = JSONObject.toJavaObject(jsonObject,OrderDetail.class);
+                orderDetail.setOrderId(wholeOrderVo.getId());
+                orderDetail.setOrderType(1);
+                if (orderDetail != null){
+                    rowCount += orderDetailMapper.addOrderDetail(orderDetail);
+                }
+            }
+        }
+
+        // 判断是否成功添加
+        if (totalCount == rowCount){
+            return true;
+        }else {
+            return false;
+        }
     }
 
 
@@ -312,7 +340,7 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
                  // 将订单状态改为已入库
                 WholeOrder wholeOrder = new WholeOrder();
                 wholeOrder.setId(wholeId);
-                wholeOrder.setSingleState(1);
+                wholeOrder.setTakeState(1);
                int count =  wholeOrderMapper.updateWhole(wholeOrder);
                if (count > 0){
                    map.put("result",true);
@@ -392,7 +420,7 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
                 // 将订单状态改为已入库
                 WholeOrder wholeOrder = new WholeOrder();
                 wholeOrder.setId(wholeId);
-                wholeOrder.setTakeState(1);
+                wholeOrder.setTakeState(2);
                 int count =  wholeOrderMapper.updateWhole(wholeOrder);
                 if (count > 0){
                     map.put("result",true);

@@ -1,5 +1,6 @@
 package com.superman.supermarket.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.CustEmpRelationMapper;
 import com.superman.supermarket.dao.CustomerMapper;
@@ -8,6 +9,7 @@ import com.superman.supermarket.entity.Customer;
 import com.superman.supermarket.entity.vo.CustomerVo;
 import com.superman.supermarket.service.CustomerService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -48,17 +50,18 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         return customerMapper.batchDelete(ids);
     }
 
+    /**
+     * 修改客户信息
+     * @param customer
+     * @return
+     */
     @Override
-    public int batchModify(int[] ids, int id) {
-        return customerMapper.batchModify(ids,id);
+    public Integer batchCust(Customer customer) {
+        return customerMapper.batchCust(customer);
     }
 
     @Override
-    public int batchModifyCustomerstatus(int id, int customerStatus) {
-        return customerMapper.batchModifyCustomerstatus(id,customerStatus);
-    }
-
-    @Override
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
     public int addCustomerstatus(CustomerVo customerVo) {
         int rowCount = customerMapper.addCustomerstatus(customerVo);
         // 为了保证数据的准确性 添加一个客户，就要添加一个客户与所属员工的关系
@@ -74,4 +77,14 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         return customerMapper.findByName(id);
     }
 
+    @Override
+    public Customer findByCustomerName(String name) {
+        QueryWrapper<Customer> wrapper = new QueryWrapper<>();
+        wrapper.eq("customer_name",name);
+        List<Customer> customers = customerMapper.selectList(wrapper);
+        if (customers != null && customers.size() > 0){
+            return customers.get(0);
+        }
+        return null;
+    }
 }

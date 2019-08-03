@@ -14,6 +14,17 @@ public class ProviderVo extends Provider {
     @TableField(exist = false)
     private List<Shop> shopList;
 
+    @TableField(exist = false)
+    private String condition;
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
     public Integer getShopId() {
         return shopId;
     }

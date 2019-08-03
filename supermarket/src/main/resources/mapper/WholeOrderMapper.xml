@@ -21,6 +21,8 @@
         <result column="emp_name" property="empName"></result>
         <result column="emp_phone" property="empPhone"></result>
         <result column="shop_address" property="shopAddress"></result>
+        <result column="customer_address" property="customerAddress"></result>
+        <result column="customer_linkman" property="customerLinkMan"></result>
     </resultMap>
 
 
@@ -66,12 +68,12 @@
                     and w.`take_state` = #{takeState}
                 </if>
                 <if test="condition != null and condition != ''">
-                    and w.`id` like concat('%',#{condition},'%')
-                    or s.`shop_name`like concat('%',#{condition},'%')
-                    or c.`customer_name`like concat('%',#{condition},'%')
-                    or e.`emp_name`like concat('%',#{condition},'%')
-                    or e.`emp_phone`like concat('%',#{condition},'%')
-                    or s.`shop_address`like concat('%',#{condition},'%')
+                   <!-- and w.`id` like concat('%',#{condition},'%')
+                    or s.`shop_name`like concat('%',#{condition},'%')-->
+                    and c.`customer_name`like concat('%',#{condition},'%')
+                    <!--or e.`emp_name`like concat('%',#{condition},'%')-->
+                    or c.`customer_phone`like concat('%',#{condition},'%')
+                    or c.`customer_address`like concat('%',#{condition},'%')
                 </if>
             </where>
     </select>
@@ -87,7 +89,9 @@
                 e.`emp_name`,
                 e.`emp_phone`,
                 s.`shop_address`,
-                w.`ready_date`
+                w.`ready_date`,
+                c.customer_linkman,
+                c.customer_address
             from whole_order w
             inner join shop s
             on w.`shop_id` = s.`id`

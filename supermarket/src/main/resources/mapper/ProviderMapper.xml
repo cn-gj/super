@@ -20,7 +20,7 @@
 
     <!--一个供应商对应多个门店、一个门店对应多个供应商-->
     <resultMap id="providerResultMap" type="com.superman.supermarket.entity.vo.ProviderVo" extends="BaseResultMap">
-        <collection property="shopList" ofType="shop" resultMap="com.superman.supermarket.dao.ShopMapper.BaseResultMap"></collection>
+        <collection property="shopList" ofType="shop" resultMap="com.superman.supermarket.dao.ShopMapper.BaseResultMap2"></collection>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -31,20 +31,26 @@
 
     <!-- 查询全部供应商 -->
     <select id="findSelectProvider" resultMap="providerResultMap">
-        SELECT * FROM provider p
+        SELECT p.*,s.id s_id,s.shop_name FROM provider p
         LEFT JOIN pro_shop_relation psr
         ON p.id = psr.pro_id
         LEFT JOIN shop s
         ON psr.shop_id = s.id
         <where>
+            <if test="condition != null and condition != ''">
+                and p.pro_name LIKE CONCAT('%',#{condition},'%')
+                or p.pro_linkman =#{condition}
+                or p.pro_phone = #{proPhone}
+                or p.pro_address LIKE CONCAT('%',#{condition},'%')
+            </if>
             <if test="proName != null and proName != ''">
-                p.proName LIKE CONCAT('%',#{proName},'%')
+                and p.pro_name LIKE CONCAT('%',#{proName},'%')
             </if>
             <if test="proLinkman != null and proLinkman != ''">
-                AND p.pro_linkman ='张三'
+                AND p.pro_linkman =#{proLinkman}
             </if>
             <if test="proPhone != null and proPhone != ''">
-                AND p.pro_phone = '1233333333'
+                AND p.pro_phone = #{proPhone}
             </if>
             <if test="proAddress != null and proAddress != ''">
                 AND p.pro_address LIKE CONCAT('%',#{proAddress},'%')

@@ -3,19 +3,20 @@ package com.superman.supermarket.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.superman.supermarket.entity.Order;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.OrderMapper;
-import com.superman.supermarket.entity.OrderDetail;
+import com.superman.supermarket.entity.Order;
 import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.OrderVo;
-import com.superman.supermarket.entity.vo.ShopVo;
+import com.superman.supermarket.service.InventoryDetailService;
 import com.superman.supermarket.service.OrderService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.superman.supermarket.utils.DateUtil;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -33,10 +34,14 @@ import java.util.List;
  * @since 2019-07-12
  */
 @Service
+@EnableTransactionManagement
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements OrderService {
 
     @Resource
     private OrderMapper orderMapper;
+
+    @Resource
+    private InventoryDetailService inventoryDetailService;
 
     /**
      * 多条件查询订单
@@ -56,6 +61,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @return
      */
     @Override
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
     public Integer addOrder(OrderVo orderVo, String str) {
         //用于接收订单明细对象
         List<OrderDetailVo> details = new ArrayList<>();
@@ -93,8 +99,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
      * @return
      */
     @Override
-    public Integer updateOrderSingleState(Integer id) {
-        return orderMapper.updateOrderSingleState(id);
+    public Integer updateOrderSingleState(Integer id,Integer singleState) {
+        return orderMapper.updateOrderSingleState(id,singleState);
     }
 
     /**
@@ -109,12 +115,23 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 修改收货状态
-     * @param id
+     * @param orderId 采购订单id
+     * @param takeState 采购订单收货状态
+     * @param storeId 仓库id
+     * @param goodsStr  商品明细JSON
      * @return
      */
     @Override
-    public Integer updateTakeState(Integer takeState,Integer id) {
-        return orderMapper.updateTakeState(takeState,id);
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
+    public boolean updateTakeState(Integer orderId,Integer takeState,Integer storeId,String goodsStr) {
+        //修改订单收获状态
+        Integer count = orderMapper.updateTakeState(takeState,orderId);
+        //同步库存
+        boolean flag = inventoryDetailService.updateInventoryByOrderDetail(storeId,goodsStr);
+        if (count > 0 && flag == true){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -232,5 +249,26 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             } finally {
             }
         }
+    }
+
+    /**
+     * 修改订单的退货状态
+     * @param orderId 订单id
+     * @param storeId 仓库id
+     * @param takeState  退货状态
+     * @param goodsStr 商品明细JSON
+     * @return
+     */
+    @Override
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
+    public Boolean updateOrderTackState(Integer orderId,Integer takeState,Integer storeId,String goodsStr) {
+       Integer count = orderMapper.updateTakeState(takeState,orderId);
+       boolean falg= inventoryDetailService.updateInventoryByOrderDetailReturn(storeId, goodsStr);
+        System.out.println(falg+"_+_+_+_+_+_+_+_+_+_");
+       if (count > 0 && falg){
+           System.out.println("count&&&+++++++++++++++++++++++++++++++");
+           return true;
+       }
+        return false;
     }
 }

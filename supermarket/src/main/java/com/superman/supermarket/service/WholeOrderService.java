@@ -1,8 +1,7 @@
 package com.superman.supermarket.service;
 
-import com.superman.supermarket.entity.WholeOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.superman.supermarket.entity.vo.OrderDetailVo;
+import com.superman.supermarket.entity.WholeOrder;
 import com.superman.supermarket.entity.vo.WholeOrderVo;
 
 import java.io.OutputStream;
@@ -23,7 +22,7 @@ public interface WholeOrderService extends IService<WholeOrder> {
      * @param str
      * @return
      */
-    boolean addWholeOrder(String str);
+    boolean addWholeOrder(WholeOrderVo wholeOrderVo,String str);
 
     /**
      *  根据条件查询批发订单

@@ -4,19 +4,15 @@ package com.superman.supermarket.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.superman.supermarket.entity.Goods;
-import com.superman.supermarket.entity.Member;
 import com.superman.supermarket.entity.Ticket;
 import com.superman.supermarket.entity.TicketDetail;
-import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.TicketVo;
 import com.superman.supermarket.service.TicketService;
 import com.superman.supermarket.utils.DateUtil;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -99,23 +95,29 @@ public class TicketController {
     @PostMapping("/addTicket")
     public String addTicket(Ticket ticket,String tickDetailStr){
         Map<String,Object> map = new HashMap<>();
-        //  小票明细集合
-        List<TicketDetail> detailList = new ArrayList<TicketDetail>();
-        // 将JSON格式字符串转换成jsonArray对象
-        JSONArray array = JSONArray.parseArray(tickDetailStr);
-        // 循环遍历array获取商品信息
-        for (int i=0;i<array.size();i++){
-            // 小票明细
-            TicketDetail detail = new TicketDetail();
-            // 获取集合中的对象
-            JSONObject object = (JSONObject) array.get(i);
-            detail.setGoodsId(object.getInteger("id"));
-            detail.setGoodsCount(object.getInteger("count"));
-            detail.setTotalMoney(object.getDouble("totalMoney"));
-            detailList.add(detail);
+        boolean flag = false;
+        try {
+            //  小票明细集合
+            List<TicketDetail> detailList = new ArrayList<TicketDetail>();
+            // 将JSON格式字符串转换成jsonArray对象
+            JSONArray array = JSONArray.parseArray(tickDetailStr);
+            // 循环遍历array获取商品信息
+            for (int i=0;i<array.size();i++){
+                // 小票明细
+                TicketDetail detail = new TicketDetail();
+                // 获取集合中的对象
+                JSONObject object = (JSONObject) array.get(i);
+                detail.setGoodsId(object.getInteger("id"));
+                detail.setGoodsCount(object.getInteger("count"));
+                detail.setTotalMoney(object.getDouble("totalMoney"));
+                detailList.add(detail);
+            }
+            flag = ticketService.addTicket(ticket,detailList);
+            map.put("state",flag); // true:success,false:fail
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("state",false);
         }
-        boolean flag = ticketService.addTicket(ticket,detailList);
-        map.put("state",flag); // true:success,false:fail
         return JSON.toJSONString(map);
     }
 }

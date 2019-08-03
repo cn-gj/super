@@ -1,8 +1,7 @@
 package com.superman.supermarket.dao;
 
-import com.superman.supermarket.entity.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.superman.supermarket.entity.OrderDetail;
+import com.superman.supermarket.entity.Order;
 import com.superman.supermarket.entity.vo.OrderDetailVo;
 import com.superman.supermarket.entity.vo.OrderVo;
 import org.apache.ibatis.annotations.Param;
@@ -44,7 +43,7 @@ public interface OrderMapper extends BaseMapper<Order> {
      * @param id
      * @return
      */
-    Integer updateOrderSingleState(Integer id);
+    Integer updateOrderSingleState(@Param("id")Integer id,@Param("singleState") Integer singleState);
 
     /**
      * 删除订单的同时删除订单详情

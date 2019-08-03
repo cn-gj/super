@@ -1,15 +1,14 @@
 package com.superman.supermarket.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.InventoryDetailMapper;
 import com.superman.supermarket.dao.MemberMapper;
 import com.superman.supermarket.dao.TicketDetailMapper;
-import com.superman.supermarket.entity.Employee;
-import com.superman.supermarket.entity.Ticket;
 import com.superman.supermarket.dao.TicketMapper;
+import com.superman.supermarket.entity.Ticket;
 import com.superman.supermarket.entity.TicketDetail;
 import com.superman.supermarket.entity.vo.TicketVo;
 import com.superman.supermarket.service.TicketService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.utils.DateUtil;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -148,9 +147,8 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
     }
 
     @Override
-    @Transactional(propagation=Propagation.REQUIRED)
-    public boolean addTicket(Ticket ticket, List<TicketDetail> detailList) {
-        try {
+    @Transactional(propagation=Propagation.REQUIRED,rollbackFor = Exception.class)
+    public boolean addTicket(Ticket ticket, List<TicketDetail> detailList){
             // 1.添加收银单
             int count = ticketMapper.addTicket(ticket);
             int ticketId = ticket.getId();
@@ -177,9 +175,6 @@ public class TicketServiceImpl extends ServiceImpl<TicketMapper, Ticket> impleme
             if (iCount>0){
                 return true;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         return false;
     }
 }

@@ -14,24 +14,24 @@
         <result column="single_state" property="singleState" />
         <result column="take_state" property="takeState" />
     </resultMap>
-
-   <resultMap id="orderResultMap" type="com.superman.supermarket.entity.vo.OrderVo" extends="BaseResultMap">
-       <!--一对一、一个订单对应一个门店-->
-       <association property="shop" javaType="com.superman.supermarket.entity.Shop">
-           <id column="s_id" property="id" />
-           <result column="shop_name" property="shopName" />
-           <result column="shop_account" property="shopAccount" />
-           <result column="shop_pwd" property="shopPwd" />
-           <result column="shop_linkman" property="shopLinkman" />
-           <result column="shop_phone" property="shopPhone" />
-           <result column="shop_logo" property="shopLogo" />
-           <result column="shop_hours" property="shopHours" />
-           <result column="shop_advice" property="shopAdvice" />
-           <result column="shop_address" property="shopAddress" />
-           <result column="shop_type_id" property="shopTypeId" />
-           <result column="createDate" property="createDate" />
-       </association>
-       <!--一对一、一个订单对应一个收货人(员工)-->
+    <!--order通用map-->
+    <resultMap id="orderBaseResultMap" type="com.superman.supermarket.entity.vo.OrderVo" extends="BaseResultMap">
+        <!--一对一、一个订单对应一个门店-->
+        <association property="shop" javaType="com.superman.supermarket.entity.Shop">
+            <id column="s_id" property="id" />
+            <result column="shop_name" property="shopName" />
+            <result column="shop_account" property="shopAccount" />
+            <result column="shop_pwd" property="shopPwd" />
+            <result column="shop_linkman" property="shopLinkman" />
+            <result column="shop_phone" property="shopPhone" />
+            <result column="shop_logo" property="shopLogo" />
+            <result column="shop_hours" property="shopHours" />
+            <result column="shop_advice" property="shopAdvice" />
+            <result column="shop_address" property="shopAddress" />
+            <result column="shop_type_id" property="shopTypeId" />
+            <result column="createDate" property="createDate" />
+        </association>
+        <!--一对一、一个订单对应一个收货人(员工)-->
         <association property="employee" javaType="com.superman.supermarket.entity.Employee">
             <id column="emp_id" property="id" />
             <result column="emp_account" property="empAccount" />
@@ -42,7 +42,7 @@
             <result column="createDate" property="createDate" />
             <result column="shop_id" property="shopId" />
         </association>
-         <!--一对一、一个订单对应一个供应商-->
+        <!--一对一、一个订单对应一个供应商-->
         <association property="provider" javaType="com.superman.supermarket.entity.Provider">
             <id column="pro_id" property="id" />
             <result column="pro_name" property="proName" />
@@ -57,10 +57,15 @@
             <result column="ready_money" property="readyMoney" />
             <result column="createDate" property="createDate" />
         </association>
-        <collection property="orderDetailVoList" ofType="com.superman.supermarket.entity.vo.OrderDetailVo" resultMap="com.superman.supermarket.dao.OrderDetailMapper.orderDetailResultMap">
+    </resultMap>
 
-        </collection>
-</resultMap>
+    <resultMap id="orderResultMap" type="com.superman.supermarket.entity.vo.OrderVo" extends="orderBaseResultMap">
+        <collection property="orderDetailVoList" ofType="com.superman.supermarket.entity.vo.OrderDetailVo" resultMap="com.superman.supermarket.dao.OrderDetailMapper.orderDetailResultMap"></collection>
+    </resultMap>
+
+    <resultMap id="orderResultMap2" type="com.superman.supermarket.entity.vo.OrderVo" extends="orderBaseResultMap">
+        <collection property="orderDetailVoList" ofType="com.superman.supermarket.entity.vo.OrderDetailVo" resultMap="com.superman.supermarket.dao.OrderDetailMapper.BaseResultMap2"></collection>
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, shop_id, place_order_date, ready_date, emp_id, single_state, take_state
@@ -83,15 +88,20 @@
             <if test="endDate != null and endDate != ''">
                 AND o.`place_order_date` &lt;= #{endDate}
             </if>
+            <if test="id != null">
+                and o.id = #{id}
+            </if>
+            <if test="singleState != null">
+                AND o.single_state = #{singleState}
+            </if>
+            <if test="takeState != null">
+                AND o.take_state = #{takeState}
+            </if>
             <if test="condition != null and condition != ''">
-                AND o.id = #{condition}
-                OR s.shop_name LIKE CONCAT('%',#{condition},'%')
-                OR p.pro_name LIKE CONCAT('%',#{condition},'%')
+                AND p.pro_name LIKE CONCAT('%',#{condition},'%')
+               <!--or s.shop_name LIKE CONCAT('%',#{condition},'%')-->
                 OR e.emp_name = #{condition}
                 OR e.emp_phone = #{condition}
-            </if>
-            <if test="takeState != null and takeState != ''">
-                 AND o.take_state = #{takeState}<!--(0:待收货,1:已退货,2:已收货)-->
             </if>
         </where>
     </select>
@@ -113,7 +123,7 @@
 
     <!--修改采购订单的单据状态(0:待审核,1:已审核,)-->
     <update id="updateOrderSingleState">
-        UPDATE `order` SET single_state = 1 WHERE id = #{id}
+        UPDATE `order` SET single_state = #{singleState} WHERE id = #{id}
     </update>
 
     <!--删除采购订单-->
@@ -128,8 +138,9 @@
     </update>
 
     <!--根据订单id查询订单信息即订单详情-->
-    <select id="selOrderAndOrderDetailByOrderId" resultMap="orderResultMap">
-        SELECT * FROM `order` o
+    <select id="selOrderAndOrderDetailByOrderId" resultMap="orderResultMap2">
+        SELECT o.*,p.*,s.id s_id,s.shop_name,e.*,od.id order_detail_id,od.goods_count,od.total_money,g.id goods_id,g.goods_name,g.cost_price,g.goods_code
+        FROM `order` o
         LEFT JOIN provider p
         ON o.pro_id = p.id
         LEFT JOIN shop s
@@ -141,5 +152,8 @@
         LEFT JOIN goods g
         ON od.goods_id = g.id
         WHERE o.id = #{id}
+         and od.order_type = 0
     </select>
+
+
 </mapper>

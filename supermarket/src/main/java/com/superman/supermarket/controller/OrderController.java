@@ -61,6 +61,7 @@ public class OrderController {
         return JSON.toJSONString(orderService.selOrderAndOrderDetailByOrderId(id));
     }
 
+
     /**
      * 添加订单/********************
      * @param orderVo
@@ -88,9 +89,9 @@ public class OrderController {
      */
     @ResponseBody
     @PostMapping("/upSingleState")
-    public String updateOrderSingleState(Integer id){
+    public String updateOrderSingleState(Integer id,Integer singleState){
         Map<String,Object> map = new HashMap<>();
-        Integer count = orderService.updateOrderSingleState(id);
+        Integer count = orderService.updateOrderSingleState(id,singleState);
         if (count > 0){
             map.put("state",true);
         }else {
@@ -101,17 +102,43 @@ public class OrderController {
 
     /**
      * 修改采购订单收货状态
-     * @param id
+     * @param orderId  订单id
+     * @param takeState 订单收获状态
+     * @param storeId   仓库id
+     * @param goodsStr  商品明细
      * @return
      */
     @ResponseBody
     @PostMapping("/upTakeState")
-    public String updateTakeState(Integer takeState,Integer id){
+    public String updateTakeState(Integer orderId,Integer takeState,Integer storeId,String goodsStr){
         Map<String,Object> map = new HashMap<>();
-        Integer count = orderService.updateTakeState(takeState,id);
-        if (count > 0){
+        try {
+           orderService.updateTakeState(orderId,takeState,storeId,goodsStr);
             map.put("state",true);
-        }else {
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
+
+    /**
+     * 修改采购订单收货状态
+     * @param orderId  订单id
+     * @param takeState 订单收获状态
+     * @param storeId   仓库id
+     * @param goodsStr  商品明细
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/upOrderTakeState")
+    public String updateTakeStateReturn(Integer orderId,Integer takeState,Integer storeId,String goodsStr){
+        Map<String,Object> map = new HashMap<>();
+        try {
+            Boolean flag =orderService.updateOrderTackState(orderId,takeState,storeId,goodsStr);
+            map.put("state",flag);
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("state",false);
         }
         return JSON.toJSONString(map);

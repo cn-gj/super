@@ -10,12 +10,26 @@
         <result column="store_id" property="storeId"></result>
     </resultMap>
 
-    <!--&lt;!&ndash; 库存明细Vo映射 &ndash;&gt;
-    <resultMap id="VoMapper" type="com.superman.supermarket.entity.vo.InventoryDetailVo" extends="BaseResultMap">
-        <association property="store" javaType="com.superman.supermarket.entity.Store">
-
-        </association>
-    </resultMap>-->
+    <!-- 库存明细Vo映射 -->
+    <resultMap id="InventoryResultMap" type="com.superman.supermarket.entity.vo.InventoryDetailVo" extends="BaseResultMap">
+       <association property="goods" javaType="com.superman.supermarket.entity.Goods">
+           <id column="goods_id" property="id" />
+           <result column="goods_name" property="goodsName" />
+           <result column="goods_code" property="goodsCode" />
+           <result column="price" property="price" />
+           <result column="member_price" property="memberPrice" />
+           <result column="whole_price" property="wholePrice" />
+           <result column="cost_price" property="costPrice" />
+           <result column="spec_detail_id" property="specDetailId" />
+           <result column="unit_id" property="unitId" />
+           <result column="goods_type_id" property="goodsTypeId" />
+           <result column="provider_id" property="providerId" />
+           <result column="goods_address" property="goodsAddress" />
+           <result column="yield_date" property="yieldDate" />
+           <result column="expiration_day" property="expirationDay" />
+           <result column="expiration_date" property="expirationDate" />
+       </association>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -49,4 +63,39 @@
             UPDATE inventory_detail SET goods_count=goods_count-#{detail.goodsCount} where goods_id = #{detail.goodsId};
         </foreach>
     </update>
+
+    <!--添加商品库存明细(供应商收货添加)-->
+    <insert id="insertInventoryDetailByProviderTake">
+        INSERT INTO inventory_detail(goods_id,goods_count,store_id)VALUES
+        <foreach collection="orderDetailMapList" item="detail" separator=",">
+            (#{detail.goodsId},#{detail.goodsCount},#{detail.storeId})
+        </foreach>
+    </insert>
+
+    <!--根据采购收获商品数量修改库存明细-->
+    <update id="updateInventoryByOrderDetail">
+        <foreach collection="orderDetailMapList" item="detail">
+            UPDATE inventory_detail SET goods_count = goods_count + #{detail.goodsCount} where goods_id = #{detail.goodsId} and store_id =#{detail.store};
+        </foreach>
+    </update>
+
+    <!--根据仓库id查询仓库下的商品id信息-->
+    <select id="selInventoryByStoreId" resultType="InventoryDetail">
+        select * from inventory_detail where store_id = #{storeId}
+    </select>
+
+    <!--根据采购退货单的商品信息修改库存明细-->
+    <update id="updateInventoryByOrderDetailReturn">
+        <foreach collection="orderDetailMapList" item="detail">
+            UPDATE inventory_detail SET goods_count = goods_count - #{detail.goodsCount} where goods_id = #{detail.goodsId} and store_id =#{detail.storeId};
+        </foreach>
+    </update>
+
+    <!--根据仓库id查询商品信息-->
+    <select id="selGoodsByStoreId" resultMap="InventoryResultMap">
+        SELECT ind.*,g.id goods_id,g.goods_name,g.goods_code,g.whole_price FROM inventory_detail ind
+        LEFT JOIN goods g
+        ON ind.goods_id = g.id
+        WHERE ind.store_id = #{storeId}
+    </select>
 </mapper>

@@ -1,7 +1,9 @@
 package com.superman.supermarket.service;
 
-import com.superman.supermarket.entity.InventoryDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.superman.supermarket.entity.InventoryDetail;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +15,26 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface InventoryDetailService extends IService<InventoryDetail> {
 
+    /**
+     * 根据采购收获商品数量修改或者添加库存明细
+     * @param goodsStr
+     * @return
+     */
+    Boolean updateInventoryByOrderDetail(Integer storeId,String goodsStr);
+
+    /**
+     * 根据采购退货单的商品信息修改库存明细
+     * 根据商品id和库存id批量修改库存明细
+     * @param storeId
+     * @param goodsStr
+     * @return
+     */
+    Boolean updateInventoryByOrderDetailReturn(Integer storeId,String goodsStr);
+
+    /**
+     * 根据仓库id查询仓库下的商品信息
+     * @param storeId
+     * @return
+     */
+    List<InventoryDetail> selGoodsByStoreId(Integer storeId);
 }
