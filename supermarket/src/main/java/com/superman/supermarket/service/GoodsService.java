@@ -46,6 +46,14 @@ public interface GoodsService extends IService<Goods> {
      */
     Goods findByGoodsCode(String goodsCode);
 
+
+    /**
+     * 根据商品条码查询库存中的商品
+     * @param goodsCode
+     * @return
+     */
+    GoodsVo selGoodsAndInventoryDetailByGoodsCode(String goodsCode);
+
     /**
      *  添加商品
      * @param goods
@@ -73,10 +81,17 @@ public interface GoodsService extends IService<Goods> {
      * @param id
      * @return
      */
-    List<GoodsVo> findById(int id);
+    List<GoodsVo> findById(Integer id,Integer providerId);
 
     /**
      *  导出商品信息
      */
     void exportGoods(OutputStream outputStream);
+
+    /**
+     * 根据供应商id查询商品信息
+     * @param providerId
+     * @return
+     */
+    List<Goods> selGoodsByProviderId(Integer providerId);
 }

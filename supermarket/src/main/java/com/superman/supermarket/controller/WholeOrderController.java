@@ -2,22 +2,20 @@ package com.superman.supermarket.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.superman.supermarket.entity.OrderDetail;
 import com.superman.supermarket.entity.WholeOrder;
 import com.superman.supermarket.entity.vo.WholeOrderVo;
 import com.superman.supermarket.service.WholeOrderService;
 import com.superman.supermarket.utils.DateUtil;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -41,9 +39,10 @@ public class WholeOrderController {
      */
     @PostMapping("/addWholeOrder")
     @ResponseBody
-    public String addWholeOrder(@RequestBody String str ){
+    public String addWholeOrder(WholeOrderVo wholeOrderVo, String str ){
+       //System.out.println(str+"...........................");
         Map<String,Object> map = new HashMap<>();
-        map.put("result",wholeOrderService.addWholeOrder(str));
+        map.put("result",wholeOrderService.addWholeOrder(wholeOrderVo,str));
         return JSON.toJSONString(map);
     }
 
@@ -120,7 +119,7 @@ public class WholeOrderController {
     @PostMapping("/outWholeStore")
     @ResponseBody
     public String outWholeStore(Integer wholeId, Integer storeId){
-        return JSON.toJSONString(wholeOrderService.outWholeStore(wholeId,storeId));
+        return wholeOrderService.outWholeStore(wholeId,storeId);
     }
 
     /**
@@ -132,7 +131,7 @@ public class WholeOrderController {
     @PostMapping("/inWholeStore")
     @ResponseBody
     public String inWholeStore(Integer wholeId, Integer storeId){
-        return JSON.toJSONString(wholeOrderService.inWholeStore(wholeId,storeId));
+        return wholeOrderService.inWholeStore(wholeId,storeId);
     }
 }
 

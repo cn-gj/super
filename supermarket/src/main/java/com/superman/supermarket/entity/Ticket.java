@@ -1,5 +1,6 @@
 package com.superman.supermarket.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -27,7 +28,7 @@ private static final long serialVersionUID=1L;
     private Integer id;
 
     private Integer cashierDeskId;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JSONField(format = "yyyy/MM/dd")
     private Date placeOrderDate;
 
     private Integer memberId;

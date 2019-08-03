@@ -1,12 +1,10 @@
 package com.superman.supermarket.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -36,27 +34,7 @@ private static final long serialVersionUID=1L;
 
     private String bankNum;
 
-    private String proAddress;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createDate;
-    private Integer customerStatus;
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Integer getCustomerStatus() {
-        return customerStatus;
-    }
-
-    public void setCustomerStatus(Integer customerStatus) {
-        this.customerStatus = customerStatus;
-    }
+    private String customerAddress;
 
     public Integer getId() {
         return id;
@@ -114,12 +92,12 @@ private static final long serialVersionUID=1L;
         this.bankNum = bankNum;
     }
 
-    public String getProAddress() {
-        return proAddress;
+    public String getCustomerAddress() {
+        return customerAddress;
     }
 
-    public void setProAddress(String proAddress) {
-        this.proAddress = proAddress;
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
     }
 
     @Override
@@ -132,7 +110,7 @@ private static final long serialVersionUID=1L;
         ", customerEmail=" + customerEmail +
         ", bank=" + bank +
         ", bankNum=" + bankNum +
-        ", proAddress=" + proAddress +
+        ", CustomerAddresss=" + customerAddress +
         "}";
     }
 }

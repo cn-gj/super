@@ -1,6 +1,5 @@
 package com.superman.supermarket.entity.vo;
 
-import com.superman.supermarket.entity.OrderDetail;
 import com.superman.supermarket.entity.WholeOrder;
 
 import java.util.List;
@@ -59,6 +58,25 @@ public class WholeOrderVo extends WholeOrder {
      *  时间查询,结束时间
      */
     private String endDate;
+
+    private String customerLinkMan;     // 客户联系人
+    private String customerAddress;     // 客户地址
+
+    public String getCustomerLinkMan() {
+        return customerLinkMan;
+    }
+
+    public void setCustomerLinkMan(String customerLinkMan) {
+        this.customerLinkMan = customerLinkMan;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress;
+    }
+
+    public void setCustomerAddress(String customerAddress) {
+        this.customerAddress = customerAddress;
+    }
 
     public String getStartDate() {
         return startDate;

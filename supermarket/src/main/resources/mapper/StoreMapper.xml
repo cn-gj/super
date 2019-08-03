@@ -20,5 +20,4 @@
         id, store_name, shop_id, inv_detail_id
     </sql>
 
-
 </mapper>

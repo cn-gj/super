@@ -29,7 +29,7 @@
         <result column="spec_name" property="specName" />
         <result column="spec_detail_name" property="specDetailName" />
         <result property="goodsTypeName" column="goods_type_name"></result>
-
+        <association property="inventoryDetail" javaType="inventoryDetail" resultMap="com.superman.supermarket.dao.InventoryDetailMapper.BaseResultMap"></association>
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -134,7 +134,15 @@
             on sd.spec_id = sp.id
             left join spec_tmp st
             on sp.spec_tmp_id = st.id
-            where g.id = #{id}
+            <where>
+                <if test="id != null">
+                   AND g.id = #{id}
+                </if>
+                <!--根据供应商id查询商品信息-->
+                <if test="providerId != null">
+                    AND g.provider_id = #{providerId}
+                </if>
+            </where>
     </select>
 
     <!-- 根据商品id数组查询商品名称 -->
@@ -144,4 +152,13 @@
             #{id}
         </foreach>
     </select>
+
+    <!--根据商品条码查询库存中的商品信息-->
+    <select id="selGoodsAndInventoryDetailByGoodsCode" resultMap="InitMap">
+        SELECT * FROM goods g
+        INNER JOIN inventory_detail ind
+        ON g.id = ind.goods_id
+        where g.goods_code = #{goodsCode}
+    </select>
+
 </mapper>

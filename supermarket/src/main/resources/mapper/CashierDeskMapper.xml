@@ -32,6 +32,9 @@
         SELECT * FROM cashier_desk c,shop s
         <where>
             c.shop_id = s.id
+            <if test="shopId != null">
+                AND c.shop_id =#{shopId}
+            </if>
             /* 状态有值根据状态精确查询 */
             <if test="cashierState != null">
                 AND c.cashier_state = #{cashierState}
@@ -41,6 +44,9 @@
                 AND c.id = #{condition}
                 OR c.cashier_name LIKE CONCAT('%',#{condition},'%')
                 OR s.shop_name LIKE CONCAT('%',#{condition},'%')
+            </if>
+            <if test="cashierState != null">
+                AND c.cashier_state = #{cashierState}
             </if>
         </where>
     </select>

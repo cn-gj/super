@@ -2,6 +2,7 @@ package com.superman.supermarket.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.superman.supermarket.entity.Customer;
 import com.superman.supermarket.entity.vo.CustomerVo;
 import com.superman.supermarket.service.CustomerService;
 import org.springframework.stereotype.Controller;
@@ -36,7 +37,7 @@ public class CustomerController {
         return JSON.toJSONString(customerService.findByList(customerVo));
     }
     /**
-     *  根据条件查询所有客户列表
+     *  根据id客户列表
      */
     @PostMapping("/findByListCust")
     @ResponseBody
@@ -70,14 +71,14 @@ public class CustomerController {
     }
 
     /**
-     *  批量修改商品类型请求
+     *  修改客户信息请求
      */
-    @PostMapping("/batchModify")
+    @PostMapping("/batchCust")
     @ResponseBody
-    public  String batchModify(int[] ids,int id){
-        int len = ids.length;
+    public  String batchModify(Customer customer){
         Map<String,Object> map = new HashMap<>();
-        if (customerService.batchModify(ids,id) == len){
+        Integer count = customerService.batchCust(customer);
+        if (count > 0){
             map.put("result",true);
         }else {
             map.put("result",false);
@@ -86,31 +87,17 @@ public class CustomerController {
     }
 
     /**
-     *  根据id修改状态
-     */
-    @PostMapping("/batchModifyCustomerstatus")
-    @ResponseBody
-    public String batchModifyCustomerstatus(int id , int customerStatus){
-        Map<String,Object> map = new HashMap<String,Object>();
-        int count = customerService.batchModifyCustomerstatus(id,customerStatus);
-        if (count > 0){
-            map.put("result",true);
-        }else{
-            map.put("result",false);
-        }
-        return JSON.toJSONString(map);
-    }
-    /**
      *添加客户列表
      **/
     @PostMapping("/addCustomerstatus")
     @ResponseBody
     public String addCustomerstatus(CustomerVo customerVo){
         Map<String,Object> map=new HashMap<>();
-        int count =customerService.addCustomerstatus(customerVo);
-        if (count >= 2){
+        try {
+            customerService.addCustomerstatus(customerVo);
             map.put("result",true);
-        }else{
+        } catch (Exception e) {
+            e.printStackTrace();
             map.put("result",false);
         }
         return  JSON.toJSONString(map);
@@ -123,6 +110,21 @@ public class CustomerController {
     @ResponseBody
     public String findByName(int id) {
         return JSON.toJSONString(customerService.findByName(id));
+    }
+
+    /**
+     *  根据客户名称查询客户信息
+     */
+    @PostMapping("/findByCustomerName")
+    @ResponseBody
+    public String findByCustomerName(String customerName) {
+        Map<String,Object> map = new HashMap<>();
+        if (customerService.findByCustomerName(customerName) != null){
+            map.put("state",false);
+        }else {
+            map.put("state",true);
+        }
+        return JSON.toJSONString(map);
     }
 }
 

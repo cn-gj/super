@@ -152,9 +152,23 @@ public class MemberController {
      */
     @ResponseBody
     @PostMapping("/getMeByphone")
-    public String findMemberByPhone(String memberPhone){
+    public String findMemberByPhone(String memberPhone,Integer shopId){
         Map<String,Object> map = new HashMap<>();
-        Member member = memberService.findMemberByMemberPhone(memberPhone);
+        Member member = memberService.findMemberByMemberPhone(memberPhone,shopId);
+        map.put("member",member);
+        return JSON.toJSONString(map);
+    }
+
+
+    /**
+     * 根据手机号和门店id查询会员信息
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/getMemberByMemberPhoneAndShopId")
+    public String selMemberAndLevelByShopIdAndMemberPhone(String memberPhone,Integer shopId){
+        Map<String,Object> map = new HashMap<>();
+        MemberVo member = memberService.selMemberAndLevelByShopIdAndMemberPhone(memberPhone,shopId);
         map.put("member",member);
         return JSON.toJSONString(map);
     }

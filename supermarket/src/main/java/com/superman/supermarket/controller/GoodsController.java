@@ -56,14 +56,21 @@ public class GoodsController {
     @ResponseBody
         public String findByGoodsCode(String goodsCode){
         Map<String,Object> map = new HashMap<>();
-        if (goodsService.findByGoodsCode(goodsCode) != null){
+        Goods goods = goodsService.findByGoodsCode(goodsCode);
+        if ( goods!= null){
             map.put("result",true);
+            map.put("goods",goods);
         }else {
             map.put("result",false);
         }
         return JSON.toJSONString(map);
     }
 
+    @ResponseBody
+    @PostMapping("/selGoodsAndIndByGoodsCode")
+    public String selGoodsAndInventoryDetailByGoodsCode(String goodsCode){
+       return JSON.toJSONString(goodsService.selGoodsAndInventoryDetailByGoodsCode(goodsCode));
+    }
     /**
      *  根据商品名称查询商品信息
      * @param goodsName
@@ -142,8 +149,8 @@ public class GoodsController {
      */
     @PostMapping("findById")
     @ResponseBody
-    public String findById(int id){
-        return JSON.toJSONString(goodsService.findById(id));
+    public String findById(Integer id,Integer providerId){
+        return JSON.toJSONString(goodsService.findById(id,providerId));
     }
 
 
@@ -185,6 +192,17 @@ public class GoodsController {
             map.put("result",false);
         }
         return  JSON.toJSONString(map);
+    }
+
+    /**
+     * 根据供应商id查询商品信息
+     * @param providerId
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/selGoodsByProId")
+    public String selGoodsByProviderId(Integer providerId){
+        return JSON.toJSONString(goodsService.selGoodsByProviderId(providerId));
     }
 }
 

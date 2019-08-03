@@ -2,6 +2,7 @@ package com.superman.supermarket.service;
 
 import com.superman.supermarket.entity.Ticket;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.superman.supermarket.entity.TicketDetail;
 import com.superman.supermarket.entity.vo.TicketVo;
 
 import java.io.OutputStream;
@@ -37,4 +38,12 @@ public interface TicketService extends IService<Ticket> {
      * @param outputStream
      */
     void exportTicket(OutputStream outputStream);
+
+    /**
+     * 添加收银单
+     * @param ticket 收银单
+     * @param detailList 收银单明细
+     * @return
+     */
+    boolean addTicket(Ticket ticket, List<TicketDetail> detailList);
 }

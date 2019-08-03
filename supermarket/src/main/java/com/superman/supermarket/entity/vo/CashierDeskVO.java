@@ -1,5 +1,6 @@
 package com.superman.supermarket.entity.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.superman.supermarket.entity.CashierDesk;
 import com.superman.supermarket.entity.Shop;
 
@@ -17,6 +18,19 @@ public class CashierDeskVO extends CashierDesk {
      *  商店
      */
     private Shop shop;
+
+    @TableField(exist = false)
+    private Integer shopId;
+
+    @Override
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    @Override
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
 
     public Shop getShop() {
         return shop;

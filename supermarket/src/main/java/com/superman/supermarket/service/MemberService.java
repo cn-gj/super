@@ -66,11 +66,19 @@ public interface MemberService extends IService<Member> {
      * @param memberPhone
      * @return
      */
-    public Member findMemberByMemberPhone(String memberPhone);
+    public Member findMemberByMemberPhone(String memberPhone,Integer shopId);
 
     /**
      * 导出数据
      * @param outputStream
      */
     public void exportMember(OutputStream outputStream);
+
+    /**
+     * 根据会员手机号（即卡号）和门店id查询会员信息
+     * @param memberPhone
+     * @param shopId
+     * @return
+     */
+    public MemberVo selMemberAndLevelByShopIdAndMemberPhone(String memberPhone,Integer shopId);
 }

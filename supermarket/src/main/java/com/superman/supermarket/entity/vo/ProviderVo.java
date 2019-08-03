@@ -9,7 +9,29 @@ import java.util.List;
 public class ProviderVo extends Provider {
 
     @TableField(exist = false)
+    private Integer shopId;
+
+    @TableField(exist = false)
     private List<Shop> shopList;
+
+    @TableField(exist = false)
+    private String condition;
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
 
     public List<Shop> getShopList() {
         return shopList;

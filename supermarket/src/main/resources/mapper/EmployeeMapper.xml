@@ -54,11 +54,17 @@
         根据员工角色,状态,归属门店,账号,用户名称,用户电话
      -->
     <select id="findEmpByCondition" resultMap="BaseResultMap" parameterType="employee">
-        SELECT emp.*,r.`id` roles_id,r.`role_name`, s.id shop_id, s.shop_name
-        FROM employee emp,roles r,shop s
+        /*SELECT emp.*,r.`id` roles_id,r.`role_name`, s.id shop_id, s.shop_name
+        FROM employee emp,roles r,shop s*/
+        SELECT emp.*,r.`id` roles_id,r.`role_name`,s.`shop_name`
+        FROM employee emp
+        LEFT JOIN roles r
+        ON emp.`role_id` = r.`id`
+        LEFT JOIN shop s
+        ON emp.`shop_id` = s.`id`
         <where>
-            AND emp.`role_id` = r.`id`
-            AND emp.shop_id = s.id
+           <!--AND emp.`role_id` = r.`id`
+            AND emp.shop_id = s.id-->
             <if test="roleId != null">
                 AND emp.role_id = #{roleId}
             </if>
@@ -70,6 +76,9 @@
                 or emp.emp_account = #{condition}
                 or emp.emp_name = #{condition}
                 or emp.emp_phone = #{condition}
+            </if>
+            <if test="shopId != null">
+                and e.shop_id =#{shopId}
             </if>
         </where>
     </select>

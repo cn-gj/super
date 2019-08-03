@@ -3,7 +3,6 @@ package com.superman.supermarket.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.superman.supermarket.entity.Customer;
 import com.superman.supermarket.entity.vo.CustomerVo;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,19 +31,15 @@ public interface CustomerService extends IService<Customer> {
     List<CustomerVo> findByMessage(CustomerVo customerVo);
 
     /**
+     * 修改客户信息
+     * @return
+     */
+    Integer batchCust(Customer customer);
+
+    /**
      * 批量删除
      * */
     int batchDelete(int[] ids);
-
-    /**
-     * 批量修改商品类型
-     */
-    int batchModify(@Param("ids") int[] ids, @Param("id") int id);
-
-    /**
-     * 根据ID修改状态
-     **/
-    int batchModifyCustomerstatus(@Param("id") int id, @Param("customerStatus") int customerStatus);
 
     /**
      * 添加客户列表
@@ -55,4 +50,11 @@ public interface CustomerService extends IService<Customer> {
      * 获取客户名称
      * */
     List<CustomerVo> findByName(int id);
+
+    /**
+     *  根据客户名称查询客户信息
+     * @param name
+     * @return
+     */
+    Customer findByCustomerName(String name);
 }

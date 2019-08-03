@@ -1,11 +1,13 @@
 package com.superman.supermarket.dao;
 
-import com.superman.supermarket.entity.InventoryDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.superman.supermarket.entity.InventoryDetail;
+import com.superman.supermarket.entity.TicketDetail;
 import com.superman.supermarket.entity.vo.InventoryDetailVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -41,6 +43,50 @@ public interface InventoryDetailMapper extends BaseMapper<InventoryDetail> {
      * @return
      */
     int updateInvByGoodsIds(@Param("storeId")int storeId,@Param("goodsId") int goodsId,@Param("goodsCount")int goodsCount);
+
+    /**
+     * 根据小票明细同步库存明细
+     * @param detailList
+     * @return
+     */
+    int updateInvByTicketDetailList(@Param("detailList") List<TicketDetail> detailList);
+
+
+
+    /*
+     * 添加商品库存明细(供应商收货添加)
+     * @param detailList
+     * @return
+     */
+    Integer insertInventoryDetailByProviderTake(@Param("orderDetailMapList") List<Map<String,Object>> orderDetailMapList);
+
+    /**
+     * 根据采购收获商品数量修改库存明细
+     * @param orderDetailMapList
+     * @return
+     */
+    Integer updateInventoryByOrderDetail(@Param("orderDetailMapList") List<Map<String,Object>> orderDetailMapList);
+
+    /**
+     * 根据仓库id查询仓库下的商品信息
+     * @param storeId
+     * @return
+     */
+    List<InventoryDetail> selInventoryByStoreId(Integer storeId);
+
+    /**
+     * 根据采购退货单的商品信息修改库存明细
+     * @param orderDetailMapList
+     * @return
+     */
+    Integer updateInventoryByOrderDetailReturn(@Param("orderDetailMapList") List<Map<String,Object>> orderDetailMapList);
+
+    /**
+     * 根据仓库id查询商品信息
+     * @param storeId
+     * @return
+     */
+    List<InventoryDetail> selGoodsByStoreId(Integer storeId);
 
     /**
      *  根据仓库id查询该仓库下的库存明细

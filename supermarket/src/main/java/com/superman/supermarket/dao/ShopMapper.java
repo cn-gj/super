@@ -4,6 +4,7 @@ import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.entity.Shop;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.superman.supermarket.entity.vo.ShopVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public interface ShopMapper extends BaseMapper<Shop> {
      * @param id
      * @return
      */
-    List<Employee> selectEmpByShopId(Integer id);
+    List<Employee> selectEmpByShopId(@Param("id") Integer id,@Param("empStatus") Integer empStatus);
     /**
      * 添加门店信息
      * @param shop

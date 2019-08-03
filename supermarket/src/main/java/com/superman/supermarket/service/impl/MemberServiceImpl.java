@@ -64,8 +64,14 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
 
     @Override
-    public Member findMemberByMemberPhone(String memberPhone) {
-        return memberMapper.findMemberByMemberPhone(memberPhone);
+    public Member findMemberByMemberPhone(String memberPhone,Integer shopId) {
+        return memberMapper.findMemberByMemberPhone(memberPhone,shopId);
+    }
+
+
+    @Override
+    public MemberVo selMemberAndLevelByShopIdAndMemberPhone(String memberPhone, Integer shopId) {
+        return memberMapper.selMemberAndLevelByShopIdAndMemberPhone(memberPhone,shopId);
     }
 
     @Override
