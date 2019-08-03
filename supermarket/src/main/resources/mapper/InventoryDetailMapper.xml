@@ -10,12 +10,12 @@
         <result column="store_id" property="storeId"></result>
     </resultMap>
 
-    <!--&lt;!&ndash; 库存明细Vo映射 &ndash;&gt;
+    <!--库存明细Vo映射-->
     <resultMap id="VoMapper" type="com.superman.supermarket.entity.vo.InventoryDetailVo" extends="BaseResultMap">
-        <association property="store" javaType="com.superman.supermarket.entity.Store">
-
-        </association>
-    </resultMap>-->
+        <result column="goods_name" property="goodsName" />
+        <result column="goods_code" property="goodsCode"></result>
+        <result property="costPrice" column="cost_price"></result>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -42,4 +42,41 @@
         WHERE store_id = #{storeId}
         AND goods_id = #{goodsId}
     </update>
+
+    <!-- 根据仓库id查询出该仓库下的库存明细 -->
+   <!-- <select id="findByStoreId" resultMap="BaseResultMap">
+        select * from `inventory_detail`
+       where store_id = #{storeId}
+    </select>-->
+    <!--
+        根据仓库id查询出该仓库下的库存明细
+        也可以根据条件查询
+     -->
+    <select id="findByStoreId" resultMap="VoMapper">
+        SELECT invdetail.*,g.goods_name,g.goods_code FROM `inventory_detail` invdetail
+      INNER JOIN goods g
+      ON invdetail.goods_id = g.id
+      WHERE store_id = #{storeId}
+      <if test="condition != null and condition != ''">
+          AND g.goods_name LIKE CONCAT('%',#{condition},'%')
+          OR g.goods_code LIKE CONCAT('%',#{condition},'%')
+      </if>
+    </select>
+
+
+
+    <!--*根据仓库id查询出该仓库下的库存明细-->
+    <select id="selectByStoreId" resultMap="VoMapper">
+        SELECT
+		g.goods_name,
+		g.goods_code,
+		invdetail.goods_count,
+		g.cost_price,
+		invdetail.id,
+		invdetail.goods_id
+     FROM `inventory_detail` invdetail
+     INNER JOIN goods g
+     ON invdetail.goods_id = g.id
+     WHERE invdetail.store_id = #{storeId}
+    </select>
 </mapper>

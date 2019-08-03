@@ -2,7 +2,10 @@ package com.superman.supermarket.dao;
 
 import com.superman.supermarket.entity.InventoryDetail;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.superman.supermarket.entity.vo.InventoryDetailVo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
@@ -38,4 +41,21 @@ public interface InventoryDetailMapper extends BaseMapper<InventoryDetail> {
      * @return
      */
     int updateInvByGoodsIds(@Param("storeId")int storeId,@Param("goodsId") int goodsId,@Param("goodsCount")int goodsCount);
+
+    /**
+     *  根据仓库id查询该仓库下的库存明细
+     * @param inventoryDetailVo
+     * @return
+     */
+    List<InventoryDetailVo> findByStoreId(InventoryDetailVo inventoryDetailVo);
+
+
+
+    // -------------------------------------------
+    /**------------------------------------------
+     *  根据仓库id查询该仓库下的库存明细
+     * @param storeId
+     * @return
+     */
+    List<InventoryDetailVo> selectByStoreId(int storeId);
 }

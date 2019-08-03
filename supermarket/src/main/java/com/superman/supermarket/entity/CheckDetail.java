@@ -41,6 +41,15 @@ private static final long serialVersionUID=1L;
 
     private String causeInfo;
 
+    private Integer invCheckedId;
+
+    public Integer getInvCheckedId() {
+        return invCheckedId;
+    }
+
+    public void setInvCheckedId(Integer invCheckedId) {
+        this.invCheckedId = invCheckedId;
+    }
 
     public Integer getId() {
         return id;

@@ -15,6 +15,14 @@
         <result column="check_money" property="checkMoney" />
         <result column="bep_money" property="bepMoney" />
         <result column="cause_info" property="causeInfo" />
+        <result column="inv_checked_id" property="invCheckedId"></result>
+    </resultMap>
+
+    <!-- Vo映射 -->
+    <resultMap id="CheckDetailVoMapper" type="com.superman.supermarket.entity.vo.CheckDetailVo" extends="BaseResultMap">
+        <result column="goods_name" property="goodsName" />
+        <result column="goods_code" property="goodsCode" />
+        <result column="goods_count" property="goodsCount" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -22,4 +30,15 @@
         id, ismodify, goods_id, inv_detail_id, check_count, bep_count, cost_price, original_price, check_money, bep_money, cause_info
     </sql>
 
+    <!-- 根据库存盘点单id查询该盘点单下的盘点明显 -->
+    <select id="findByInvId" resultMap="CheckDetailVoMapper">
+    SELECT cd.*,g.goods_name,g.goods_code,invdetail.goods_count FROM `check_detail` cd
+      INNER JOIN `inventory_check` ic
+      ON cd.inv_checked_id = ic.`id`
+      INNER JOIN goods g
+      ON cd.goods_id = g.id
+      INNER JOIN `inventory_detail` invdetail
+      ON cd.`inv_detail_id` = invdetail.id
+      WHERE cd.inv_checked_id = #{id}
+    </select>
 </mapper>

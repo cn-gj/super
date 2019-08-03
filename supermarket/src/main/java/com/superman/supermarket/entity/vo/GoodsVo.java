@@ -6,10 +6,10 @@ import com.superman.supermarket.entity.*;
  * 商品Vo
  */
 public class GoodsVo extends Goods {
-    // 商品条码或者商品名称
+    // 商品条码或者商品名称,查询条件
     private String condition;
 
-    // 商品库存信息
+    // 商品库存
    private Integer goodsCount;
 
     // 商品类型名称

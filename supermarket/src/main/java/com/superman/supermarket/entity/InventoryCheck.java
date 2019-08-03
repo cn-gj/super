@@ -1,11 +1,15 @@
 package com.superman.supermarket.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -23,19 +27,51 @@ private static final long serialVersionUID=1L;
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    private Integer shopId;
+    private Integer storeId;
 
     private Integer checkScopeId;
 
     @TableField("createDate")
-    private LocalDate createDate;
-
-    private LocalDate checkDate;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date createDate;
+    @JSONField(format = "yyyy-MM-dd")
+    private Date checkDate;
 
     private Integer checkStateId;
 
-    private Integer checkDetailId;
+    private Integer empId;
 
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getCheckDate() {
+        return checkDate;
+    }
+
+    public void setCheckDate(Date checkDate) {
+        this.checkDate = checkDate;
+    }
+
+    public Integer getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(Integer empId) {
+        this.empId = empId;
+    }
 
     public Integer getId() {
         return id;
@@ -45,13 +81,7 @@ private static final long serialVersionUID=1L;
         this.id = id;
     }
 
-    public Integer getShopId() {
-        return shopId;
-    }
 
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
-    }
 
     public Integer getCheckScopeId() {
         return checkScopeId;
@@ -61,21 +91,7 @@ private static final long serialVersionUID=1L;
         this.checkScopeId = checkScopeId;
     }
 
-    public LocalDate getCreateDate() {
-        return createDate;
-    }
 
-    public void setCreateDate(LocalDate createDate) {
-        this.createDate = createDate;
-    }
-
-    public LocalDate getCheckDate() {
-        return checkDate;
-    }
-
-    public void setCheckDate(LocalDate checkDate) {
-        this.checkDate = checkDate;
-    }
 
     public Integer getCheckStateId() {
         return checkStateId;
@@ -85,24 +101,16 @@ private static final long serialVersionUID=1L;
         this.checkStateId = checkStateId;
     }
 
-    public Integer getCheckDetailId() {
-        return checkDetailId;
-    }
 
-    public void setCheckDetailId(Integer checkDetailId) {
-        this.checkDetailId = checkDetailId;
-    }
 
     @Override
     public String toString() {
         return "InventoryCheck{" +
         "id=" + id +
-        ", shopId=" + shopId +
         ", checkScopeId=" + checkScopeId +
         ", createDate=" + createDate +
         ", checkDate=" + checkDate +
         ", checkStateId=" + checkStateId +
-        ", checkDetailId=" + checkDetailId +
         "}";
     }
 }

@@ -62,7 +62,7 @@ public class WholeOrderServiceImpl extends ServiceImpl<WholeOrderMapper, WholeOr
             // 获取集合中的对象
             JSONObject object = (JSONObject) array.get(i);
             // JsonArray中的对象是JSONObject类型将它转换成订单明细类型对像
-            OrderDetailVo detail = (OrderDetailVo) JSONObject.toJavaObject(object,OrderDetailVo.class);
+            OrderDetailVo detail = JSONObject.toJavaObject(object,OrderDetailVo.class);
             // 放入订单明细集合中
             details.add(detail);
         }

@@ -5,17 +5,90 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.superman.supermarket.entity.InventoryCheck">
         <id column="id" property="id" />
-        <result column="shop_id" property="shopId" />
+        <result column="store_id" property="storeId" />
         <result column="check_scope_id" property="checkScopeId" />
         <result column="createDate" property="createDate" />
         <result column="check_date" property="checkDate" />
         <result column="check_state_id" property="checkStateId" />
-        <result column="check_detail_id" property="checkDetailId" />
+        <result column="emp_id" property="empId" />
     </resultMap>
 
+    <!-- 库存盘点单vo映射 -->
+    <resultMap id="InvCheckVo" type="com.superman.supermarket.entity.vo.InventoryCheckVo" extends="BaseResultMap">
+        <result column="store_name" property="storeName" />
+        <result column="scope_name" property="scopeName" />
+        <result column="emp_name" property="empName" />
+        <result column="state_name" property="stateName" />
+    </resultMap>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, shop_id, check_scope_id, createDate, check_date, check_state_id, check_detail_id
     </sql>
 
+    <!-- 添加库存盘点 -->
+    <insert id="addInvCheck" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO inventory_check VALUE(NULL,#{storeId},#{checkScopeId},now(),now(),null,#{empId})
+    </insert>
+
+    <!-- 初始化和带条件查询库存盘点单 -->
+    <select id="findByCondition" resultMap="InvCheckVo">
+        SELECT
+		ic.`id`,
+		s.`store_name`,
+		ic.`store_id`,
+		ic.`check_scope_id`,
+		cs.`scope_name`,
+		ic.`createDate`,
+		ic.`check_date`,
+		ic.`emp_id`,
+		e.`emp_name`,
+		ic.`check_state_id`,
+		cst.`state_name`
+       FROM inventory_check ic
+       INNER JOIN store s
+       ON ic.`store_id` = s.`id`
+       INNER JOIN check_scope cs
+       ON ic.`check_scope_id` = cs.`id`
+       INNER JOIN employee e
+       ON ic.`emp_id` = e.`id`
+       INNER JOIN check_state cst
+       ON ic.`check_state_id` = cst.`id`
+       <where>
+           <if test="startDate != null">
+               ic.`createDate`>= #{startDate}
+           </if>
+           <if test="endDate != null">
+               AND ic.`createDate`&lt;= #{endDate}
+           </if>
+           <if test="condition != null and condition != ''">
+                and ic.id = #{condition} or s.store_name like concat('%',#{condition},'%')
+           </if>
+       </where>
+    </select>
+
+    <!-- 根据id查询库存盘点单 -->
+    <select id="findById" resultMap="InvCheckVo">
+        SELECT
+		ic.`id`,
+		s.`store_name`,
+		ic.`store_id`,
+		ic.`check_scope_id`,
+		cs.`scope_name`,
+		ic.`createDate`,
+		ic.`check_date`,
+		ic.`emp_id`,
+		e.`emp_name`,
+		ic.`check_state_id`,
+		cst.`state_name`
+       FROM inventory_check ic
+       INNER JOIN store s
+       ON ic.`store_id` = s.`id`
+       INNER JOIN check_scope cs
+       ON ic.`check_scope_id` = cs.`id`
+       INNER JOIN employee e
+       ON ic.`emp_id` = e.`id`
+       INNER JOIN check_state cst
+       ON ic.`check_state_id` = cst.`id`
+       where ic.id = #{id}
+    </select>
 </mapper>
