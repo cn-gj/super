@@ -16,6 +16,7 @@
         <result column="bep_money" property="bepMoney" />
         <result column="cause_info" property="causeInfo" />
         <result column="inv_checked_id" property="invCheckedId"></result>
+        <result column="cause_info" property="causeInfo"></result>
     </resultMap>
 
     <!-- Vo映射 -->

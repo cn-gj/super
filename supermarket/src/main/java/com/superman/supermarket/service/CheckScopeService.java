@@ -3,6 +3,8 @@ package com.superman.supermarket.service;
 import com.superman.supermarket.entity.CheckScope;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -13,4 +15,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CheckScopeService extends IService<CheckScope> {
 
+    /**
+     *  查询所有盘点类型
+     * @return
+     */
+    List<CheckScope> findAll();
 }

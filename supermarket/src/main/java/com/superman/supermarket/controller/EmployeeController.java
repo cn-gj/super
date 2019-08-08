@@ -10,10 +10,13 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.Md5Hash;
+import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.subject.Subject;
-import org.springframework.web.bind.annotation.*;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -41,6 +44,28 @@ public class EmployeeController {
     @Resource
     private EmployeeService employeeService;
 
+    @ResponseBody
+    @PostMapping("/upPwd")
+    public String updateEmpPwdByEmpId(Employee employee){
+        Map<String,Object> map = new HashMap<>();
+        //给密码加密
+        /**
+         * 	source:要加密的数据
+         * 	salt:盐,扰乱码
+         * 	hashIterations:加密次数
+         */
+        // 给员工密码进行加密
+        Md5Hash md5Hash = new Md5Hash(employee.getEmpPwd(), employee.getEmpAccount(), 2);
+        // 给员工设置加密后的密码
+        employee.setEmpPwd(md5Hash.toString());
+        Integer count = employeeService.updateEmpPwdByEmpId(employee);
+        if (count > 0){
+            map.put("state",true);//成功
+        }else {
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
 
     /**
      *      登录请求
@@ -198,6 +223,25 @@ public class EmployeeController {
             map.put("result",false);
         }
         return  JSON.toJSONString(map);
+    }
+
+
+    /**
+     * 退出
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/exit")
+    public String exitUser(HttpSession session){
+        Map<String,Object>map = new HashMap<>();
+        try {
+            session.removeAttribute("currentEmp");
+            map.put("state",true);
+        } catch (InvalidSessionException e) {
+            e.printStackTrace();
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
     }
 }
 

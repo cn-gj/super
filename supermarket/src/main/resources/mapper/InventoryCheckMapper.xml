@@ -27,7 +27,7 @@
 
     <!-- 添加库存盘点 -->
     <insert id="addInvCheck" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        INSERT INTO inventory_check VALUE(NULL,#{storeId},#{checkScopeId},now(),now(),null,#{empId})
+        INSERT INTO inventory_check VALUE(NULL,#{storeId},#{checkScopeId},now(),now(),1,#{empId})
     </insert>
 
     <!-- 初始化和带条件查询库存盘点单 -->

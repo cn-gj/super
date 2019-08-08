@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.superman.supermarket.dao.ShopSummaryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="ShopSummary">
+        <result column="shop_name" property="shopName"/>
+        <collection property="bTicketList" ofType="BTicket">
+            <id property="id" column="tId"/>
+            <result column="practical_money"  property="practicalMoney"/>
+            <collection property="bTicketDetailList" ofType="BTicketDetail">
+                <id property="id" column="tdId"/>
+                <result column="goods_count"  property="goodsCount"/>
+                <association property="bGoods" javaType="BGoods">
+                    <id property="id" column="gId"/>
+                    <result column="cost_price"  property="costPrice"/>
+                    <result column="price"  property="price"/>
+                </association>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <!--统计门店下的营业额-->
+    <select id="shopSummary" resultMap="BaseResultMap">
+         SELECT s.id sId,s.shop_name,td.id tdId,td.goods_count,td.total_money,g.id gId,g.price,g.cost_price,t.id tId,t.practical_money FROM shop s
+        LEFT JOIN cashier_desk cd
+        ON s.id = cd.shop_id
+        LEFT JOIN ticket t
+        ON t.cashier_desk_id = cd.id
+        LEFT JOIN ticket_detail td
+        ON td.ticket_id = t.id
+        LEFT JOIN goods g
+        ON g.id = td.goods_id
+    </select>
+</mapper>

@@ -1,11 +1,10 @@
 package com.superman.supermarket.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.superman.supermarket.entity.Employee;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.EmployeeMapper;
+import com.superman.supermarket.entity.Employee;
 import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.service.EmployeeService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.utils.DateUtil;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +96,16 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
             }
         }
         return map;
+    }
+
+    /**
+     * 修改登录账号的密码
+     * @param employee
+     * @return
+     */
+    @Override
+    public Integer updateEmpPwdByEmpId(Employee employee) {
+        return employeeMapper.updateEmpPwdByEmpId(employee);
     }
 
     @Override

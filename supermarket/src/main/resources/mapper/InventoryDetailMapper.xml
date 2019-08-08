@@ -37,6 +37,29 @@
         <result property="costPrice" column="cost_price"></result>
     </resultMap>
 
+    <!--根据仓库id查询仓库信息、门店信息-->
+    <resultMap id="InventoryDetailResultMap" type="com.superman.supermarket.entity.vo.InventoryDetailVo" extends="InventoryResultMap">
+        <association property="store" javaType="com.superman.supermarket.entity.Store">
+            <id column="store_id" property="id" />
+            <result column="store_name" property="storeName" />
+            <result column="shop_id" property="shopId" />
+        </association>
+        <association property="shop" javaType="com.superman.supermarket.entity.Shop">
+            <id column="s_id" property="id" />
+            <result column="shop_name" property="shopName" />
+            <result column="shop_account" property="shopAccount" />
+            <result column="shop_pwd" property="shopPwd" />
+            <result column="shop_linkman" property="shopLinkman" />
+            <result column="shop_phone" property="shopPhone" />
+            <result column="shop_logo" property="shopLogo" />
+            <result column="shop_hours" property="shopHours" />
+            <result column="shop_advice" property="shopAdvice" />
+            <result column="shop_address" property="shopAddress" />
+            <result column="shop_type_id" property="shopTypeId" />
+            <result column="createDate" property="createDate" />
+        </association>
+    </resultMap>
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, goods_id, goods_count
@@ -99,7 +122,7 @@
 
     <!--根据仓库id查询商品信息-->
     <select id="selGoodsByStoreId" resultMap="InventoryResultMap">
-        SELECT ind.*,g.id goods_id,g.goods_name,g.goods_code,g.whole_price FROM inventory_detail ind
+        SELECT ind.*,g.id goods_id,g.goods_name,g.goods_code,g.whole_price,g.cost_price FROM inventory_detail ind
         LEFT JOIN goods g
         ON ind.goods_id = g.id
         WHERE ind.store_id = #{storeId}
@@ -140,5 +163,27 @@
      INNER JOIN goods g
      ON invdetail.goods_id = g.id
      WHERE invdetail.store_id = #{storeId}
+    </select>
+
+    <!--根据仓库id查询仓库、库存明细、商品、门店信息-->
+    <select id="selInventoryDetailByStoreId" resultMap="InventoryDetailResultMap">
+        SELECT g.id goods_id,g.goods_name,g.goods_code,ind.goods_count,st.store_name,st.id store_id,s.id s_id,s.shop_name,s.shop_linkman,s.shop_phone FROM inventory_detail ind
+        LEFT JOIN store st
+        ON ind.store_id = st.id
+        LEFT JOIN goods g
+        ON ind.goods_id = g.id
+        LEFT JOIN shop s
+        ON st.shop_id = s.id
+        <where>
+            <if test="storeId != null">
+                AND ind.store_id = #{storeId}
+            </if>
+        </where>
+    </select>
+
+
+    <!--查询库存商品总数量-->
+    <select id="selInventoryDetailCount" resultType="int">
+        SELECT SUM(ABS(goods_count)) FROM inventory_detail WHERE store_id = #{storeId}
     </select>
 </mapper>

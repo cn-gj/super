@@ -3,20 +3,21 @@ package com.superman.supermarket.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.superman.supermarket.dao.CheckDetailMapper;
 import com.superman.supermarket.dao.GoodsMapper;
+import com.superman.supermarket.dao.InventoryCheckMapper;
 import com.superman.supermarket.dao.InventoryDetailMapper;
 import com.superman.supermarket.entity.CheckDetail;
 import com.superman.supermarket.entity.Goods;
 import com.superman.supermarket.entity.InventoryCheck;
-import com.superman.supermarket.dao.InventoryCheckMapper;
 import com.superman.supermarket.entity.InventoryDetail;
 import com.superman.supermarket.entity.vo.CheckDetailVo;
 import com.superman.supermarket.entity.vo.InventoryCheckVo;
 import com.superman.supermarket.entity.vo.InventoryDetailVo;
 import com.superman.supermarket.service.InventoryCheckService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -140,16 +141,26 @@ public class InventoryCheckServiceImpl extends ServiceImpl<InventoryCheckMapper,
     //------------------------------------------------
 
     @Override
-    public boolean addCheck(String jsonStr) {
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
+    public boolean addCheck(InventoryCheckVo inventoryCheckVo,String jsonStr) {
         // 将字符串转换成jsonObject对象
-        JSONObject jsonObject = JSON.parseObject(jsonStr);
+        JSONArray array = JSON.parseArray(jsonStr);
+        CheckDetailVo checkDetailVo2 = null;
+        List<CheckDetailVo> checkDetailVos = new ArrayList<>();
+        if (array != null && array.size() > 0) {
+            // 循环将array中的元素转换为实体类
+            for (int i = 0; i < array.size(); i++) {
+                JSONObject object = (JSONObject) array.get(i);
+                checkDetailVo2 = JSONObject.toJavaObject(object,CheckDetailVo.class);
+                checkDetailVo2.setInvDetailId(object.getInteger("id"));
+                checkDetailVos.add(checkDetailVo2);
+            }
+        }
         // 将json字符串转换成实体类
-        InventoryCheckVo inventoryCheckVo = JSONObject.toJavaObject(jsonObject,InventoryCheckVo.class);
-
+        //InventoryCheckVo inventoryCheckVo = JSONObject.toJavaObject(jsonObject,InventoryCheckVo.class);
+        inventoryCheckVo.setDetailVos(checkDetailVos);
         // 成功总受影响行数
         int totalCount = 1;
-        // 操作人-------------------------
-        // 盘点状态-----------------------
         // 添加库存盘点单,返回盘点的id
        int rowCount =  inventoryCheckMapper.addInvCheck(inventoryCheckVo);
         // 判断盘点单中的detailVos是否有数据
@@ -159,7 +170,7 @@ public class InventoryCheckServiceImpl extends ServiceImpl<InventoryCheckMapper,
             for (CheckDetailVo checkDetailVo:inventoryCheckVo.getDetailVos()) {
                 // 设置该盘点明细属于那个盘点单
                 checkDetailVo.setInvCheckedId(inventoryCheckVo.getId());
-                rowCount += checkDetailMapper.insert(checkDetailVo);
+                    rowCount += checkDetailMapper.insert(checkDetailVo);
             }
         }
         // 判断是否添加成功

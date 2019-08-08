@@ -26,6 +26,12 @@ public class InventoryDetailController {
     @Resource
     private InventoryDetailService inventoryDetailService;
 
+    @ResponseBody
+    @PostMapping("/selGoodsByStoreId")
+    public String selGoodsByStoreId(Integer storeId) {
+        return JSON.toJSONString(inventoryDetailService.selGoodsByStoreId(storeId));
+    }
+
     /**
      *  根据仓库id和条件查询该仓库下的库存明细
      * @param inventoryDetailVo
@@ -40,7 +46,7 @@ public class InventoryDetailController {
 
     //----------------------------------------------
     /**
-     *  根据仓库id和条件查询该仓库下的库存明细
+     *  根据仓库id查询该仓库下的库存明细
      * @param storeId
      * @return
      */
@@ -48,6 +54,17 @@ public class InventoryDetailController {
     @ResponseBody
     public String selectByStoreId(int storeId){
         return JSON.toJSONString(inventoryDetailService.selectByStoreId(storeId));
+    }
+
+    /**
+     *  根据仓库id和条件查询该仓库下的库存明细
+     * @param storeId
+     * @return
+     */
+    @PostMapping("/selInventoryDetailByStoreId")
+    @ResponseBody
+    public String selInventoryDetailByStoreId(Integer storeId){
+        return JSON.toJSONString(inventoryDetailService.selInventoryDetailByStoreId(storeId));
     }
 }
 

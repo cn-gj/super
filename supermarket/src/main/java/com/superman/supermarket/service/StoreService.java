@@ -1,7 +1,8 @@
 package com.superman.supermarket.service;
 
-import com.superman.supermarket.entity.Store;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.superman.supermarket.entity.Store;
+import com.superman.supermarket.entity.vo.StoreVo;
 
 import java.util.List;
 
@@ -21,4 +22,25 @@ public interface StoreService extends IService<Store> {
      * @return
      */
     List<Store> findByShopId(Integer shopId);
+
+    /**
+     * 查询仓库信息、或多条件查询
+     * @param storeVo
+     * @return
+     */
+    List<Store> selStoreAndShop(StoreVo storeVo);
+
+    /**
+     * 新增仓库信息
+     * @param store
+     * @return
+     */
+    Integer insertStore(Store store);
+
+    /**
+     * 删除仓库信息
+     * @param storeId
+     * @return
+     */
+    boolean deleteStore(Integer storeId);
 }

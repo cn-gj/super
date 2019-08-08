@@ -1,8 +1,7 @@
 package com.superman.supermarket.service;
 
-import com.superman.supermarket.entity.InventoryCheck;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.superman.supermarket.entity.vo.CheckDetailVo;
+import com.superman.supermarket.entity.InventoryCheck;
 import com.superman.supermarket.entity.vo.InventoryCheckVo;
 
 import java.util.List;
@@ -60,6 +59,6 @@ public interface InventoryCheckService extends IService<InventoryCheck> {
      * @param jsonStr
      * @return
      */
-    boolean addCheck(String jsonStr);
+    boolean addCheck(InventoryCheckVo inventoryCheckVo,String jsonStr);
 
 }

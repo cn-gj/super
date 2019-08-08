@@ -71,4 +71,11 @@ public interface EmployeeService extends IService<Employee> {
      * @return
      */
     Integer updatefindshop(Shop shop);
+
+    /**
+     * 修改登录账号的密码
+     * @param employee
+     * @return
+     */
+    Integer updateEmpPwdByEmpId(Employee employee);
 }

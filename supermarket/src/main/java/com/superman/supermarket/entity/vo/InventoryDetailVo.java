@@ -1,16 +1,33 @@
 package com.superman.supermarket.entity.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.superman.supermarket.entity.Goods;
 import com.superman.supermarket.entity.InventoryDetail;
+import com.superman.supermarket.entity.Shop;
 import com.superman.supermarket.entity.Store;
 
 public class InventoryDetailVo extends InventoryDetail {
     /**
      *  仓库
      */
+    @TableField(exist = false)
     private Store store;
 
+    //商品
+    @TableField(exist = false)
     private Goods goods;
+
+    //门店
+    @TableField(exist = false)
+    private Shop shop;
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
 
     public Goods getGoods() {
         return goods;

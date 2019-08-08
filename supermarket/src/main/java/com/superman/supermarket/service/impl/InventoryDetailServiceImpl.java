@@ -17,9 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-import java.util.List;
-
 /**
  * <p>
  *  服务实现类
@@ -197,8 +194,6 @@ public class InventoryDetailServiceImpl extends ServiceImpl<InventoryDetailMappe
     public List<InventoryDetail> selGoodsByStoreId(Integer storeId) {
         return inventoryDetailMapper.selGoodsByStoreId(storeId);
     }
-    @Resource
-    private InventoryDetailMapper inventoryDetailMapper;
 
     @Override
     public List<InventoryDetailVo> findByStoreId(InventoryDetailVo inventoryDetailVo) {
@@ -209,5 +204,25 @@ public class InventoryDetailServiceImpl extends ServiceImpl<InventoryDetailMappe
     @Override
     public List<InventoryDetailVo> selectByStoreId(int storeId) {
         return inventoryDetailMapper.selectByStoreId(storeId);
+    }
+
+    /**
+     *根据仓库id查询仓库、库存明细、商品、门店信息
+     * @param storeId
+     * @return
+     */
+    @Override
+    public List<InventoryDetailVo> selInventoryDetailByStoreId(Integer storeId) {
+        return inventoryDetailMapper.selInventoryDetailByStoreId(storeId);
+    }
+
+    /**
+     * 查询仓库中商品总数量
+     * @param storeId
+     * @return
+     */
+    @Override
+    public Integer selInventoryDetailCount(Integer storeId) {
+        return inventoryDetailMapper.selInventoryDetailCount(storeId);
     }
 }

@@ -104,4 +104,27 @@ public interface InventoryDetailMapper extends BaseMapper<InventoryDetail> {
      * @return
      */
     List<InventoryDetailVo> selectByStoreId(int storeId);
+
+
+    /**
+     *根据仓库id查询仓库、库存明细、商品、门店信息-
+     * @param storeId
+     * @return
+     */
+    List<InventoryDetailVo> selInventoryDetailByStoreId(@Param("storeId") Integer storeId);
+
+    /**
+     * 查询仓库中商品总数量
+     * @param storeId
+     * @return
+     */
+    Integer selInventoryDetailCount(Integer storeId);
+
+    /**
+     *  根据库存id修改库存数量
+     * @param id
+     * @return
+     */
+    int updateDetailById(int id);
+
 }

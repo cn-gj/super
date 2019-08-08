@@ -90,7 +90,19 @@
 
     <!-- 修改员工状态 -->
     <update id="modifyEmpById" parameterType="employee">
-        UPDATE employee SET emp_status = #{empStatus},emp_name = #{empName},emp_phone = #{empPhone} WHERE id = #{id}
+        UPDATE employee
+        <set>
+            <if test="empStatus != null and empStatus !=''">
+                emp_status = #{empStatus},
+            </if>
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName},
+            </if>
+            <if test="empPhone != null and empPhone != ''">
+                emp_phone = #{empPhone},
+            </if>
+        </set>
+        WHERE id = #{id}
     </update>
 
     <!-- 查询所有员工信息 -->
@@ -113,7 +125,6 @@
     <update id="updatefindshop" parameterType="shop">
         UPDATE shop
         <set>
-
             <if test="shopName != null and shopName != ''">
                 shop_name=#{shopName},
             </if>
@@ -135,5 +146,16 @@
             </if>
         </set>
         WHERE id = #{id}
+    </update>
+
+    <!--修改登录账号的密码-->
+    <update id="updateEmpPwdByEmpId" parameterType="employee">
+        update employee
+        <set>
+            <if test="empPwd != null and empPwd != ''">
+                emp_pwd = #{empPwd},
+            </if>
+        </set>
+        where id = #{id}
     </update>
 </mapper>
