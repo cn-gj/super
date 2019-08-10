@@ -81,8 +81,8 @@
 
     <!--添加门店信息-->
     <insert id="addShop" parameterType="shop">
-         INSERT INTO shop (shop_account,shop_pwd,shop_name,shop_linkman,shop_phone,shop_type_id)
-         VALUE(#{shopAccount},#{shopPwd},#{shopName},#{shopLinkman},#{shopPhone},#{shopTypeId});
+         INSERT INTO shop (shop_account,shop_pwd,shop_name,shop_linkman,shop_phone,shop_type_id,shop_address)
+         VALUE(#{shopAccount},#{shopPwd},#{shopName},#{shopLinkman},#{shopPhone},#{shopTypeId},#{shopAddress});
     </insert>
 
     <!--根据账号查询门店信息-->

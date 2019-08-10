@@ -76,4 +76,9 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
         }
         return  flag;
     }
+
+    @Override
+    public int updateStoreNameById(Store store) {
+        return storeMapper.updateById(store);
+    }
 }

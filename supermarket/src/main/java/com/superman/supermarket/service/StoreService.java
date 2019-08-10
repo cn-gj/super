@@ -43,4 +43,11 @@ public interface StoreService extends IService<Store> {
      * @return
      */
     boolean deleteStore(Integer storeId);
+
+    /**
+     *  根据仓库id修改仓库名称
+     * @param store
+     * @return
+     */
+    int updateStoreNameById(Store store);
 }

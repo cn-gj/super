@@ -88,5 +88,28 @@ public class StoreController {
         }
         return JSON.toJSONString(map);
     }
+
+    /**
+     * 删除仓库信息
+     * @param store
+     * @return
+     */
+    @PostMapping("/updateStore")
+    @ResponseBody
+    public String updateStore(Store store){
+        Map<String,Object> map = new HashMap<>();
+        try {
+           int rowCount = storeService.updateStoreNameById(store);
+           if (rowCount > 0){
+               map.put("state",true);
+           }else {
+               map.put("state",false);
+           }
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("state",false);
+        }
+        return JSON.toJSONString(map);
+    }
 }
 
